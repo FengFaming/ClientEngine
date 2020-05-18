@@ -1,0 +1,24 @@
+local speed = 10
+local lightCpnt = nil
+
+function init()
+	print("lua start...")
+end
+
+function open()
+	CS.UnityEngine.Debug.Log(self);
+    self.name = "test";
+end
+
+function update()
+    
+end
+
+function destroy()
+	print("lua destroy...")
+end
+
+function click(go)
+    lightCpnt = go;
+	CS.UnityEngine.Debug.Log(lightCpnt);
+end

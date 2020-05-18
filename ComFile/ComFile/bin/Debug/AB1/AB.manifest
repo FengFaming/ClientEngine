@@ -1,0 +1,11 @@
+ManifestFileVersion: 0
+CRC: 1770340257
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: gameobject.c1.prefab
+      Dependencies:
+        Dependency_0: art.texture.020avatarearthwoman.png
+    Info_1:
+      Name: art.texture.020avatarearthwoman.png
+      Dependencies: {}

@@ -1,0 +1,34 @@
+local target
+
+function init(ui)
+	target = ui;
+	bt = CS.Game.Engine.LuaManager.Instance:GetGameObject(target,"ok");
+	CS.UnityEngine.Debug.Log(bt);
+	c = CS.Game.Engine.LuaManager.Instance:GetComp(bt,"Button");
+	c.onClick:AddListener(onClickEnter);
+	
+	close = CS.Game.Engine.LuaManager.Instance:GetGameObject(target,"close");
+	cl = CS.Game.Engine.LuaManager.Instance:GetComp(close,"Button");
+	cl.onClick:AddListener(onClickExit);
+	
+	CS.Game.Engine.LuaManager.Instance:CloseUI("UIPnlGameMain","Pnl");
+end
+
+function onClickExit()
+	CS.Game.Engine.LuaManager.Instance:OpenUI("UIPnlGameMain","Pnl");
+	CS.Game.Engine.UIManager.Instance:RecoveryUIModel(self,false);
+end
+
+function onClickEnter()
+	CS.Game.Engine.LuaManager.Instance:OpenUI("UIPnlGameMain","Pnl");
+	CS.UnityEngine.Debug.Log("onClick");
+	CS.Game.Engine.UIManager.Instance:RecoveryUIModel(self,false);
+end
+
+function update()
+    
+end
+
+function destroy()
+	print("lua destroy...")
+end
