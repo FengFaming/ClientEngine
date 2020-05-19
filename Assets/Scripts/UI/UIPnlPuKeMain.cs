@@ -65,6 +65,15 @@ public class UIPnlPuKeMain : IUIModelControl
 		m_Left.gameObject.SetActive(false);
 		m_Right.gameObject.SetActive(false);
 		m_Down.gameObject.SetActive(false);
+
+		Button jisuan = m_ControlTarget.gameObject.transform.Find("jisuan").gameObject.GetComponent<Button>();
+		jisuan.onClick.AddListener(() =>
+		{
+			DouDiZhuMathManager.GetDouDiZhuManager().StartCal(m_Self,
+				null,
+				null,
+				null);
+		});
 	}
 
 	/// <summary>

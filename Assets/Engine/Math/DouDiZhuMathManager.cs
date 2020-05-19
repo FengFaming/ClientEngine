@@ -92,6 +92,22 @@ namespace Game.Engine
 		}
 
 		/// <summary>
+		/// 获取没有颜色的ID
+		/// </summary>
+		/// <returns></returns>
+		public int GetNotColorID()
+		{
+			if (m_PuKeColor == 5)
+			{
+				return 100;
+			}
+			else
+			{
+				return m_PuKeDianShu;
+			}
+		}
+
+		/// <summary>
 		/// 交换ID
 		/// </summary>
 		/// <returns></returns>
@@ -159,6 +175,16 @@ namespace Game.Engine
 		private List<PuKePai> m_OtherPais;
 
 		/// <summary>
+		/// 已经打出的牌
+		/// </summary>
+		private List<PuKePai> m_YiJingUsePai;
+
+		/// <summary>
+		/// 其他玩家的手牌数
+		/// </summary>
+		private Dictionary<bool, int> m_OtherCout;
+
+		/// <summary>
 		/// 是否在计算当中
 		/// </summary>
 		private bool m_IsCaling;
@@ -195,17 +221,23 @@ namespace Game.Engine
 		/// <summary>
 		/// 开始计算出牌
 		/// </summary>
-		/// <param name="wanjia">自己牌面</param>
-		/// <param name="end">计算完成回调</param>
-		/// <param name="self">是否主动出牌</param>
-		/// <param name="other">别人的排序</param>
-		public void StartCal(PuKeWanJia wanjia, Action<PuKeWanJia, List<PuKePai>> end, bool self = true, List<PuKePai> other = null)
+		/// <param name="wanjia">自己牌</param>
+		/// <param name="end">结束回调</param>
+		/// <param name="used">已经使用了的牌</param>
+		/// <param name="oc">其他玩家牌数</param>
+		/// <param name="self">是否主动</param>
+		/// <param name="other">其他玩家出的牌</param>
+		public void StartCal(PuKeWanJia wanjia, Action<PuKeWanJia, List<PuKePai>> end,
+								List<PuKePai> used, Dictionary<bool, int> oc,
+								bool self = true, List<PuKePai> other = null)
 		{
 			if (!m_IsCaling)
 			{
 				m_IsCaling = true;
 				m_ControlData = new PuKeWanJia(wanjia);
 				m_CalEndAction = end;
+				m_YiJingUsePai = used;
+				m_OtherCout = oc;
 				m_IsSelfOrOther = self;
 				m_OtherPais = other;
 
@@ -220,6 +252,126 @@ namespace Game.Engine
 		private IEnumerator CalPai()
 		{
 			yield return null;
+
+			GetShouShu();
+
+			//是否主动出牌
+			if (m_IsSelfOrOther)
+			{
+				///判断自己是不是地主
+				if (m_ControlData.m_IsDiZhu)
+				{
+
+				}
+				else
+				{
+
+				}
+			}
+			else
+			{
+
+			}
+
+			m_IsCaling = false;
+		}
+
+		/// <summary>
+		/// 获取自己出牌的手数
+		/// </summary>
+		/// <returns></returns>
+		private int GetShouShu()
+		{
+			if (m_ControlData.m_PuKePais.Count == 1)
+			{
+				return 1;
+			}
+			else
+			{
+				///由大到小计算
+				m_ControlData.m_PuKePais.Sort((PuKePai p1, PuKePai p2) =>
+				{
+					return p2.SwithID() - p1.SwithID();
+				});
+
+				List<PuKePai> danzhan = new List<PuKePai>();
+				List<PuKePai> duizi = new List<PuKePai>();
+				List<PuKePai> sanzhang = new List<PuKePai>();
+				List<PuKePai> sizhang = new List<PuKePai>();
+				List<PuKePai> daxiaowang = new List<PuKePai>();
+
+				for (int index = 0; index < m_ControlData.m_PuKePais.Count;)
+				{
+					int id = index + 4;
+					while (id >= m_ControlData.m_PuKePais.Count)
+					{
+						id--;
+					}
+
+					///如果计算下来差值相等，说明到了最后一张
+					if (id == index)
+					{
+						danzhan.Add(m_ControlData.m_PuKePais[index]);
+					}
+
+					while (m_ControlData.m_PuKePais[id].GetNotColorID() !=
+						m_ControlData.m_PuKePais[index].GetNotColorID() &&
+						id > index)
+					{
+						id--;
+					}
+
+					if (m_ControlData.m_PuKePais[index].m_PuKeColor == 5)
+					{
+						if (id == index)
+						{
+							danzhan.Add(m_ControlData.m_PuKePais[index]);
+							index++;
+						}
+						else
+						{
+							daxiaowang.Add(m_ControlData.m_PuKePais[index]);
+							daxiaowang.Add(m_ControlData.m_PuKePais[index + 1]);
+							index += 2;
+						}
+					}
+					else
+					{
+						if (id == index)
+						{
+							danzhan.Add(m_ControlData.m_PuKePais[index]);
+							index++;
+						}
+						else
+						{
+							int zs = id - index;
+							switch (zs)
+							{
+								case 1:
+									duizi.Add(m_ControlData.m_PuKePais[index]);
+									duizi.Add(m_ControlData.m_PuKePais[index + 1]);
+									index += 2;
+									break;
+								case 2:
+									sanzhang.Add(m_ControlData.m_PuKePais[index]);
+									sanzhang.Add(m_ControlData.m_PuKePais[index + 1]);
+									sanzhang.Add(m_ControlData.m_PuKePais[index + 2]);
+									index += 3;
+									break;
+								case 3:
+									sizhang.Add(m_ControlData.m_PuKePais[index]);
+									sizhang.Add(m_ControlData.m_PuKePais[index + 1]);
+									sizhang.Add(m_ControlData.m_PuKePais[index + 2]);
+									sizhang.Add(m_ControlData.m_PuKePais[index + 3]);
+									index += 4;
+									break;
+							}
+						}
+					}
+				}
+			}
+
+			return 1;
 		}
 	}
 }
