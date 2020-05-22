@@ -156,5 +156,232 @@ namespace Game.Engine
 			rt.z = float.Parse(point[2]);
 			return rt;
 		}
+
+		/// <summary>
+		/// 求数组中n个元素的组合
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="t"></param>
+		/// <param name="n"></param>
+		/// <returns></returns>
+		public List<T[]> GetCombination<T>(T[] t, int n)
+		{
+			if (t.Length < n)
+			{
+				return null;
+			}
+
+			int[] temp = new int[n];
+			List<T[]> list = new List<T[]>();
+			GetCombination<T>(ref list, t, t.Length, n, temp, n);
+			return list;
+		}
+
+		/// <summary>
+		/// 求数组中n个元素的排列
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="t">原始数组</param>
+		/// <param name="n">排列个数</param>
+		/// <returns></returns>
+		public List<T[]> GetPermutation<T>(T[] t, int n)
+		{
+			if (n > t.Length)
+			{
+				return null;
+			}
+
+			List<T[]> ts = new List<T[]>();
+			List<T[]> c = GetCombination<T>(t, n);
+			for (int index = 0; index < c.Count; index++)
+			{
+				List<T[]> l = new List<T[]>();
+				GetPermutation<T>(ref l, c[index], 0, n - 1);
+				ts.AddRange(l);
+			}
+
+			return ts;
+		}
+
+		/// <summary>
+		/// 返回全排列
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="t"></param>
+		/// <returns></returns>
+		public List<T[]> GetPermutation<T>(T[] t)
+		{
+			return GetPermutation<T>(t, 0, t.Length);
+		}
+
+		/// <summary>
+		/// 返回起始标号到结束标号的排列
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="t"></param>
+		/// <param name="startIndex"></param>
+		/// <param name="endIndex"></param>
+		/// <returns></returns>
+		public List<T[]> GetPermutation<T>(T[] t, int startIndex, int endIndex)
+		{
+			if (startIndex < 0 || endIndex > t.Length)
+			{
+				return null;
+			}
+
+			if (startIndex > endIndex)
+			{
+				Swap<int>(ref startIndex, ref endIndex);
+			}
+
+			List<T[]> list = new List<T[]>();
+			GetPermutation<T>(ref list, t, startIndex, endIndex);
+			return list;
+		}
+
+		/// <summary>
+		/// 交换
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		public void Swap<T>(ref T a, ref T b)
+		{
+			T temp = a;
+			a = b;
+			b = temp;
+		}
+
+		/// <summary>
+		/// 不修改数组的反转
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="t"></param>
+		/// <param name="s"></param>
+		/// <param name="e"></param>
+		/// <returns></returns>
+		public T[] Reverse<T>(T[] t, int s, int e)
+		{
+			T[] rt = new T[t.Length];
+			t.CopyTo(rt, 0);
+			if (s > e)
+			{
+				return null;
+			}
+
+			if (s < 0 || e > t.Length)
+			{
+				return null;
+			}
+
+			for (; s < e;)
+			{
+				Swap<T>(ref rt[s], ref rt[e]);
+				s++;
+				e--;
+			}
+
+			return rt;
+		}
+
+		/// <summary>
+		/// 将数组反转
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="t">目标数组</param>
+		/// <param name="s">反转起点</param>
+		/// <param name="e">反转终点</param>
+		public void Reverse<T>(ref T[] t, int s, int e)
+		{
+			if (s > e)
+			{
+				return;
+			}
+
+			if (s < 0 || e > t.Length)
+			{
+				return;
+			}
+
+			for (; s < e;)
+			{
+				Swap<T>(ref t[s], ref t[e]);
+				s++;
+				e--;
+			}
+		}
+
+		/// <summary>
+		/// 求一个排列
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="t"></param>
+		/// <param name="start"></param>
+		/// <param name="end"></param>
+		/// <returns></returns>
+		public bool Permutation(ref int[] t, int start, int end, ref int swIndex)
+		{
+			int i = end - 2;
+			while (i >= 0 && t[i] >= t[i + 1])
+			{
+				i--;
+			}
+
+			if (i == -1)
+			{
+				return false;
+			}
+
+			int j = end - 1;
+			while (t[j] <= t[i])
+			{
+				--j;
+			}
+
+			Swap<int>(ref t[i], ref t[j]);
+			swIndex = i;
+			Reverse<int>(ref t, i + 1, end - 1);
+			return true;
+		}
+
+		public bool CalDB<T>(T[] t1, T[] t2)
+		{
+			if (t1.Length != t2.Length)
+			{
+				return false;
+			}
+
+			for (int index = 0; index < t1.Length; index++)
+			{
+				if (!t1[index].Equals(t2[index]))
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		/// <summary>
+		/// 删除重复数据
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="ts"></param>
+		/// <param name="t"></param>
+		public void DelCF<T>(ref List<T[]> ts, T[] t, int start)
+		{
+			while (start < ts.Count)
+			{
+				T[] temp = ts[start];
+				if (CalDB<T>(temp, t))
+				{
+					ts.RemoveAt(start);
+				}
+				else
+				{
+					start++;
+				}
+			}
+		}
 	}
 }

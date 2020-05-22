@@ -76,5 +76,74 @@ namespace Game.Engine
 			clone.transform.rotation = Quaternion.Euler(Vector3.zero);
 			clone.transform.localScale = Vector3.one;
 		}
+
+		/// <summary>
+		/// 递归求数组的所有组合
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="list">返回的组合</param>
+		/// <param name="t">原数组</param>
+		/// <param name="n">终点</param>
+		/// <param name="m">起点</param>
+		/// <param name="b">中间数组</param>
+		/// <param name="a">辅组内容</param>
+		private void GetCombination<T>(ref List<T[]> list, T[] t, int n, int m, int[] b, int a)
+		{
+			for (int i = n; i >= m; i--)
+			{
+				b[m - 1] = i - 1;
+				if (m > 1)
+				{
+					GetCombination<T>(ref list, t, i - 1, m - 1, b, a);
+				}
+				else
+				{
+					if (list == null)
+					{
+						list = new List<T[]>();
+					}
+
+					T[] temp = new T[a];
+					for (int j = 0; j < b.Length; j++)
+					{
+						temp[j] = t[b[j]];
+					}
+
+					list.Add(temp);
+				}
+			}
+		}
+
+		/// <summary>
+		/// 递归算法求排列
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="ts">返回排列数组</param>
+		/// <param name="t">原数组</param>
+		/// <param name="startIndex">起始标号</param>
+		/// <param name="endIndex">结束标号</param>
+		private void GetPermutation<T>(ref List<T[]> ts, T[] t, int startIndex, int endIndex)
+		{
+			if (startIndex == endIndex)
+			{
+				if (ts == null)
+				{
+					ts = new List<T[]>();
+				}
+
+				T[] temp = new T[t.Length];
+				t.CopyTo(temp, 0);
+				ts.Add(temp);
+			}
+			else
+			{
+				for (int index = startIndex; index < endIndex; index++)
+				{
+					Swap<T>(ref t[startIndex], ref t[index]);
+					GetPermutation<T>(ref ts, t, startIndex + 1, endIndex);
+					Swap<T>(ref t[startIndex], ref t[index]);
+				}
+			}
+		}
 	}
 }

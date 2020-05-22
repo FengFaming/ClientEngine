@@ -22,17 +22,25 @@ public class UIPnlGameMain : IUIModelControl
 	public override void OpenSelf(GameObject target)
 	{
 		base.OpenSelf(target);
+
+		m_ControlTarget.gameObject.AddComponent<PaiLieZuHeControl>();
+
 		Button animation = m_ControlTarget.gameObject.transform.Find("animation").gameObject.GetComponent<Button>();
 		Button shoot = m_ControlTarget.gameObject.transform.Find("shoot").gameObject.GetComponent<Button>();
 		Button lua = m_ControlTarget.gameObject.transform.Find("lua").gameObject.GetComponent<Button>();
 		Button reloaing = m_ControlTarget.gameObject.transform.Find("reloading").gameObject.GetComponent<Button>();
 		Button puke = m_ControlTarget.gameObject.transform.Find("puke").gameObject.GetComponent<Button>();
+		Button ce = m_ControlTarget.gameObject.transform.Find("ces").gameObject.GetComponent<Button>();
 
 		animation.onClick.AddListener(new UnityEngine.Events.UnityAction(() => { OnClickAnimation(1); }));
 		shoot.onClick.AddListener(new UnityEngine.Events.UnityAction(() => { OnClickAnimation(2); }));
 		lua.onClick.AddListener(new UnityEngine.Events.UnityAction(() => { OnClickAnimation(3); }));
 		reloaing.onClick.AddListener(new UnityEngine.Events.UnityAction(() => { OnClickAnimation(4); }));
 		puke.onClick.AddListener(new UnityEngine.Events.UnityAction(() => { OnClickAnimation(5); }));
+		ce.onClick.AddListener(new UnityEngine.Events.UnityAction(() =>
+		{
+			OnClickAnimation(6);
+		}));
 	}
 
 	private void OnClickAnimation(int tage)
@@ -53,6 +61,10 @@ public class UIPnlGameMain : IUIModelControl
 				break;
 			case 5:
 				GameSceneManager.Instance.ChangeScene(new PuKePaiScene("pukepaiscene"));
+				break;
+			case 6:
+				object[] d = new object[] { 1, 2, 3, 4, 5, 6, 7, 8 };
+				PaiLieZuHeControl.GetInstance().CalZuHe(d, 2, 5);
 				break;
 		}
 	}
