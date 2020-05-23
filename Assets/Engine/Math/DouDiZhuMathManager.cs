@@ -145,6 +145,141 @@ namespace Game.Engine
 		}
 	}
 
+	public enum PaiXingEnum
+	{
+		/// <summary>
+		/// 王炸
+		/// </summary>
+		WangZha = 1,
+
+		/// <summary>
+		/// 炸弹
+		/// </summary>
+		ZhaDang,
+
+		/// <summary>
+		/// 四带两队
+		/// </summary>
+		SiDaiLiangDui,
+
+		/// <summary>
+		/// 四带两单牌
+		/// </summary>
+		SiDaiLiangDan,
+
+		/// <summary>
+		/// 飞机带对子
+		/// </summary>
+		FeiJiDaiDuiZi,
+
+		/// <summary>
+		/// 飞机带单排
+		/// </summary>
+		FeiJiDaiDanPai,
+
+		/// <summary>
+		/// 飞机
+		/// </summary>
+		FeiJi,
+
+		/// <summary>
+		/// 三带二
+		/// </summary>
+		SanDaiEr,
+
+		/// <summary>
+		/// 三带一
+		/// </summary>
+		SanDaiYi,
+
+		/// <summary>
+		/// 三不带
+		/// </summary>
+		SanBuDai,
+
+		/// <summary>
+		/// 连队
+		/// </summary>
+		ShuangLian,
+
+		/// <summary>
+		/// 对子
+		/// </summary>
+		DuiZi,
+
+		/// <summary>
+		/// 顺子
+		/// </summary>
+		DanLian,
+
+		/// <summary>
+		/// 单张
+		/// </summary>
+		DanZhang
+	}
+
+	/// <summary>
+	/// 牌型和派数据
+	/// </summary>
+	public class PaiXingInfo
+	{
+		/// <summary>
+		/// 牌型
+		/// </summary>
+		public PaiXingEnum m_PaiXing;
+
+		/// <summary>
+		/// 牌数据
+		/// </summary>
+		public List<PuKePai> m_PuKePai;
+
+		/// <summary>
+		/// 多少张
+		/// </summary>
+		public int m_Cout;
+
+		/// <summary>
+		/// 低多少手出牌
+		/// </summary>
+		public int m_ShouShu;
+
+		public PaiXingInfo()
+		{
+			m_PaiXing = PaiXingEnum.DanZhang;
+			m_PuKePai = new List<PuKePai>();
+			m_Cout = 0;
+			m_ShouShu = 0;
+		}
+	}
+
+	/// <summary>
+	/// 所有的牌型分析
+	/// </summary>
+	public class AllPaiXing
+	{
+		/// <summary>
+		/// 一共要多少手
+		/// </summary>
+		public int m_AllShouShu;
+
+		/// <summary>
+		/// 牌型分数
+		/// </summary>
+		public float m_PaixingFenShu;
+
+		/// <summary>
+		/// 所有的牌型数据
+		/// </summary>
+		public List<PaiXingInfo> m_AllPaixingInfos;
+
+		public AllPaiXing()
+		{
+			m_AllPaixingInfos = new List<PaiXingInfo>();
+			m_PaixingFenShu = 0;
+			m_AllShouShu = 0;
+		}
+	}
+
 	public class DouDiZhuMathManager : MonoBehaviour
 	{
 		private static DouDiZhuMathManager m_Instance;
@@ -188,6 +323,8 @@ namespace Game.Engine
 		/// 是否在计算当中
 		/// </summary>
 		private bool m_IsCaling;
+
+		private AllPaiXing m_AllPXData;
 
 		/// <summary>
 		/// 得到唯一内容
@@ -241,6 +378,9 @@ namespace Game.Engine
 				m_IsSelfOrOther = self;
 				m_OtherPais = other;
 
+				m_AllPXData = new AllPaiXing();
+
+				StopAllCoroutines();
 				StartCoroutine("CalPai");
 			}
 		}
@@ -253,7 +393,59 @@ namespace Game.Engine
 		{
 			yield return null;
 
-			GetShouShu();
+			//GetShouShu();
+			yield return null;
+
+			#region 分析牌型
+			List<PaiXingEnum> pxe = new List<PaiXingEnum>();
+			int index = 1;
+			for (; index < 15; index++)
+			{
+				pxe.Add((PaiXingEnum)index);
+			}
+
+			yield return null;
+
+			Debug.Log("start:" + Time.time);
+			List<int> test = new List<int>();
+			for (int i = 0; i < 15; i++)
+			{
+				test.Add(i);
+			}
+
+			int[] t = test.ToArray();
+			int sw = -1;
+			int[] rt = null;
+			List<int[]> at = new List<int[]>();
+			do
+			{
+				int[] temp = new int[15];
+				t.CopyTo(temp, 0);
+				at.Add(temp);
+
+				if (sw >= 0)
+				{
+					rt = EngineTools.Instance.Reverse<int>(t, sw, t.Length - 1);
+					int[] tmp = new int[15];
+					rt.CopyTo(tmp, 0);
+					at.Add(tmp);
+				}
+
+				yield return null;
+			} while (EngineTools.Instance.Permutation(ref t, 0, 15, ref sw));
+
+			int start = 0;
+			do
+			{
+				EngineTools.Instance.DelCF<int>(ref at, at[start], start + 1);
+				start = start + 1;
+				yield return null;
+			} while (start < at.Count);
+
+			Debug.Log("end:" + Time.time);
+			#endregion
+
+			yield return null;
 
 			//是否主动出牌
 			if (m_IsSelfOrOther)
@@ -303,9 +495,9 @@ namespace Game.Engine
 				for (int index = 0; index < m_ControlData.m_PuKePais.Count;)
 				{
 					int id = index + 4;
-					while (id >= m_ControlData.m_PuKePais.Count)
+					if (id >= m_ControlData.m_PuKePais.Count)
 					{
-						id--;
+						id = m_ControlData.m_PuKePais.Count - 1;
 					}
 
 					///如果计算下来差值相等，说明到了最后一张

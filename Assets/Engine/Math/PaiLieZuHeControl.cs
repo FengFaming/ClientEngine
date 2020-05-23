@@ -9,6 +9,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 namespace Game.Engine
@@ -72,9 +73,165 @@ namespace Game.Engine
 		/// </summary>
 		private List<object[]> m_ReturnData;
 
+		/// <summary>
+		/// 线程
+		/// </summary>
+		private Thread m_Thread;
+		private SynchronizationContext m_MainThreadSynContext;
+
+		private delegate void SendMessageWithThread();
+
 		private void Awake()
 		{
 			m_IsCaling = false;
+		}
+
+		public void UserThreadZuHe(object[] data, int start, int end)
+		{
+			if (!m_IsCaling)
+			{
+				if (m_Thread != null)
+				{
+					m_Thread.Abort();
+				}
+
+				ClearData();
+				m_SourceData = data;
+				m_StartIndex = start;
+				m_EndIndex = end;
+				m_ReturnData = new List<object[]>();
+
+				if (m_StartIndex > m_EndIndex)
+				{
+					EngineTools.Instance.Swap<int>(ref m_StartIndex, ref m_EndIndex);
+				}
+
+				m_Cout = m_EndIndex - m_StartIndex;
+				m_ToZuHeData = new int[m_Cout];
+				for (int index = 0; index < m_Cout; index++)
+				{
+					m_ToZuHeData[index] = m_StartIndex + index;
+				}
+
+				//StartCoroutine("StartCalZuHe");
+				m_MainThreadSynContext = SynchronizationContext.Current;
+				m_Thread = null;
+				m_Thread = new Thread(StartThread);
+				m_Thread.IsBackground = true;
+				SendMessageWithThread callback = new SendMessageWithThread(SendMessage);
+				m_Thread.Start(callback);
+				Debug.Log("start:" + Time.time);
+			}
+		}
+
+		private void OnDestroy()
+		{
+			if (m_Thread != null)
+			{
+				m_Thread.Abort();
+			}
+		}
+
+		/// <summary>
+		/// 由子线程返回到主线程
+		/// </summary>
+		/// <param name="state"></param>
+		private void GoBaMainThread(object state)
+		{
+			Debug.Log(m_ReturnData.Count);
+			Debug.Log("end:" + Time.time);
+			m_Thread.Abort();
+		}
+
+		/// <summary>
+		/// 通过信号量的方法返回租进程
+		/// </summary>
+		private void SendMessage()
+		{
+			m_MainThreadSynContext.Post(new SendOrPostCallback(GoBaMainThread), null);
+		}
+
+		/// <summary>
+		/// 加入时不加不需要的内容
+		/// </summary>
+		/// <param name="data"></param>
+		/// <param name="temp"></param>
+		private void DelOne(ref List<int[]> data, int[] temp)
+		{
+			//for (int index = 0; index < data.Count; index++)
+			//{
+			//	if (EngineTools.Instance.CalDB<int>(data[index], temp))
+			//	{
+			//		return;
+			//	}
+			//}
+
+			data.Add(temp);
+		}
+
+		/// <summary>
+		/// 使用线程计算
+		/// </summary>
+		private void StartThread(object action)
+		{
+			m_IsCaling = true;
+			int sw = -1;
+			List<int[]> rtData = new List<int[]>();
+			int[] rt;
+			do
+			{
+				int[] temp = new int[m_Cout];
+				m_ToZuHeData.CopyTo(temp, 0);
+				DelOne(ref rtData, temp);
+
+				if (sw >= 0)
+				{
+					rt = EngineTools.Instance.Reverse<int>(m_ToZuHeData, sw, m_Cout - 1);
+					int[] tmp = new int[m_Cout];
+					rt.CopyTo(tmp, 0);
+					DelOne(ref rtData, tmp);
+				}
+			} while (EngineTools.Instance.Permutation(ref m_ToZuHeData, 0, m_Cout, ref sw));
+
+			int start = 0;
+			do
+			{
+				EngineTools.Instance.DelCF<int>(ref rtData, rtData[start], start + 1);
+				start = start + 1;
+			} while (start < rtData.Count);
+
+			m_ReturnData = new List<object[]>();
+			for (int index = 0; index < rtData.Count; index++)
+			{
+				object[] vs = new object[m_SourceData.Length];
+				for (int i = 0; i < m_SourceData.Length; i++)
+				{
+					if (i < m_StartIndex)
+					{
+						vs[i] = m_SourceData[i];
+					}
+					else
+					{
+						if (i < m_EndIndex)
+						{
+							int c = 0;
+							c = rtData[index][i - m_StartIndex];
+							vs[i] = m_SourceData[c];
+						}
+						else
+						{
+							vs[i] = m_SourceData[i];
+						}
+					}
+				}
+
+				m_ReturnData.Add(vs);
+			}
+
+			m_IsCaling = false;
+			m_IsSuccess = true;
+			SendMessageWithThread callback = action as SendMessageWithThread;
+			callback();
 		}
 
 		/// <summary>
@@ -123,6 +280,7 @@ namespace Game.Engine
 
 		private IEnumerator StartCalZuHe()
 		{
+			Debug.Log("start:" + Time.time);
 			m_IsCaling = true;
 			yield return null;
 			int sw = -1;
@@ -187,6 +345,7 @@ namespace Game.Engine
 			yield return null;
 			m_IsCaling = false;
 			m_IsSuccess = true;
+			Debug.Log("end:" + Time.time);
 		}
 	}
 }

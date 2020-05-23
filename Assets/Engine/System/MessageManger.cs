@@ -290,6 +290,11 @@ namespace Game.Engine
 		/// </summary>
 		private bool m_IsRearrange;
 
+		/// <summary>
+		/// 线程锁
+		/// </summary>
+		private static readonly object m_Lock = "lock-thread";
+
 		protected override void Awake()
 		{
 			base.Awake();
@@ -466,7 +471,7 @@ namespace Game.Engine
 		/// <param name="arms"></param>
 		public void SendMessageThread(string head, params object[] arms)
 		{
-			Monitor.Enter(this.gameObject);
+			Monitor.Enter(m_Lock);
 			MessageInfo info = new MessageInfo();
 			info.m_Header = head;
 			if (arms != null && arms.Length > 0)
@@ -476,7 +481,7 @@ namespace Game.Engine
 
 			m_ThreadQueue.Enqueue(info);
 
-			Monitor.Exit(this.gameObject);
+			Monitor.Exit(m_Lock);
 		}
 
 		/// <summary>
