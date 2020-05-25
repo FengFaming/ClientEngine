@@ -115,6 +115,32 @@ namespace Game.Engine
 		}
 
 		/// <summary>
+		/// 判断是否重复
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="ts"></param>
+		/// <param name="startIndex"></param>
+		/// <param name="endIndex"></param>
+		/// <returns></returns>
+		private bool IsOneData<T>(T[] ts, int startIndex, int endIndex)
+		{
+			if (endIndex == ts.Length)
+			{
+				endIndex = ts.Length - 1;
+			}
+
+			for (int i = startIndex; i < endIndex; i++)
+			{
+				if (ts[i].Equals(ts[endIndex]))
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		/// <summary>
 		/// 递归算法求排列
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
@@ -139,9 +165,12 @@ namespace Game.Engine
 			{
 				for (int index = startIndex; index < endIndex; index++)
 				{
-					Swap<T>(ref t[startIndex], ref t[index]);
-					GetPermutation<T>(ref ts, t, startIndex + 1, endIndex);
-					Swap<T>(ref t[startIndex], ref t[index]);
+					if (IsOneData<T>(t, startIndex, endIndex))
+					{
+						Swap<T>(ref t[startIndex], ref t[index]);
+						GetPermutation<T>(ref ts, t, startIndex + 1, endIndex);
+						Swap<T>(ref t[startIndex], ref t[index]);
+					}
 				}
 			}
 		}

@@ -69,7 +69,11 @@ public class UIPnlGameMain : IUIModelControl
 			case 6:
 				object[] d = new object[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20, 21 };
 				int cout = int.Parse(m_InputCout.text);
-				PaiLieZuHeControl.GetInstance().UserThreadZuHe(d, 0, cout);
+				PaiLieZuHeControl.GetInstance().UseThreadT(d, 0, cout);
+				//PaiLieZuHeControl.GetInstance().UserThreadZuHe(d, 0, cout);
+				//Debug.Log(Time.realtimeSinceStartup);
+				//List<object[]> r = EngineTools.Instance.GetPermutation<object>(d, 0, cout);
+				//Debug.Log(Time.realtimeSinceStartup + " " + r.Count);
 				break;
 		}
 	}
