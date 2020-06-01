@@ -118,9 +118,10 @@ public class ReloadingScene : IScene
 		}
 	}
 
-	public override void InitScene()
+	public override bool InitScene()
 	{
-		base.InitScene();
+		if (!base.InitScene())
+			return false;
 
 		///为什么要在这里创建，因为场景切换的过程当中会删除掉一部分
 		GameObject scene = new GameObject();
@@ -129,5 +130,6 @@ public class ReloadingScene : IScene
 		scene.gameObject.transform.eulerAngles = Vector3.zero;
 		scene.gameObject.transform.localScale = Vector3.one;
 		m_LoadControl = scene.gameObject.AddComponent<AnimationSceneControl>();
+		return true;
 	}
 }

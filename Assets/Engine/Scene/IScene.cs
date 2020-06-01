@@ -27,9 +27,9 @@ namespace Game.Engine
 		/// <summary>
 		/// 初始化一些数据
 		/// </summary>
-		public virtual void InitScene()
+		public virtual bool InitScene()
 		{
-
+			return true;
 		}
 
 		/// <summary>

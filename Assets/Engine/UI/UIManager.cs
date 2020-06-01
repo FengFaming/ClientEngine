@@ -114,6 +114,12 @@ namespace Game.Engine
 					m_Arms.AddRange(arms);
 				}
 			}
+
+			public override string ToString()
+			{
+				string str = m_Name + " " + m_Layer;
+				return str;
+			}
 		}
 
 		/// <summary>
@@ -618,9 +624,9 @@ namespace Game.Engine
 				}
 				else
 				{
-					//打开完毕，进行其他的操作
-					Debug.Log("open end.");
 					OpenUIData data = m_NeedOpenUIs[0];
+					//打开完毕，进行其他的操作
+					Debug.Log("open end." + data);
 					m_NeedOpenUIs.RemoveAt(0);
 					CloseOther(data);
 

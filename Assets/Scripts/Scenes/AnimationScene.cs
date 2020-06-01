@@ -166,7 +166,7 @@ public class AnimationScene : IScene
 
 	}
 
-	public override void InitScene()
+	public override bool InitScene()
 	{
 		///为什么要在这里创建，因为场景切换的过程当中会删除掉一部分
 		GameObject scene = new GameObject();
@@ -175,6 +175,8 @@ public class AnimationScene : IScene
 		scene.gameObject.transform.eulerAngles = Vector3.zero;
 		scene.gameObject.transform.localScale = Vector3.one;
 		m_LoadControl = scene.gameObject.AddComponent<AnimationSceneControl>();
+
+		return true;
 	}
 
 	public override void ClearSceneData()

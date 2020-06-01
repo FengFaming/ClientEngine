@@ -20,9 +20,11 @@ function onClickExit()
 end
 
 function onClickEnter()
-	CS.Game.Engine.LuaManager.Instance:OpenUI("UIPnlGameMain","Pnl");
-	CS.UnityEngine.Debug.Log("onClick");
-	CS.Game.Engine.UIManager.Instance:RecoveryUIModel(self,false);
+	--CS.Game.Engine.LuaManager.Instance:OpenUI("UIPnlGameMain","Pnl");
+	--CS.UnityEngine.Debug.Log("onClick");
+	--CS.Game.Engine.UIManager.Instance:RecoveryUIModel(self,false);
+	
+	CS.Game.Engine.LuaManager.Instance:ChangeScene("LuaSceneTest");
 end
 
 function update()

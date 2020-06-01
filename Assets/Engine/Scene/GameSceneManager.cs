@@ -134,12 +134,19 @@ namespace Game.Engine
 			yield return new WaitForFixedUpdate();
 			ChangePressValue(0.6f);
 
-			m_Current.InitScene();
-			yield return null;
-			yield return new WaitForEndOfFrame();
-			yield return new WaitForFixedUpdate();
+			if (m_Current.InitScene())
+			{
+				yield return null;
+				yield return new WaitForEndOfFrame();
+				yield return new WaitForFixedUpdate();
 
-			m_Current.LoadScene(GetStartProcess);
+				m_Current.LoadScene(GetStartProcess);
+			}
+			else
+			{
+				m_IsChangeScene = false;
+				ChangeScene(m_LastScene);
+			}
 		}
 
 		/// <summary>

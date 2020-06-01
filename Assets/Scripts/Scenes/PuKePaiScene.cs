@@ -134,9 +134,10 @@ public class PuKePaiScene : IScene
 	/// <summary>
 	/// 初始化场景
 	/// </summary>
-	public override void InitScene()
+	public override bool InitScene()
 	{
-		base.InitScene();
+		if (!base.InitScene())
+			return false;
 
 		///为什么要在这里创建，因为场景切换的过程当中会删除掉一部分
 		GameObject scene = new GameObject();
@@ -145,6 +146,7 @@ public class PuKePaiScene : IScene
 		scene.gameObject.transform.eulerAngles = Vector3.zero;
 		scene.gameObject.transform.localScale = Vector3.one;
 		m_PuKePaiControl = scene.gameObject.AddComponent<PuKePaiControl>();
+		return true;
 	}
 
 	/// <summary>

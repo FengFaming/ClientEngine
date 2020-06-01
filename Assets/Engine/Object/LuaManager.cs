@@ -138,7 +138,8 @@ namespace Game.Engine
 		#region 场景相关
 		public void ChangeScene(string name)
 		{
-
+			IsceneWithLua luaScene = new IsceneWithLua(name);
+			GameSceneManager.Instance.ChangeScene(luaScene);
 		}
 		#endregion
 

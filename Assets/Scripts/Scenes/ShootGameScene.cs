@@ -23,15 +23,18 @@ public partial class ShootGameScene : IScene
 	/// <summary>
 	/// 初始化场景数据
 	/// </summary>
-	public override void InitScene()
+	public override bool InitScene()
 	{
-		base.InitScene();
+		if (!base.InitScene())
+			return false;
+
 		GameObject scene = new GameObject();
 		scene.name = m_SceneName;
 		scene.transform.position = Vector3.zero;
 		scene.transform.rotation = Quaternion.Euler(Vector3.zero);
 		scene.transform.localScale = Vector3.one;
 		m_LoadControl = scene.AddComponent<ShootGameControl>();
+		return true;
 	}
 
 	/// <summary>
