@@ -1,5 +1,6 @@
 function needloads()
-	return "GameObject:elephant";
+	--return "GameObject:elephant";
+    return "";
 end
 
 function loadinfo(tn)
@@ -15,5 +16,6 @@ function endscene()
 end
 
 function loadend()
-	CS.Game.Engine.LuaManager.Instance:OpenUI("UIPnlBackGameMain","Blk")
+	CS.Game.Engine.LuaManager.Instance:OpenUI("UIPnlBackGameMain","Blk");
+    CS.Game.Engine.LuaManager.Instance:OpenUI("UIPnlNumberGame","Pnl");
 end

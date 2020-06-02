@@ -125,6 +125,7 @@ namespace Game.Engine
 	/// <summary>
 	/// 消息管理器
 	/// </summary>
+	[XLua.LuaCallCSharp]
 	public class MessageManger : SingletonMonoClass<MessageManger>
 	{
 		/// <summary>
@@ -169,6 +170,17 @@ namespace Game.Engine
 			{
 				m_MessageKey = key;
 				m_AllListeners = new List<IMessageEventListener>();
+			}
+
+			/// <summary>
+			/// 添加数据
+			/// </summary>
+			/// <param name="owner"></param>
+			/// <param name="haveClear"></param>
+			/// <param name="action"></param>
+			public void AddListener(GameObject owner, bool haveClear, Action<object[]> action)
+			{
+				AddListener(new IMessageBase(owner, haveClear, action));
 			}
 
 			/// <summary>

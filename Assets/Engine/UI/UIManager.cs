@@ -435,8 +435,10 @@ namespace Game.Engine
 			{
 				for (int index = 0; index < uis.Value.Count; index++)
 				{
-					uis.Value[index].ControlTarget.SetActive(false);
-					GameObject.Destroy(uis.Value[index].ControlTarget);
+					GameObject go = uis.Value[index].ControlTarget;
+					uis.Value[index].ClearData();
+					go.SetActive(false);
+					GameObject.Destroy(go);
 				}
 
 				uis.Value.Clear();

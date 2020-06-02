@@ -40,6 +40,9 @@ namespace XLua.CSObjectWrap
             translator.DelayWrapLoader(typeof(Game.Engine.LuaManager), GameEngineLuaManagerWrap.__Register);
         
         
+            translator.DelayWrapLoader(typeof(Game.Engine.MessageManger), GameEngineMessageMangerWrap.__Register);
+        
+        
             translator.DelayWrapLoader(typeof(Game.Engine.UIManager), GameEngineUIManagerWrap.__Register);
         
         

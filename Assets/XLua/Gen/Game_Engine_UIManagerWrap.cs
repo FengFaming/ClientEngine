@@ -21,12 +21,14 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(Game.Engine.UIManager);
-			Utils.BeginObjectRegister(type, L, translator, 0, 5, 0, 0);
+			Utils.BeginObjectRegister(type, L, translator, 0, 7, 0, 0);
 			
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "OpenUI", _m_OpenUI);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetShowUI", _m_GetShowUI);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "RecoveryUIModel", _m_RecoveryUIModel);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "AddUpdate", _m_AddUpdate);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "AddCoroutine", _m_AddCoroutine);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "RemoveCoroutine", _m_RemoveCoroutine);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "ClearAllUI", _m_ClearAllUI);
 			
 			
@@ -220,6 +222,78 @@ namespace XLua.CSObjectWrap
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_AddCoroutine(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                Game.Engine.UIManager gen_to_be_invoked = (Game.Engine.UIManager)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    Game.Engine.IUIModelControl _ui = (Game.Engine.IUIModelControl)translator.GetObject(L, 2, typeof(Game.Engine.IUIModelControl));
+                    System.Action _action = translator.GetDelegate<System.Action>(L, 3);
+                    
+                    gen_to_be_invoked.AddCoroutine( _ui, _action );
+                    
+                    
+                    
+                    return 0;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_RemoveCoroutine(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                Game.Engine.UIManager gen_to_be_invoked = (Game.Engine.UIManager)translator.FastGetCSObj(L, 1);
+            
+            
+			    int gen_param_count = LuaAPI.lua_gettop(L);
+            
+                if(gen_param_count == 2&& translator.Assignable<Game.Engine.IUIModelControl>(L, 2)) 
+                {
+                    Game.Engine.IUIModelControl _ui = (Game.Engine.IUIModelControl)translator.GetObject(L, 2, typeof(Game.Engine.IUIModelControl));
+                    
+                    gen_to_be_invoked.RemoveCoroutine( _ui );
+                    
+                    
+                    
+                    return 0;
+                }
+                if(gen_param_count == 3&& translator.Assignable<Game.Engine.IUIModelControl>(L, 2)&& translator.Assignable<System.Action>(L, 3)) 
+                {
+                    Game.Engine.IUIModelControl _ui = (Game.Engine.IUIModelControl)translator.GetObject(L, 2, typeof(Game.Engine.IUIModelControl));
+                    System.Action _action = translator.GetDelegate<System.Action>(L, 3);
+                    
+                    gen_to_be_invoked.RemoveCoroutine( _ui, _action );
+                    
+                    
+                    
+                    return 0;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+            return LuaAPI.luaL_error(L, "invalid arguments to Game.Engine.UIManager.RemoveCoroutine!");
             
         }
         

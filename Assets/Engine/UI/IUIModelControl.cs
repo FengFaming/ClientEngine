@@ -122,11 +122,25 @@ namespace Game.Engine
 
 		/// <summary>
 		/// 关闭自己
+		/// 主动或者被动
+		///		除场景跳转外得关闭
 		/// </summary>
 		public virtual void CloseSelf(bool manager = false)
 		{
 			MessageManger.Instance.RemoveMessageListener(m_ControlTarget);
 			UIManager.Instance.RecoveryUIModel(this, manager);
+			m_ControlTarget = null;
+			m_Layer = UILayer.None;
+		}
+
+		/// <summary>
+		/// 清除数据
+		///		主要是跳转场景得时候使用
+		///		这里面不能调用管理关闭自己 
+		/// </summary>
+		public virtual void ClearData()
+		{
+			MessageManger.Instance.RemoveMessageListener(m_ControlTarget);
 			m_ControlTarget = null;
 			m_Layer = UILayer.None;
 		}

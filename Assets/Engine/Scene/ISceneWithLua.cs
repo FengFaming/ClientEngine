@@ -144,21 +144,24 @@ namespace Game.Engine
 					foreach (System.Object o in vs)
 					{
 						string s = (string)o;
-						string[] ss = s.Split(':');
-						string[] sss = ss[1].Split(',');
-						ResObjectType type = EngineTools.Instance.StringToEnum<ResObjectType>(ss[0]);
-						if (m_AllNeeds.ContainsKey(type))
+						if (!string.IsNullOrEmpty(s))
 						{
-							m_AllNeeds[type].AddRange(sss);
-						}
-						else
-						{
-							List<string> n = new List<string>();
-							n.AddRange(sss);
-							m_AllNeeds.Add(type, n);
-						}
+							string[] ss = s.Split(':');
+							string[] sss = ss[1].Split(',');
+							ResObjectType type = EngineTools.Instance.StringToEnum<ResObjectType>(ss[0]);
+							if (m_AllNeeds.ContainsKey(type))
+							{
+								m_AllNeeds[type].AddRange(sss);
+							}
+							else
+							{
+								List<string> n = new List<string>();
+								n.AddRange(sss);
+								m_AllNeeds.Add(type, n);
+							}
 
-						m_Cout += sss.Length;
+							m_Cout += sss.Length;
+						}
 					}
 				}
 
@@ -177,7 +180,13 @@ namespace Game.Engine
 						}
 					}
 				}
-			}  
+				else
+				{
+					m_StartSceneFun(100);
+					Action action = m_LuaTable.Get<Action>("loadend");
+					action();
+				}
+			}
 		}
 
 		private LuaTable m_LuaControl;
