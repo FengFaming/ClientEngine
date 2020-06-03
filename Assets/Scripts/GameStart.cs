@@ -19,6 +19,16 @@ public class GameStart : ObjectBase
 
 	private void Start()
 	{
+#if UNITY_EDITOR || !NEWWINDOW
+		SystemDebugManager d = this.gameObject.AddComponent<SystemDebugManager>();
+		d.StartWindow();
+#endif
+
+		Debug.Log(Screen.width + " " + Screen.height);
+#if !UNITY_EDITOR && NEWWINDOW
+		ExeWindowManager.Instance.SetWindows(Vector2Int.zero, new Vector2Int(1024, 768),true);
+#endif
+
 #if !UNITY_EDITOR || TEST_AB
 		CopyFile(Application.streamingAssetsPath, Application.persistentDataPath);
 #endif
@@ -31,9 +41,6 @@ public class GameStart : ObjectBase
 		fps.IsShowFPS = true;
 
 		StartCoroutine("StartGame");
-
-		SystemDebugManager d = this.gameObject.AddComponent<SystemDebugManager>();
-		d.StartWindow();
 	}
 
 	/// <summary>
