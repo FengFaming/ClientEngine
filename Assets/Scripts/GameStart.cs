@@ -24,13 +24,13 @@ public class GameStart : ObjectBase
 		d.StartWindow();
 #endif
 
-		Debug.Log(Screen.width + " " + Screen.height);
 #if !UNITY_EDITOR && NEWWINDOW
 		ExeWindowManager.Instance.SetWindows(Vector2Int.zero, new Vector2Int(1024, 768),true);
 #endif
 
 #if !UNITY_EDITOR || TEST_AB
 		CopyFile(Application.streamingAssetsPath, Application.persistentDataPath);
+		ResObjectManager.Instance.IsUseAB = true;
 #endif
 
 		ResObjectManager.Instance.InitResManager("AB");
@@ -75,6 +75,12 @@ public class GameStart : ObjectBase
 	{
 		List<string> fs = new List<string>();
 		fs.Clear();
+
+		if (!Directory.Exists(path))
+		{
+			return fs;
+		}
+
 		var files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
 		foreach (var file in files)
 		{

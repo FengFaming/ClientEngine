@@ -35,11 +35,11 @@ namespace Game.Engine
 			target.SetMetaTable(temp);
 			temp.Dispose();
 
-#if UNITY_EDITOR && !TEST_AB
 			string path = Application.streamingAssetsPath + "/Lua/" + fileName + ".lua.txt";
-#else
-			string path = Application.persistentDataPath + "/Lua/" + fileName + ".lua.txt";
-#endif
+			if (ResObjectManager.Instance.IsUseAB)
+			{
+				path = Application.persistentDataPath + "/Lua/" + fileName + ".lua.txt";
+			}
 
 			if (File.Exists(path))
 			{

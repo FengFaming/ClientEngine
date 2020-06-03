@@ -203,6 +203,17 @@ namespace Game.Engine
 		/// </summary>
 		private List<LoadResObjectInfo> m_NeedLoadInfos;
 
+		/// <summary>
+		/// 是否使用AB
+		/// 默认不使用AB
+		/// </summary>
+		private bool m_IsUseAB;
+		public bool IsUseAB
+		{
+			get { return m_IsUseAB; }
+			set { m_IsUseAB = value; }
+		}
+
 		protected override void Awake()
 		{
 			base.Awake();
@@ -216,6 +227,7 @@ namespace Game.Engine
 			m_NeedLoadInfos.Clear();
 
 			m_IsLoad = false;
+			m_IsUseAB = false;
 		}
 
 		/// <summary>

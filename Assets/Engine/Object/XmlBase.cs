@@ -34,11 +34,12 @@ namespace Game.Engine
 
 		public virtual string GetXmlPath()
 		{
-#if UNITY_EDITOR
+			if (ResObjectManager.Instance.IsUseAB)
+			{
+				return Application.persistentDataPath + "/" + m_XmlName + ".xml";
+			}
+
 			return Application.streamingAssetsPath + "/" + m_XmlName + ".xml";
-#else
-			return Application.persistentDataPath + "/" + m_XmlName + ".xml";
-#endif
 		}
 
 		/// <summary>

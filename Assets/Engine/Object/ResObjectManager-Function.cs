@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-#if UNITY_EDITOR && !TEST_AB
+#if UNITY_EDITOR
 using UnityEditor;
 #endif
 
@@ -114,83 +114,87 @@ namespace Game.Engine
 		/// <param name="cb"></param>
 		public void LoadObject(string name, ResObjectType type, IResObjectCallBack cb)
 		{
-#if UNITY_EDITOR && !TEST_AB
-			LoadResObjectInfo info = new LoadResObjectInfo();
-			info.m_LoadCB.Add(cb);
-			info.m_LoadName = name;
-			info.m_LoadType = type;
-			string str = "Assets/UseAB/" + info.m_LoadType.ToString();
-			switch (info.m_LoadType)
+			if (!m_IsUseAB)
 			{
-				case ResObjectType.Configuration:
-					str = str + "/" + info.m_LoadName + ".xml";
-					break;
-				case ResObjectType.Lua:
-					str = str + "/" + info.m_LoadName + ".lua.txt";
-					break;
-				default:
-					str = str + "/" + info.m_LoadName + ".prefab";
-					break;
-			}
-
-			UnityEngine.Object oj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(str);
-			if (oj == null)
-			{
-				Debug.Log("the res is null." + info);
-				return;
-			}
-
-			if (cb != null)
-			{
-				if (info.m_LoadType != ResObjectType.Lua)
+#if UNITY_EDITOR
+				LoadResObjectInfo info = new LoadResObjectInfo();
+				info.m_LoadCB.Add(cb);
+				info.m_LoadName = name;
+				info.m_LoadType = type;
+				string str = "Assets/UseAB/" + info.m_LoadType.ToString();
+				switch (info.m_LoadType)
 				{
-					if (info.m_LoadType == ResObjectType.Icon)
+					case ResObjectType.Configuration:
+						str = str + "/" + info.m_LoadName + ".xml";
+						break;
+					case ResObjectType.Lua:
+						str = str + "/" + info.m_LoadName + ".lua.txt";
+						break;
+					default:
+						str = str + "/" + info.m_LoadName + ".prefab";
+						break;
+				}
+
+				UnityEngine.Object oj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(str);
+				if (oj == null)
+				{
+					Debug.Log("the res is null." + info);
+					return;
+				}
+
+				if (cb != null)
+				{
+					if (info.m_LoadType != ResObjectType.Lua)
 					{
-						Sprite s = (oj as GameObject).gameObject.GetComponent<Image>().sprite;
-						cb.HandleLoadCallBack(s);
+						if (info.m_LoadType == ResObjectType.Icon)
+						{
+							Sprite s = (oj as GameObject).gameObject.GetComponent<Image>().sprite;
+							cb.HandleLoadCallBack(s);
+						}
+						else
+						{
+							UnityEngine.Object target = UnityEngine.Object.Instantiate(oj);
+							cb.HandleLoadCallBack(target);
+						}
 					}
 					else
 					{
-						UnityEngine.Object target = UnityEngine.Object.Instantiate(oj);
-						cb.HandleLoadCallBack(target);
+						cb.HandleLoadCallBack(oj);
 					}
 				}
-				else
-				{
-					cb.HandleLoadCallBack(oj);
-				}
+#endif
 			}
-#else
-
-			if (m_IsInitSuccess)
+			else
 			{
-				LoadResObjectInfo info = new LoadResObjectInfo();
-				info.m_LoadName = name;
-				info.m_LoadType = type;
-				info.m_LoadCB.Add(cb);
-
-				if (m_NeedLoadInfos.Contains(info))
+				if (m_IsInitSuccess)
 				{
-					for (int index = 0; index < m_NeedLoadInfos.Count; index++)
+					LoadResObjectInfo info = new LoadResObjectInfo();
+					info.m_LoadName = name;
+					info.m_LoadType = type;
+					info.m_LoadCB.Add(cb);
+
+					if (m_NeedLoadInfos.Contains(info))
 					{
-						if (m_NeedLoadInfos[index].Equals(info))
+						for (int index = 0; index < m_NeedLoadInfos.Count; index++)
 						{
-							m_NeedLoadInfos[index].m_LoadCB.Add(cb);
-							break;
+							if (m_NeedLoadInfos[index].Equals(info))
+							{
+								m_NeedLoadInfos[index].m_LoadCB.Add(cb);
+								break;
+							}
 						}
 					}
-				}
-				else
-				{
-					m_NeedLoadInfos.Add(info);
-				}
+					else
+					{
+						m_NeedLoadInfos.Add(info);
+					}
 
-				if (!m_IsLoad)
-				{
-					StartCoroutine("LoadYiedFunction");
+					if (!m_IsLoad)
+					{
+						StartCoroutine("LoadYiedFunction");
+					}
 				}
 			}
-#endif
 		}
 	}
 }
