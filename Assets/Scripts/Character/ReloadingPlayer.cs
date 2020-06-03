@@ -44,7 +44,11 @@ public class ReloadingPlayer : GameCharacterBase
 		}
 	}
 
-	private Material m_ShowMaterial;
+	/// <summary>
+	/// shader名称
+	/// </summary>
+	private string m_ShowMaterial;
+	public string ShowMaterial { set { m_ShowMaterial = value; } }
 
 	private bool m_IsLoad;
 
@@ -62,7 +66,6 @@ public class ReloadingPlayer : GameCharacterBase
 
 	private void LoadEnd(object t)
 	{
-		Debug.Log(t);
 		Transform p = this.gameObject.transform.GetChild(0);
 		m_PlayerFirst = p;
 		m_Cout = 0;
@@ -224,7 +227,13 @@ public class ReloadingPlayer : GameCharacterBase
 
 		if (combine)
 		{
-			newMaterial = new Material(Shader.Find("Legacy Shaders/Diffuse"));
+			/*
+			 * 特别注意的地方
+			 * newMaterial = new Material(Shader.Find("Mobile/Diffuse"));
+			 * 使用这个代码，除非再编辑器上和移动平台上运行，
+			 * 否则就会出现问题，导致异常而无法往下运行
+			 * */
+			newMaterial = new Material(Shader.Find(m_ShowMaterial));
 			oldUV = new List<Vector2[]>();
 			List<Texture2D> Textures = new List<Texture2D>();
 			for (int i = 0; i < materials.Count; i++)

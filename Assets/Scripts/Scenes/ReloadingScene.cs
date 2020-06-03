@@ -50,6 +50,7 @@ public class ReloadingScene : IScene
 			CharacterXmlControl xml = new CharacterXmlControl("2312003");
 			ConfigurationManager.Instance.LoadXml(ref xml);
 			ch.LoadInfos = xml.m_LoadInfos;
+			ch.ShowMaterial = "Legacy Shaders/Diffuse";
 			ch.StartInitCharacter("ch_pc_hou", GetCharacter);
 			m_SceneTarget = ch;
 		}

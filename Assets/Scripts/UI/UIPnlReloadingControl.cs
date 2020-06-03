@@ -127,7 +127,6 @@ public class UIPnlReloadingControl : UIModelLuaControl
 	private void OnClickChange(ButtonData info)
 	{
 		CharacterXmlControl.LoadInfo loadInfo = (CharacterXmlControl.LoadInfo)info.Data;
-		Debug.Log(loadInfo.m_Model);
 		m_Control.ChangeReloading(loadInfo);
 	}
 
