@@ -95,6 +95,7 @@ public class CreateIconPrefab : MonoBehaviour
 				fs.Add(file);
 			}
 		}
+
 		return fs;
 	}
 }

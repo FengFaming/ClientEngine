@@ -62,6 +62,7 @@ public class ReloadingPlayer : GameCharacterBase
 
 	private void LoadEnd(object t)
 	{
+		Debug.Log(t);
 		Transform p = this.gameObject.transform.GetChild(0);
 		m_PlayerFirst = p;
 		m_Cout = 0;
@@ -100,7 +101,7 @@ public class ReloadingPlayer : GameCharacterBase
 		if (!isEnd)
 		{
 			m_Cout++;
-			if (m_Cout == m_LoadInfos.Count)
+			if (m_Cout >= m_LoadInfos.Count)
 			{
 				m_LoadEnd(this);
 				CombineObject();
@@ -223,7 +224,7 @@ public class ReloadingPlayer : GameCharacterBase
 
 		if (combine)
 		{
-			newMaterial = new Material(Shader.Find("Mobile/Diffuse"));
+			newMaterial = new Material(Shader.Find("Legacy Shaders/Diffuse"));
 			oldUV = new List<Vector2[]>();
 			List<Texture2D> Textures = new List<Texture2D>();
 			for (int i = 0; i < materials.Count; i++)

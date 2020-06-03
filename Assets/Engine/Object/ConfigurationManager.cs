@@ -65,7 +65,6 @@ namespace Game.Engine
 				XmlDocument doc = new XmlDocument();
 				string path = xml.GetXmlPath();
 				doc.Load(File.OpenText(path));
-
 				if (doc != null)
 				{
 					XmlElement element = doc.DocumentElement;

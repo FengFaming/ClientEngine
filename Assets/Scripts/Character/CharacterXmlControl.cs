@@ -45,6 +45,13 @@ public class CharacterXmlControl : XmlBase
 	/// </summary>
 	public List<LoadInfo> m_LoadInfos;
 
+	public override string ToString()
+	{
+		string str = base.ToString();
+		str += string.Format("State:{0} Mount:{1} Load:{2}", m_StateInfos.Count, m_MountInfos.Count, m_LoadInfos.Count);
+		return str;
+	}
+
 	public CharacterXmlControl(string name) : base(name)
 	{
 		m_StateInfos = new Dictionary<int, StateInfo>();

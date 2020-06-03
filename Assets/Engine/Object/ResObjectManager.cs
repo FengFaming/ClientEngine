@@ -284,7 +284,7 @@ namespace Game.Engine
 						LoadResObjectInfo i = new LoadResObjectInfo();
 						i.m_LoadType = ResObjectType.AssetBundle;
 						i.m_LoadName = s[index];
-						m_NeedLoadInfos.Add(i);
+						m_NeedLoadInfos.Insert(0, i);
 					}
 
 					m_NeedLoadInfos.Add(info);
@@ -317,8 +317,6 @@ namespace Game.Engine
 						}
 						else
 						{
-							Debug.LogError("the ab error." + info.m_LoadName);
-
 							ABInfo ab = new ABInfo();
 							ab.m_ABName = info.m_LoadName;
 							ab.m_IsDontClear = true;
@@ -374,7 +372,7 @@ namespace Game.Engine
 							break;
 						case ResObjectType.Icon:
 							GameObject ic = m_AllABInfoDic[info.m_LoadName].m_TargetAB.LoadAsset<GameObject>(info.m_LoadName);
-							oj = ic.GetComponent<Image>().mainTexture;
+							oj = ic.GetComponent<Image>().sprite;
 							break;
 						case ResObjectType.Material:
 							GameObject mt = m_AllABInfoDic[info.m_LoadName].m_TargetAB.LoadAsset<GameObject>(info.m_LoadName);

@@ -349,7 +349,8 @@ public class CreateAB : EditorWindow
 
 		string ab = Application.dataPath;
 		ab = ab.Substring(0, ab.Length - ".assets".Length);
-		m_SaveFilePath = ab + "/AB" + m_BuildVersion + "/";
+		//m_SaveFilePath = ab + "/AB" + m_BuildVersion + "/";
+		m_SaveFilePath = ab + "/AB/";
 	}
 
 	/// <summary>

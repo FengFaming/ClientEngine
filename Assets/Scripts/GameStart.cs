@@ -9,6 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Game.Engine;
+using System.IO;
 
 public class GameStart : ObjectBase
 {
@@ -18,6 +19,10 @@ public class GameStart : ObjectBase
 
 	private void Start()
 	{
+#if !UNITY_EDITOR || TEST_AB
+		CopyFile(Application.streamingAssetsPath, Application.persistentDataPath);
+#endif
+
 		ResObjectManager.Instance.InitResManager("AB");
 		MessageManger.Instance.AddMessageListener(EngineMessageHead.CHANGE_SCENE_MESSAGE,
 						this.gameObject, OpenChangeScene);
@@ -26,8 +31,59 @@ public class GameStart : ObjectBase
 		fps.IsShowFPS = true;
 
 		StartCoroutine("StartGame");
+
+		SystemDebugManager d = this.gameObject.AddComponent<SystemDebugManager>();
+		d.StartWindow();
 	}
 
+	/// <summary>
+	/// 拷贝文件
+	/// </summary>
+	/// <param name="srcPath">源目录</param>
+	/// <param name="desPath">目标目录</param>
+	private void CopyFile(string srcPath, string desPath)
+	{
+		List<string> files = GetAllFiles(srcPath);
+		for (int index = 0; index < files.Count; index++)
+		{
+			string filename = files[index].Substring(srcPath.Length);
+			string save = desPath + filename;
+			filename = save.Substring(0, save.LastIndexOf("\\"));
+			if (!Directory.Exists(filename))
+			{
+				DirectoryInfo f = new DirectoryInfo(filename);
+				f.Create();
+			}
+
+			File.Copy(files[index], save, true);
+		}
+	}
+
+	/// <summary>
+	/// 获取所有文件
+	/// </summary>
+	/// <param name="path"></param>
+	/// <returns></returns>
+	private List<string> GetAllFiles(string path)
+	{
+		List<string> fs = new List<string>();
+		fs.Clear();
+		var files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
+		foreach (var file in files)
+		{
+			if (file.LastIndexOf(".meta") < 0)
+			{
+				fs.Add(file);
+			}
+		}
+
+		return fs;
+	}
+
+	/// <summary>
+	/// 打开跳转界面
+	/// </summary>
+	/// <param name="arms"></param>
 	private void OpenChangeScene(params object[] arms)
 	{
 		if ((bool)arms[0])
@@ -40,6 +96,10 @@ public class GameStart : ObjectBase
 		}
 	}
 
+	/// <summary>
+	/// 开始游戏
+	/// </summary>
+	/// <returns></returns>
 	private IEnumerator StartGame()
 	{
 		yield return null;

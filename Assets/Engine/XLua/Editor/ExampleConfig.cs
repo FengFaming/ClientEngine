@@ -276,7 +276,7 @@ public static class ExampleConfig
 				typeof(SkinnedMeshRenderer),
 				typeof(Renderer),
 				typeof(WWW),
-				typeof(Light),
+				//typeof(Light),
 				typeof(Mathf),
 				typeof(System.Collections.Generic.List<int>),
 				typeof(Action<string>),

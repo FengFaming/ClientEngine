@@ -123,7 +123,7 @@ namespace Game.Engine
 			ChangePressValue(0.4f);
 
 			//把这个内容提到这个位置，是因为打开界面的时候不能清空资源
-			ResObjectManager.Instance.ClearAll();
+			//ResObjectManager.Instance.ClearAll();
 			yield return new WaitForEndOfFrame();
 			yield return new WaitForFixedUpdate();
 			ChangePressValue(0.5f);

@@ -120,7 +120,7 @@ public partial class ShootGameScene : IScene
 			m_LoadFun(20);
 			ResObjectCallBackBase cb = new ResObjectCallBackBase();
 			cb.m_FinshFunction = LoadPlayer;
-			ResObjectManager.Instance.LoadObject("lion", ResObjectType.GameObject, cb);
+			ResObjectManager.Instance.LoadObject("lionprefab", ResObjectType.GameObject, cb);
 
 			yield return null;
 

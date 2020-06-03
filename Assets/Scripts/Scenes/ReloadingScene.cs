@@ -57,6 +57,7 @@ public class ReloadingScene : IScene
 		private void GetCharacter(object t)
 		{
 			m_LoadAction(100);
+			UIManager.Instance.OpenUI("UIPnlBackGameMain", UILayer.Pnl);
 			ReloadingPlayer ch = t as ReloadingPlayer;
 			CharacterXmlControl xml = new CharacterXmlControl("2312003");
 			ConfigurationManager.Instance.LoadXml(ref xml);
@@ -89,8 +90,6 @@ public class ReloadingScene : IScene
 		{
 			yield return null;
 			CreateCharacter();
-			yield return null;
-			UIManager.Instance.OpenUI("UIPnlBackGameMain", UILayer.Pnl);
 		}
 	}
 
