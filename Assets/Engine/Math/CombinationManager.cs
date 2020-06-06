@@ -230,30 +230,115 @@ namespace Game.Engine
 		}
 		#endregion
 
-		#region 回溯非回归方法
+		#region 位移查找方法
 
+		private string m_SaveFileName2;
+		private bool m_IsApped;
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="data">数据源</param>
+		/// <param name="start">开始结束位置</param>
+		/// <param name="end">结束回调</param>
+		/// <param name="save">保存文件名字</param>
+		/// <param name="isApp">是否继续</param>
+		public void Combination3(object[] data, Vector2Int start, Action<CombinationManager> end, string save, bool isApp)
+		{
+			if (!m_HasCal)
+			{
+				m_HasCal = true;
+				m_SourceData = data;
+				m_DataStartEnd = start;
+				m_DataReturn = end;
+				m_SaveFileName2 = save;
+				if (m_DataStartEnd.x > m_DataStartEnd.y)
+				{
+					int temp = m_DataStartEnd.y;
+					m_DataStartEnd.y = m_DataStartEnd.x;
+					m_DataStartEnd.x = temp;
+				}
 
+				m_SaveFileName2 = Application.persistentDataPath + "/" + m_SaveFileName2 + ".txt";
+				Debug.Log(m_SaveFileName2);
+
+				Debug.Log("start:" + Time.realtimeSinceStartup);
+				GameThreadManager.Instance.CreateThread(CalPaiLie, GoBack);
+			}
+		}
+
+		/// <summary>
+		/// 移动位置
+		/// </summary>
+		/// <param name="data"></param>
+		/// <param name="p"></param>
+		private void Rotate(ref int[] data, int p)
+		{
+			int i, temp;
+			temp = data[p];
+			for (i = p - 1; i >= 0; i--)
+			{
+				data[i + 1] = data[i];
+			}
+
+			data[0] = temp;
+		}
+
+		/// <summary>
+		/// 保存文件
+		/// </summary>
+		/// <param name="data"></param>
+		private void SaveFile2(int[] data)
+		{
+			FileStream fs;
+			if (!File.Exists(m_SaveFileName2))
+			{
+				fs = new FileStream(m_SaveFileName2, FileMode.Create, FileAccess.Write);
+			}
+			else
+			{
+				fs = new FileStream(m_SaveFileName2, FileMode.Append, FileAccess.Write);
+			}
+
+			StreamWriter sw = new StreamWriter(fs);
+			for (int i = 1; i < data.Length; i++)
+			{
+				sw.Write(data[i]);
+				if (i < data.Length - 1)
+				{
+					sw.Write(",");
+				}
+			}
+
+			sw.WriteLine();
+			sw.Flush();
+			sw.Close();
+			fs.Close();
+		}
+
+		/// <summary>
+		/// 计算排列
+		/// </summary>
 		private void CalPaiLie()
 		{
-			//int sw = -1;
-			//List<int[]> rtData = new List<int[]>();
-			//int[] rt;
-			//do
-			//{
-			//	/*
-			//	 * 保存一次数据
-			//	 * */
+			int cout = m_DataStartEnd.y - m_DataStartEnd.x;
+			int[] data = new int[cout];
+			for (int index = 0; index < cout; index++)
+			{
+				data[index] = index + 1;
+			}
 
-			//	if (sw >= 0)
-			//	{
-			//		rt = EngineTools.Instance.Reverse<int>(m_ToZuHeData, sw, m_Cout - 1);
-			//		/*
-			//		 * 保存一次数据
-			//		 * */
-			//	}
-
-			//} while (EngineTools.Instance.Permutation(ref m_ToZuHeData, 0, m_Cout, ref sw));
+			int position = cout - 1;
+			while (position != 0)
+			{
+				SaveFile2(data);
+				position = cout - 1;
+				while (data[position] == position + 1 && position != 0)
+				{
+					position--;
+					Rotate(ref data, position);
+				}
+			}
 		}
 		#endregion
 
