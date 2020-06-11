@@ -55,7 +55,8 @@ public class UIPnlGameMain : IUIModelControl
 				GameSceneManager.Instance.ChangeScene(new AnimationScene("animationscene"));
 				break;
 			case 2:
-				GameSceneManager.Instance.ChangeScene(new ShootGameScene());
+				//GameSceneManager.Instance.ChangeScene(new ShootGameScene());
+				OtherGameControl.Instance.OpenOtherExe("SmallShoot", "450,800");
 				break;
 			case 3:
 				UIManager.Instance.OpenUI("UIPnlInputCout", UILayer.Blk);

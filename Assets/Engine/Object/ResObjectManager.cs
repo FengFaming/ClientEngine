@@ -275,6 +275,7 @@ namespace Game.Engine
 			while (m_NeedLoadInfos.Count > 0)
 			{
 				LoadResObjectInfo info = m_NeedLoadInfos[0];
+				Debug.Log(info);
 				m_NeedLoadInfos.RemoveAt(0);
 
 				string path = GetABPath(info);
@@ -296,6 +297,19 @@ namespace Game.Engine
 						LoadResObjectInfo i = new LoadResObjectInfo();
 						i.m_LoadType = ResObjectType.AssetBundle;
 						i.m_LoadName = s[index];
+						for (int j = 0; j < m_NeedLoadInfos.Count;)
+						{
+							if (m_NeedLoadInfos[j].m_LoadType == ResObjectType.AssetBundle &&
+								m_NeedLoadInfos[j].m_LoadName == i.m_LoadName)
+							{
+								m_NeedLoadInfos.RemoveAt(j);
+							}
+							else
+							{
+								j++;
+							}
+						}
+
 						m_NeedLoadInfos.Insert(0, i);
 					}
 
@@ -311,12 +325,6 @@ namespace Game.Engine
 					{
 						string lp = GetABPath(path);
 						WWW www = new WWW(lp);
-						yield return www;
-						while (!www.isDone)
-						{
-							yield return null;
-						}
-
 						if (www.assetBundle != null)
 						{
 							ABInfo ab = new ABInfo();

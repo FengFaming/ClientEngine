@@ -148,6 +148,13 @@ namespace Game.Engine
 		}
 		#endregion
 
+		#region 消息相关
+		public void SendMessageToThread(string key, params object[] arms)
+		{
+			MessageManger.Instance.SendMessageThread(key, arms);
+		}
+		#endregion
+
 		private void Update()
 		{
 			if (M_LUA_ENV != null)

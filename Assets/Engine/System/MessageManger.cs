@@ -488,6 +488,12 @@ namespace Game.Engine
 			info.m_Header = head;
 			if (arms != null && arms.Length > 0)
 			{
+				if (info.m_Arms == null)
+				{
+					info.m_Arms = new List<object>();
+					info.m_Arms.Clear();
+				}
+
 				info.m_Arms.AddRange(arms);
 			}
 
