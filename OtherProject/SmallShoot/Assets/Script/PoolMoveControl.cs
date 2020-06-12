@@ -82,6 +82,8 @@ public class PoolMoveControl : ObjectBase
 		}
 
 		m_ZL = zl;
+		BoxCollider2D boxCollider2D = this.gameObject.GetComponent<BoxCollider2D>();
+		boxCollider2D.enabled = true;
 	}
 
 	public void JianFen(int f)

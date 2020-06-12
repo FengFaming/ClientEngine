@@ -1,11 +1,13 @@
 local level = 1;
 
 function zijishuliang()
-	return "s1";
+	--返回主角
+	return "s2";
 end
 
 function st()
-	return "100","0.5";
+	--返回主角子弹飞行速度和发射子弹间隔时间
+	return "300","0.1";
 end
 
 function diren()
@@ -17,20 +19,24 @@ function diren()
 		return "2","0","200","30","50","80";
 	end
 	
+	--返回敌人生成时间间隔、Y下限、Y上限、飞行速度、分值下限、分值上限
 	return "1","-100","0","50","1","99";
 end
 
 function guoguan(f)
 	if level == 1 then
 		if f > 100 then
+			level = 2;
 			return "true";
 		end
 	elseif level == 2 then
 		if f > 200 then
+			level = 3;
 			return "true";
 		end
 	elseif level == 3 then
 		if f > 300 then
+			level = 4;
 			return "true";
 		end
 	end

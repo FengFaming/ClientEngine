@@ -60,6 +60,9 @@ public class GamePool : IObjectPool
 		go.gameObject.transform.position = Vector3.zero;
 		go.gameObject.transform.rotation = Quaternion.Euler(Vector3.zero);
 		go.gameObject.transform.localScale = Vector3.one;
+		BoxCollider2D boxCollider2D = go.GetComponent<BoxCollider2D>();
+		boxCollider2D.enabled = false;
+
 		go.SetActive(false);
 	}
 
