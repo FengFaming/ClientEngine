@@ -1,7 +1,0 @@
-C:\Users\admin\Documents\GitHub\ShootGame\ComFile\ComFile\bin\Debug\ComFile.exe.config
-C:\Users\admin\Documents\GitHub\ShootGame\ComFile\ComFile\bin\Debug\ComFile.exe
-C:\Users\admin\Documents\GitHub\ShootGame\ComFile\ComFile\bin\Debug\ComFile.pdb
-C:\Users\admin\Documents\GitHub\ShootGame\ComFile\ComFile\obj\Debug\ComFile.csprojAssemblyReference.cache
-C:\Users\admin\Documents\GitHub\ShootGame\ComFile\ComFile\obj\Debug\ComFile.csproj.CoreCompileInputs.cache
-C:\Users\admin\Documents\GitHub\ShootGame\ComFile\ComFile\obj\Debug\ComFile.exe
-C:\Users\admin\Documents\GitHub\ShootGame\ComFile\ComFile\obj\Debug\ComFile.pdb
