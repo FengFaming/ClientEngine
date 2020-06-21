@@ -44,22 +44,17 @@ namespace Game.Engine
 		/// <summary>
 		/// mesh对象
 		/// </summary>
-		private MeshFilter m_MeshFilter;
-
-		/// <summary>
-		/// 抢定旋转角度
-		/// </summary>
-		private Quaternion m_Rotation;
+		protected MeshFilter m_MeshFilter;
 
 		/// <summary>
 		/// mesh坐标
 		/// </summary>
-		private int m_MeshIndex;
+		protected int m_MeshIndex;
 
 		/// <summary>
 		/// 初始位置
 		/// </summary>
-		private Vector3 m_StartPosition;
+		protected Vector3 m_StartPosition;
 
 		/// <summary>
 		/// 是否启动雨滴运动
@@ -67,26 +62,31 @@ namespace Game.Engine
 #if UNITY_EDITOR
 		[SerializeField]
 #endif
-		private bool m_IsUpdate;
+		protected bool m_IsUpdate;
 
-		private void Awake()
+		protected virtual void Awake()
 		{
-			m_Rotation = Quaternion.identity;
-			this.gameObject.transform.rotation = m_Rotation;
 			m_MeshIndex = 0;
 			m_MeshFilter = this.gameObject.GetComponent<MeshFilter>();
 			m_StartPosition = this.gameObject.transform.localPosition;
 			ChangeMesh();
 		}
 
-		private void ChangeMesh()
+		/// <summary>
+		/// 修改mesh数据
+		/// </summary>
+		protected virtual void ChangeMesh()
 		{
 			m_MeshFilter.sharedMesh = GetMesh();
 			m_MeshFilter.transform.localScale = Vector3.one * m_RainSparsity;
 			m_MeshFilter.transform.localPosition = m_StartPosition;
 		}
 
-		private Mesh GetMesh()
+		/// <summary>
+		/// 得到对应mesh
+		/// </summary>
+		/// <returns></returns>
+		protected virtual Mesh GetMesh()
 		{
 			if (m_MeshIndex >= m_AllMeshs.Length)
 			{
@@ -110,7 +110,30 @@ namespace Game.Engine
 			}
 		}
 
-		private void Update()
+		/// <summary>
+		/// 持续修改雨势大小
+		///		size越大，雨势越小
+		/// </summary>
+		/// <param name="size"></param>
+		public void ChangeRainMaxMin(float size)
+		{
+			m_RainSparsity = size;
+			m_MeshFilter.transform.localScale = Vector3.one * m_RainSparsity;
+		}
+
+		/// <summary>
+		/// 持续修改雨滴速度
+		/// </summary>
+		/// <param name="speed"></param>
+		public void ChangeRainSpeed(float speed)
+		{
+			m_RainSpeed = speed;
+		}
+
+		/// <summary>
+		/// mesh运动
+		/// </summary>
+		protected virtual void Update()
 		{
 			if (m_IsUpdate)
 			{
@@ -119,12 +142,6 @@ namespace Game.Engine
 				{
 					ChangeMesh();
 				}
-
-				/*
-				 * 为什么要修订这个旋转角度
-				 *	怕的是父节点进行了旋转
-				 * */
-				this.gameObject.transform.rotation = m_Rotation;
 			}
 		}
 	}

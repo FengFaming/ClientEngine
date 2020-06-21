@@ -20,6 +20,20 @@ namespace Game.Engine
 	public class RainWeatherControl : ObjectBase
 	{
 		/// <summary>
+		/// 雨滴
+		/// </summary>
+		private RainRuningBase m_RainControl;
+
+		private void Awake()
+		{
+			m_RainControl = this.gameObject.GetComponent<RainRuningBase>();
+			if (m_RainControl == null)
+			{
+				m_RainControl = this.gameObject.GetComponentInChildren<RainRuningBase>();
+			}
+		}
+
+		/// <summary>
 		/// 开始下雨内容
 		/// </summary>
 		public void StartRain()
