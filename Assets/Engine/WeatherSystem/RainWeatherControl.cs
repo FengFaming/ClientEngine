@@ -31,6 +31,8 @@ namespace Game.Engine
 			{
 				m_RainControl = this.gameObject.GetComponentInChildren<RainRuningBase>();
 			}
+
+			m_RainControl.gameObject.SetActive(false);
 		}
 
 		/// <summary>
@@ -38,6 +40,7 @@ namespace Game.Engine
 		/// </summary>
 		public void StartRain()
 		{
+			m_RainControl.StartRain(true);
 			StartCoroutine("Raining");
 		}
 

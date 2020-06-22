@@ -102,6 +102,7 @@ namespace Game.Engine
 		public void StartRain(bool runing = true)
 		{
 			m_IsUpdate = runing;
+			this.gameObject.SetActive(m_IsUpdate);
 			if (!m_IsUpdate)
 			{
 				m_MeshFilter.sharedMesh = null;
