@@ -54,8 +54,13 @@ public class CreateRainMesh : EditorWindow
 
 	private void OnGUI()
 	{
-		m_SaveName = EditorGUILayout.TextField("Save Name:", m_SaveName);
+		m_SaveName = EditorGUILayout.TextField("保存名字:", m_SaveName);
 		EditorGUILayout.LabelField("Save Path:", "Assets/Art/Mesh/" + m_SaveName + ".asset");
+		m_NumberOfParticles = int.Parse(EditorGUILayout.TextField("面片(雨密度):", m_NumberOfParticles.ToString()));
+		m_AreaSize = float.Parse(EditorGUILayout.TextField("宽度(雨势大小):", m_AreaSize.ToString()));
+		m_AreaHeight = float.Parse(EditorGUILayout.TextField("深度(雨势大小):", m_AreaHeight.ToString()));
+		m_ParticleSize = float.Parse(EditorGUILayout.TextField("宽度偏差(雨滴大小):", m_ParticleSize.ToString()));
+		m_FlakeRandom = float.Parse(EditorGUILayout.TextField("高度偏差:(雨滴大小)", m_FlakeRandom.ToString()));
 		if (GUILayout.Button("Create"))
 		{
 			Rain();
