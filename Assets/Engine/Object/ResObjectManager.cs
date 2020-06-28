@@ -69,7 +69,12 @@ namespace Game.Engine
 		/// <summary>
 		/// lua配置文件
 		/// </summary>
-		Lua
+		Lua,
+
+		/// <summary>
+		/// 场景
+		/// </summary>
+		Scene,
 	}
 
 	public partial class ResObjectManager : SingletonMonoClass<ResObjectManager>
@@ -258,6 +263,9 @@ namespace Game.Engine
 				case ResObjectType.Configuration:
 					str = str + "." + info.m_LoadName + ".xml";
 					break;
+				case ResObjectType.Scene:
+					str = info.m_LoadName + ".unity3d";
+					break;
 				default:
 					str = str + "." + info.m_LoadName + ".prefab";
 					break;
@@ -417,6 +425,9 @@ namespace Game.Engine
 						case ResObjectType.Lua:
 							TextAsset ta = m_AllABInfoDic[info.m_LoadName].m_TargetAB.LoadAsset<TextAsset>(info.m_LoadName);
 							oj = ta;
+							break;
+						case ResObjectType.Scene:
+							oj = m_AllABInfoDic[info.m_LoadName].m_TargetAB;
 							break;
 					}
 
