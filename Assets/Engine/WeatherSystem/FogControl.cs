@@ -63,9 +63,6 @@ namespace Game.Engine
 			m_MoveSpeed = 0f;
 
 			m_IsUseNewColor = false;
-
-			AddCamera(Camera.main);
-			StartFog(FogMode.Linear, Camera.main.nearClipPlane, Camera.main.farClipPlane, 0, 3);
 		}
 
 		/// <summary>
@@ -115,14 +112,24 @@ namespace Game.Engine
 				m_MoveSpeed = m_FogDensity / dtTime;
 			}
 
+			m_OldColor = RenderSettings.fogColor;
 			if (useColor)
 			{
 				m_IsUseNewColor = true;
-				m_OldColor = RenderSettings.fogColor;
 				RenderSettings.fogColor = c;
 			}
 
 			StartCoroutine("LineChange");
+		}
+
+		/// <summary>
+		/// 停止雾效果
+		/// </summary>
+		public void StopFog()
+		{
+			StopCoroutine("LineChange");
+			RenderSettings.fogColor = m_OldColor;
+			RenderSettings.fog = false;
 		}
 
 		private IEnumerator LineChange()
