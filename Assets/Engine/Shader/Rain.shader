@@ -1,7 +1,7 @@
 // Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
 
-Shader "Weather/Rain" {
+Shader "Custom/Rain" {
     Properties{
         _MainTex("Base (RGB)", 2D) = "white" {}
     }
