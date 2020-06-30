@@ -77,7 +77,7 @@ public class UIPnlGameMain : IUIModelControl
 				////Debug.Log(Time.realtimeSinceStartup);
 				////List<object[]> r = EngineTools.Instance.GetPermutation<object>(d, 0, cout);
 				////Debug.Log(Time.realtimeSinceStartup + " " + r.Count);
-				GameSceneManager.Instance.ChangeScene(new ISceneWithAdditive("testload"));
+				GameSceneManager.Instance.ChangeScene(new AdditiveSceneTest("testload"));
 				break;
 		}
 	}
