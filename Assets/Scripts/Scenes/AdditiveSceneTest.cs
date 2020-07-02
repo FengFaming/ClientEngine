@@ -19,6 +19,15 @@ public class AdditiveSceneTest : ISceneWithAdditive
 
 	}
 
+	protected override void LoadEnd(string name)
+	{
+		base.LoadEnd(name);
+		if (m_Cout >= m_AllLoadScene)
+		{
+			UIManager.Instance.OpenUI("UIPnlBackGameMain", UILayer.Pnl);
+		}
+	}
+
 	public override void LoadScene(Action<float> action)
 	{
 		//base.LoadScene(action);
