@@ -25,12 +25,17 @@ public class GameStart : ObjectBase
 #endif
 
 #if !UNITY_EDITOR && NEWWINDOW
+		Debug.ShowInConsole = false;
 		ExeWindowManager.Instance.SetWindows(Vector2Int.zero, new Vector2Int(1024, 768),true);
 #endif
 
 #if !UNITY_EDITOR || TEST_AB
 		CopyFile(Application.streamingAssetsPath, Application.persistentDataPath);
 		ResObjectManager.Instance.IsUseAB = true;
+#endif
+
+#if !DEBUG_LOG
+		Debug.ShowDebug = false;
 #endif
 
 		ResObjectManager.Instance.InitResManager("AB");

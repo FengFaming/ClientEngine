@@ -7,6 +7,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 namespace Game.Engine
@@ -66,6 +67,39 @@ namespace Game.Engine
 
 	public class ObjectBase : MonoBehaviour
 	{
+		/// <summary>
+		/// 截断协程，
+		///		后期检测使用
+		/// </summary>
+		/// <param name="methodName"></param>
+		/// <returns></returns>
+		public new Coroutine StartCoroutine(string methodName)
+		{
+			Debug.Log(string.Format("the:{0} has coroutine:{1}", this.GetType().ToString(), methodName));
+
+			return base.StartCoroutine(methodName);
+		}
+
+		/// <summary>
+		/// 截断协程，
+		///		后期检测使用
+		/// </summary>
+		/// <param name="routine"></param>
+		/// <returns></returns>
+		public new Coroutine StartCoroutine(IEnumerator routine)
+		{
+			Debug.Log(string.Format("the:{0} has coroutine:{1}", this.GetType().ToString(), routine));
+
+			return base.StartCoroutine(routine);
+		}
+
+		public new Coroutine StartCoroutine(string methodName, [DefaultValue("null")] object value)
+		{
+			Debug.Log(string.Format("the:{0} has coroutine:{1} and arm:{2}", this.GetType().ToString(), methodName, value));
+
+			return base.StartCoroutine(methodName, value);
+		}
+
 		/// <summary>
 		/// 开启鼠标事件监听
 		/// </summary>
