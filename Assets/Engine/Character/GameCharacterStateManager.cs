@@ -26,6 +26,9 @@ namespace Game.Engine
 		private ICharacterStateInterface m_CurrentState;
 		public ICharacterStateInterface CurrentState { get { return m_CurrentState; } }
 
+		/// <summary>
+		/// 管理器归属
+		/// </summary>
 		protected GameCharacterBase m_Owner;
 		public GameCharacterBase Owner { get { return m_Owner; } }
 

@@ -112,12 +112,13 @@ namespace Game.Engine
 		/// <param name="t"></param>
 		private void CloseOne(MyThread t)
 		{
+			//先移除在返回
+			m_AllThreads.Remove(t);
 			if (t != null)
 			{
 				t.m_GoToMainFunction();
 			}
 
-			m_AllThreads.Remove(t);
 			GC.Collect();
 			GC.WaitForPendingFinalizers();
 		}

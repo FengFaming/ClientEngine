@@ -67,9 +67,14 @@ namespace Game.Engine
 						MessageManger.Instance.SendMessage(head, temp, value);
 					}
 				}
-				else
+			}
+			else
+			{
+				m_AttrDic.Add(id, value);
+				if (m_NeedListenAttris.Contains(id))
 				{
-					m_AttrDic.Add(id, value);
+					string head = string.Format(EngineMessageHead.CHANGE_CHARACTER_ATTRIBUTE_VALUE, m_GCUID, id);
+					MessageManger.Instance.SendMessage(head, temp, value);
 				}
 			}
 		}

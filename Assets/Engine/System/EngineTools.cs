@@ -344,6 +344,13 @@ namespace Game.Engine
 			return true;
 		}
 
+		/// <summary>
+		/// 计算数组是否一致
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="t1"></param>
+		/// <param name="t2"></param>
+		/// <returns></returns>
 		public bool CalDB<T>(T[] t1, T[] t2)
 		{
 			if (t1.Length != t2.Length)
