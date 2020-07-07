@@ -74,7 +74,7 @@ namespace Game.Engine
 				if (m_NeedListenAttris.Contains(id))
 				{
 					string head = string.Format(EngineMessageHead.CHANGE_CHARACTER_ATTRIBUTE_VALUE, m_GCUID, id);
-					MessageManger.Instance.SendMessage(head, temp, value);
+					MessageManger.Instance.SendMessage(head, value, value);
 				}
 			}
 		}
