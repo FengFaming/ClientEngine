@@ -42,13 +42,36 @@ namespace Game.Engine
 			m_StartAction = null;
 		}
 
+		/// <summary>
+		/// 读取所有场景数据完成
+		/// </summary>
+		protected virtual void LoadSceneEnd()
+		{
+			//new WaitForEndOfFrame();
+			//new WaitForSeconds(2f);
+			//UnityEngine.SceneManagement.Scene target =
+			//	UnityEngine.SceneManagement.SceneManager.GetSceneByName(m_SceneName);
+			//while (!target.isLoaded)
+			//{
+			//	new WaitForEndOfFrame();
+			//}
+
+			//UnityEngine.SceneManagement.SceneManager.SetActiveScene(target);
+		}
+
+		/// <summary>
+		/// 读取场景数据
+		/// </summary>
+		/// <param name="name"></param>
 		protected virtual void LoadEnd(string name)
 		{
-			Application.LoadLevelAdditive(name);
+			//Application.LoadLevelAdditive(name);
+			UnityEngine.SceneManagement.SceneManager.LoadScene(name, UnityEngine.SceneManagement.LoadSceneMode.Additive);
 			m_Cout++;
 			if (m_Cout >= m_AllLoadScene)
 			{
 				m_StartAction(100);
+				LoadSceneEnd();
 			}
 			else
 			{

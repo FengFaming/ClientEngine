@@ -18,6 +18,7 @@ namespace Game.Engine
 		/// 场景名字
 		/// </summary>
 		protected string m_SceneName;
+		public string SceneName { get { return m_SceneName; } }
 
 		public IScene(string name)
 		{

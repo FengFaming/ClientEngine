@@ -85,6 +85,17 @@ public class ReloadingScene : IScene
 			ch.SetCameraTra(new Vector3(0, 2, -10), Vector3.zero, Vector3.one);
 
 			UIManager.Instance.OpenUI("UIPnlReloadingControl", UILayer.Pnl, ch, "2312003");
+
+			ResObjectCallBackBase cb = new ResObjectCallBackBase();
+			cb.m_LoadType = ResObjectType.GameObject;
+			cb.m_FinshFunction = LoadPPEnd;
+			ResObjectManager.Instance.LoadObject("tt1", ResObjectType.GameObject, cb);
+		}
+
+		private void LoadPPEnd(object t)
+		{
+			GameObject go = t as GameObject;
+			go.SetActive(true);
 		}
 
 		private IEnumerator StartLoadScene()
