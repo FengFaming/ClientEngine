@@ -38,7 +38,7 @@ namespace XLua
         }
     }
 
-#pragma warning disable 414
+//#pragma warning disable 414
     public class MonoPInvokeCallbackAttribute : System.Attribute
     {
         private Type type;

@@ -1,5 +1,5 @@
 /*需要屏蔽的警告*/
-#pragma warning disable
+//#pragma warning disable
 /*
  * Creator:ffm
  * Desc:叠加场景测试

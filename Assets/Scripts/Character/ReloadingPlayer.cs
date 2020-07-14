@@ -1,5 +1,5 @@
 /*需要屏蔽的警告*/
-#pragma warning disable
+//#pragma warning disable
 /*
  * Creator:ffm
  * Desc:换装主角
@@ -49,8 +49,6 @@ public class ReloadingPlayer : GameCharacterBase
 	/// </summary>
 	private string m_ShowMaterial;
 	public string ShowMaterial { set { m_ShowMaterial = value; } }
-
-	private bool m_IsLoad;
 
 	private List<CharacterXmlControl.LoadInfo> m_LoadInfos;
 	public List<CharacterXmlControl.LoadInfo> LoadInfos { set { m_LoadInfos = value; } }
@@ -146,7 +144,6 @@ public class ReloadingPlayer : GameCharacterBase
 		base.InitCharacter(gameCharacterCameraBase, gameCharacterAttributeBase, animatorBase, gameCharacterStateManager, characterMountControl);
 
 		m_CharacterStateManager.TryGotoState(0);
-		m_IsLoad = false;
 	}
 
 	/// <summary>

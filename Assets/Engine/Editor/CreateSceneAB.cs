@@ -1,5 +1,5 @@
 /*需要屏蔽的警告*/
-#pragma warning disable
+//#pragma warning disable
 /*
  * Creator:ffm
  * Desc:创建场景AB
@@ -18,8 +18,8 @@ public class CreateSceneAB : EditorWindow
 	/// <summary>
 	/// 打包平台
 	/// </summary>
-	private BuildTarget m_BuildTarget;
-	private bool m_IsAllBuildTarget;
+	private BuildTarget m_BuildTarget = BuildTarget.StandaloneWindows64;
+	private bool m_IsAllBuildTarget = false;
 
 	/// <summary>
 	/// 打包场景文件路径

@@ -1,5 +1,5 @@
 /*需要屏蔽的警告*/
-#pragma warning disable
+//#pragma warning disable
 /*
  * Creator:ffm
  * Desc:换装场景
@@ -89,7 +89,7 @@ public class ReloadingScene : IScene
 			ResObjectCallBackBase cb = new ResObjectCallBackBase();
 			cb.m_LoadType = ResObjectType.GameObject;
 			cb.m_FinshFunction = LoadPPEnd;
-			ResObjectManager.Instance.LoadObject("tt1", ResObjectType.GameObject, cb);
+			//ResObjectManager.Instance.LoadObject("tt", ResObjectType.GameObject, cb);
 		}
 
 		private void LoadPPEnd(object t)

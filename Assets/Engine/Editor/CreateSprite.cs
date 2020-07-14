@@ -59,7 +59,7 @@ public class CreateSprite : EditorWindow
 			StreamWriter sw = new StreamWriter(fs);
 
 			sw.WriteLine("/*需要屏蔽的警告*/");
-			sw.WriteLine("#pragma warning disable");
+			sw.WriteLine("//#pragma warning disable");
 			sw.WriteLine("/*");
 			sw.WriteLine(string.Format(" * Creator:{0}", creator));
 			sw.WriteLine(string.Format(" * Desc:{0}", describe));

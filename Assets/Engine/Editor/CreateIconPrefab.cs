@@ -1,5 +1,5 @@
 /*需要屏蔽的警告*/
-#pragma warning disable
+#pragma warning disable 0618
 /*
  * Creator:ffm
  * Desc:创建图标预制

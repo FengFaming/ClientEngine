@@ -1,5 +1,5 @@
 /*需要屏蔽的警告*/
-#pragma warning disable
+//#pragma warning disable
 /*
  * Creator:ffm
  * Desc:雾控制
@@ -47,11 +47,6 @@ namespace Game.Engine
 		/// </summary>
 		private Color m_OldColor;
 
-		/// <summary>
-		/// 是否使用新颜色
-		/// </summary>
-		private bool m_IsUseNewColor;
-
 		private void Awake()
 		{
 			m_ControlCameras = new List<Camera>();
@@ -61,8 +56,6 @@ namespace Game.Engine
 			m_EndFogDistance = 0f;
 			m_EndFogDistance = 1f;
 			m_MoveSpeed = 0f;
-
-			m_IsUseNewColor = false;
 		}
 
 		/// <summary>
@@ -115,7 +108,6 @@ namespace Game.Engine
 			m_OldColor = RenderSettings.fogColor;
 			if (useColor)
 			{
-				m_IsUseNewColor = true;
 				RenderSettings.fogColor = c;
 			}
 

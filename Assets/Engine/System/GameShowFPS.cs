@@ -1,5 +1,5 @@
 /*需要屏蔽的警告*/
-#pragma warning disable
+#pragma warning disable 0618
 /*
  * Creator:ffm
  * Desc:fps显示
@@ -29,7 +29,7 @@ namespace Game.Engine
 
 		[Tooltip("是否显示")]
 		[SerializeField]
-		private bool m_IsShowFPS;
+		private bool m_IsShowFPS = false;
 
 		[Tooltip("屏幕位置")]
 		private float m_UISize = 1f;

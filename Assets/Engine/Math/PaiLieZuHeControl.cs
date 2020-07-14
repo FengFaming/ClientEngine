@@ -1,5 +1,5 @@
 /*需要屏蔽的警告*/
-#pragma warning disable
+#pragma warning disable 0414
 /*
  * Creator:ffm
  * Desc:排列组合控制
