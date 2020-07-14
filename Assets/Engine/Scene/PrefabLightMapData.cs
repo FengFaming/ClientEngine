@@ -1,5 +1,5 @@
 /*需要屏蔽的警告*/
-#pragma warning disable
+#pragma warning disable 0618
 /*
  * Creator:ffm
  * Desc:带光照贴图
@@ -72,6 +72,7 @@ namespace Game.Engine
 				Debug.LogError("ExtractLightmapData requires that you have baked you lightmaps and Auto mode is disabled.");
 				return;
 			}
+
 			//UnityEditor.Lightmapping.Bake();
 
 			PrefabLightMapData[] prefabs = FindObjectsOfType<PrefabLightMapData>();

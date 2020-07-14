@@ -61,7 +61,7 @@ public class UIPnlGameMain : IUIModelControl
 				UIManager.Instance.OpenUI("UIPnlInputCout", UILayer.Blk);
 				break;
 			case 4:
-				GameSceneManager.Instance.ChangeScene(new ReloadingScene("reloadingscene"));
+				GameSceneManager.Instance.ChangeScene(new ReloadingScene("animatortest"));
 				break;
 			case 5:
 				GameSceneManager.Instance.ChangeScene(new PuKePaiScene("pukepaiscene"));

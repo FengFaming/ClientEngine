@@ -58,6 +58,21 @@ namespace Game.Engine
 			return true;
 		}
 
+		/// <summary>
+		/// 读取二进制文件
+		/// </summary>
+		/// <param name="reader"></param>
+		/// <returns></returns>
+		public virtual bool LoadBinary(BinaryReader reader)
+		{
+			if (reader == null)
+			{
+				return false;
+			}
+
+			return true;
+		}
+
 		public override string ToString()
 		{
 			string str = base.ToString();

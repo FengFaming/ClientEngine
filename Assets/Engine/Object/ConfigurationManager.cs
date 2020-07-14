@@ -42,6 +42,44 @@ namespace Game.Engine
 		/// <summary>
 		/// 读取配置文件
 		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="xml"></param>
+		/// <param name="isForceLoad"></param>
+		/// <param name="isSave"></param>
+		public void LoadBinaryConfig<T>(ref T xml, bool isForceLoad = false, bool isSave = false) where T : XmlBase
+		{
+			if (isForceLoad)
+			{
+				if (m_AllXml.ContainsKey(xml.XmlName))
+				{
+					m_AllXml.Remove(xml.XmlName);
+				}
+			}
+
+			if (m_AllXml.ContainsKey(xml.XmlName))
+			{
+				xml = m_AllXml[xml.XmlName] as T;
+				return;
+			}
+			else
+			{
+				string path = xml.GetXmlPath();
+				FileStream fs = new FileStream(path, FileMode.Open);
+				BinaryReader reader = new BinaryReader(fs);
+				xml.LoadBinary(reader);
+				reader.Close();
+				fs.Close();
+			}
+
+			if (isSave)
+			{
+				m_AllXml.Add(xml.XmlName, xml);
+			}
+		}
+
+		/// <summary>
+		/// 读取配置文件
+		/// </summary>
 		/// <param name="xml"></param>
 		/// <param name="isForceLoad"></param>
 		/// <param name="isSave"></param>
