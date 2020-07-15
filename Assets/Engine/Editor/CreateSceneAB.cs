@@ -39,6 +39,8 @@ public class CreateSceneAB : EditorWindow
 
 	private void OnGUI()
 	{
+		EditorGUILayout.LabelField("因为解决了动态加载光照贴图的问题，所以弃用。");
+
 		EditorGUI.BeginChangeCheck();
 		EditorGUILayout.LabelField("是否全平台打包");
 		EditorGUI.EndChangeCheck();

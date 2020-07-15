@@ -79,7 +79,7 @@ public class UIPnlGameMain : IUIModelControl
 				GameSceneManager.Instance.ChangeScene(new AdditiveSceneTest("testload"));
 				break;
 			case 7:
-				GameSceneManager.Instance.ChangeScene(new LookAdditiveScene("zsj"));
+				GameSceneManager.Instance.ChangeScene(new TestLightmapScene("animatortest"));
 				break;
 		}
 	}

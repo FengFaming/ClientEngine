@@ -13,6 +13,9 @@ using UnityEngine;
 
 namespace Game.Engine
 {
+	/// <summary>
+	/// 因为解决了动态加载光照贴图的问题，所以这个内容可以弃用
+	/// </summary>
 	public class ISceneWithAdditive : IScene
 	{
 		public class LoadEndScene : IResObjectCallBack

@@ -31,5 +31,10 @@ namespace Game.Engine
 		/// </summary>
 		public static readonly string LISTEN_MOUSE_EVENT_FOR_INPUT_MANAGER = "LISTEN_MOUSE_EVENT_FOR_INPUT_MANAGER";
 		public static readonly string LISTEN_KEY_EVENT_FOR_INPUT_MANAGER = "LISTEN_KEY_EVENT_FOR_INPUT_MANAGER";
+
+		/// <summary>
+		/// 场景相关内容
+		/// </summary>
+		public static readonly string SCENE_LIGHTMAP_COMBINE_NAME = "{0}_Lightmap";
 	}
 }

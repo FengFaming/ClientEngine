@@ -15,65 +15,44 @@ using Game.Engine;
 namespace Game.Engine
 {
 	/// <summary>
-	/// 渲染对象身上的光照贴图
+	/// 一套光照贴图的数据
 	/// </summary>
-	[System.Serializable]
-	public struct RendererInfo
+	public class LightmapInfo
 	{
 		/// <summary>
-		/// 渲染主体
+		/// 唯一名字
 		/// </summary>
-		public Renderer m_Renderer;
+		public string m_OnlyName;
 
 		/// <summary>
-		/// 光照贴图标号
+		/// 有多少张贴图
 		/// </summary>
-		public int m_LightmapIndex;
+		public int m_TextureCout;
 
 		/// <summary>
-		/// 四维矩阵
-		///		用来描述贴图位置矩形的
+		/// 各贴图的详细内容
 		/// </summary>
-		public Vector4 m_LightmapOffsetScale;
+		public List<KeyValuePair<string, string>> m_TextureInfo;
 	}
 
 	/// <summary>
-	/// 光照贴图信息
+	/// 场景光照贴图数据
 	/// </summary>
-	public struct DyncRenderInfo
+	public class SceneLightInfo
 	{
 		/// <summary>
-		/// 光照贴图标号
+		/// 基准数据
 		/// </summary>
-		public int m_LightIndex;
+		public AssetBundle m_ABData;
 
 		/// <summary>
-		/// 大小矩形
+		/// 光照贴图有多少套
 		/// </summary>
-		public Vector4 m_LightOffsetScale;
+		public int m_LightmapCout;
 
 		/// <summary>
-		/// 对象hash值
+		/// 所有的光照贴图内容
 		/// </summary>
-		public int m_Hash;
-
-		/// <summary>
-		/// 对象位置
-		/// </summary>
-		public Vector3 m_Pos;
-	}
-
-	/// <summary>
-	/// 场景Fog信息
-	/// </summary>
-	[System.Serializable]
-	public struct FogInfo
-	{
-		public bool m_Fog;
-		public FogMode m_FogModel;
-		public Color m_FogColor;
-		public float m_FogStartDistance;
-		public float m_FogEndDistance;
-		public float m_FogDensity;
+		public Dictionary<string, LightmapInfo> m_AllInfoDic;
 	}
 }

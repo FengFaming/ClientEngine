@@ -14,7 +14,7 @@ using UnityEditor;
 using UnityEngine.SceneManagement;
 using System.IO;
 
-public class SaveSceneLightmapData : MonoBehaviour
+public class SaveSceneLightmapData : EditorWindow
 {
 	[MenuItem("Tools/SaveSceneLightmap")]
 	private static void SaveLightmap()

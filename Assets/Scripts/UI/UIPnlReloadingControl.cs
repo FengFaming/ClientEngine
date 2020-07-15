@@ -120,22 +120,7 @@ public class UIPnlReloadingControl : UIModelLuaControl
 
 	private void OnClickAnimation(ButtonData name)
 	{
-		Debug.Log(name.Data);
-
-		ResObjectCallBackBase cb = new ResObjectCallBackBase();
-		cb.m_LoadType = ResObjectType.GameObject;
-		cb.m_FinshFunction = LoadPPEnd;
-		ResObjectManager.Instance.LoadObject("tt1", ResObjectType.GameObject, cb);
-
 		m_Control.StateManager.TryGotoState((int)name.Data);
-	}
-
-	private void LoadPPEnd(object t)
-	{
-		GameObject go = t as GameObject;
-		//go.AddComponent<TestLightmapData>();
-		go.SetActive(true);
-		//SceneLightmapManager.Instance.SetSceneLightmap();
 	}
 
 	private void OnClickChange(ButtonData info)

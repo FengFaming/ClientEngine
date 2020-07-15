@@ -41,9 +41,6 @@ public class ReloadingScene : IScene
 
 		private void CreateCharacter()
 		{
-			Light light = GameObject.FindObjectOfType<Light>();
-			light.gameObject.SetActive(false);
-
 			GameObject go = new GameObject();
 			go.name = "Player";
 			go.transform.position = Vector3.zero;
