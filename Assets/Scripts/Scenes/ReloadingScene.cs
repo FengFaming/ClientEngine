@@ -85,8 +85,6 @@ public class ReloadingScene : IScene
 			ch.SetCameraTra(new Vector3(0, 2, -10), Vector3.zero, Vector3.one);
 
 			UIManager.Instance.OpenUI("UIPnlReloadingControl", UILayer.Pnl, ch, "2312003");
-
-			SceneLightmapManager.Instance.SetSceneLightmap();
 		}
 
 		private IEnumerator StartLoadScene()

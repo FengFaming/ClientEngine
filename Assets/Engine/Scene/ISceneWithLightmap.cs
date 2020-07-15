@@ -81,6 +81,11 @@ namespace Game.Engine
 				return;
 			}
 
+			if (lightmapInfo.m_OnlyName == m_CurrentLight.m_OnlyName)
+			{
+				return;
+			}
+
 			LightmapData[] datas = new LightmapData[lightmapInfo.m_TextureCout];
 			for (int index = 0; index < lightmapInfo.m_TextureCout; index++)
 			{
@@ -99,6 +104,7 @@ namespace Game.Engine
 				datas[index] = data;
 			}
 
+			m_CurrentLight = lightmapInfo;
 			LightmapSettings.lightmapsMode = LightmapsMode.NonDirectional;
 			LightmapSettings.lightmaps = datas;
 		}
@@ -199,6 +205,7 @@ namespace Game.Engine
 
 			reader.Close();
 			ms.Close();
+			m_CurrentLight = lightmapInfo;
 			LightmapSettings.lightmapsMode = LightmapsMode.NonDirectional;
 			LightmapSettings.lightmaps = datas;
 
