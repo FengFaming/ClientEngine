@@ -16,7 +16,8 @@ public class TestLightmapData : ObjectBase
 {
 	private void Start()
 	{
-		SceneObjectXmlBase sceneData = new SceneObjectXmlBase("animatortest");
+		string scene = GameSceneManager.Instance.Current.SceneName;
+		SceneObjectXmlBase sceneData = new SceneObjectXmlBase(scene);
 		ConfigurationManager.Instance.LoadBinaryConfig<SceneObjectXmlBase>(ref sceneData, false, true);
 		string name = this.gameObject.name;
 		if (name.LastIndexOf("Clone") > 0)

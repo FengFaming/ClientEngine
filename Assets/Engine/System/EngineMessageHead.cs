@@ -36,5 +36,10 @@ namespace Game.Engine
 		/// 场景相关内容
 		/// </summary>
 		public static readonly string SCENE_LIGHTMAP_COMBINE_NAME = "{0}_Lightmap";
+
+		/// <summary>
+		/// 协议头重组
+		/// </summary>
+		public static readonly string NET_CLIENT_MESSAGE_HEAD = "NET_CLIENT_MESSAGE_HEAD:{0}";
 	}
 }

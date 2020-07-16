@@ -19,6 +19,11 @@ namespace Game.Engine
 		internal class MyThread
 		{
 			/// <summary>
+			/// 线程唯一ID
+			/// </summary>
+			public int m_OnlyID;
+
+			/// <summary>
 			/// 线程主体
 			/// </summary>
 			public Thread m_Thread;
@@ -128,14 +133,43 @@ namespace Game.Engine
 		/// </summary>
 		/// <param name="main">线程主要执行方法</param>
 		/// <param name="tomain">返回主进程方法</param>
-		public void CreateThread(Action main, Action tomain)
+		public int CreateThread(Action main, Action tomain)
 		{
 			MyThread t = new MyThread();
+			if (m_AllThreads.Count > 0)
+			{
+				m_AllThreads.Sort((MyThread t1, MyThread t2) => { return t1.m_OnlyID - t2.m_OnlyID; });
+				t.m_OnlyID = m_AllThreads[m_AllThreads.Count - 1].m_OnlyID + 1;
+			}
+			else
+			{
+				t.m_OnlyID = 1;
+			}
+
 			t.m_ThradMainFunction = main;
 			t.m_ToMainThread = CloseOne;
 			t.m_GoToMainFunction = tomain;
 			t.StartThread();
 			m_AllThreads.Add(t);
+			return t.m_OnlyID;
+		}
+
+		public void CloseOne(int id)
+		{
+			MyThread t = null;
+			for (int index = 0; index < m_AllThreads.Count; index++)
+			{
+				if (m_AllThreads[index].m_OnlyID == id)
+				{
+					t = m_AllThreads[index];
+					break;
+				}
+			}
+
+			if (t != null)
+			{
+				CloseOne(t);
+			}
 		}
 
 		/// <summary>
