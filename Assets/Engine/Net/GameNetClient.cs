@@ -227,7 +227,7 @@ namespace Game.Engine
 			if (m_ClientInfo.m_Socket != null && m_IsSuccess)
 			{
 				pack.SetSendData();
-				m_ClientInfo.m_Socket.Send(pack.m_SendData);
+				m_ClientInfo.m_Socket.Send(pack.SendData);
 			}
 		}
 

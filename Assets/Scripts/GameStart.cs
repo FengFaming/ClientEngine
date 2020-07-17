@@ -124,6 +124,9 @@ public class GameStart : ObjectBase
 		yield return new WaitForSeconds(0.5f);
 
 		UIManager.Instance.OpenUI("UIPnlGameStart", UILayer.Pnl);
+		ClientSendMessageBase pack = new ClientSendMessageBase();
+		pack.SetSendString("test");
+		GameNetManager.Instance.SendMessage<ClientSendMessageBase>(pack, 1);
 	}
 
 	private void OnDestroy()

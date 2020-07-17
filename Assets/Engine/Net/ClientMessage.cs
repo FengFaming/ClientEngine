@@ -98,15 +98,34 @@ namespace Game.Engine
 		/// <summary>
 		/// 发送的数据
 		/// </summary>
-		public byte[] m_SendData;
+		private List<byte> m_SendData;
+		public byte[] SendData
+		{
+			get
+			{
+				if (m_SendData != null && m_SendData.Count > 0)
+				{
+					return m_SendData.ToArray();
+				}
+
+				return null;
+			}
+		}
+
+		public ClientSendMessageBase()
+		{
+			m_SendData = new List<byte>();
+			m_SendData.Clear();
+		}
 
 		public virtual void SetSendData()
 		{
-			if (m_SendData == null)
-			{
-				m_SendData = new byte[1];
-				m_SendData[0] = 1;
-			}
+
+		}
+
+		public virtual void SetSendString(string message)
+		{
+			m_SendData.AddRange(System.Text.Encoding.UTF8.GetBytes(message));
 		}
 	}
 }
