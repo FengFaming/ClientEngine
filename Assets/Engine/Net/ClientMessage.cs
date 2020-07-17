@@ -102,7 +102,11 @@ namespace Game.Engine
 
 		public virtual void SetSendData()
 		{
-
+			if (m_SendData == null)
+			{
+				m_SendData = new byte[1];
+				m_SendData[0] = 1;
+			}
 		}
 	}
 }

@@ -43,6 +43,8 @@ public class GameStart : ObjectBase
 						this.gameObject, OpenChangeScene);
 
 		StartCoroutine("StartGame");
+
+		GameNetManager.Instance.CreateClient(1, "127.0.0.1", 6000, 1024);
 	}
 
 	/// <summary>
@@ -122,5 +124,11 @@ public class GameStart : ObjectBase
 		yield return new WaitForSeconds(0.5f);
 
 		UIManager.Instance.OpenUI("UIPnlGameStart", UILayer.Pnl);
+	}
+
+	private void OnDestroy()
+	{
+		GameNetManager.Instance.CloseClient(1);
+		GameThreadManager.Instance.CloseAll();
 	}
 }

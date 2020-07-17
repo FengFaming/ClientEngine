@@ -14,7 +14,7 @@ using UnityEngine;
 
 namespace Game.Engine
 {
-	public class GameThreadManager : SingletonMonoClass<GameThreadManager>
+	public class GameThreadManager : Singleton<GameThreadManager>
 	{
 		internal class MyThread
 		{
@@ -104,9 +104,8 @@ namespace Game.Engine
 		/// </summary>
 		private List<MyThread> m_AllThreads;
 
-		protected override void Awake()
+		public GameThreadManager()
 		{
-			base.Awake();
 			m_AllThreads = new List<MyThread>();
 			m_AllThreads.Clear();
 		}
@@ -121,7 +120,10 @@ namespace Game.Engine
 			m_AllThreads.Remove(t);
 			if (t != null)
 			{
-				t.m_GoToMainFunction();
+				if (t.m_GoToMainFunction != null)
+				{
+					t.m_GoToMainFunction();
+				}
 			}
 
 			GC.Collect();
@@ -181,20 +183,15 @@ namespace Game.Engine
 			{
 				MyThread t = m_AllThreads[0];
 				m_AllThreads.RemoveAt(0);
-				t.m_Thread.Abort();
 				t.m_ThradMainFunction = null;
 				t.m_ToMainThread = null;
+				t.m_Thread.Abort();
 				t.m_Thread = null;
 				t = null;
 				GC.Collect();
 				GC.WaitForPendingFinalizers();
 				Debug.Log("close");
 			}
-		}
-
-		private void OnDestroy()
-		{
-			CloseAll();
 		}
 	}
 }

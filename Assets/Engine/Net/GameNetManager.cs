@@ -83,6 +83,19 @@ namespace Game.Engine
 		}
 
 		/// <summary>
+		/// 关闭客户端
+		/// </summary>
+		/// <param name="client"></param>
+		public void CloseClient(byte client)
+		{
+			if (m_AllClient.ContainsKey(client))
+			{
+				m_AllClient[client].Close();
+				m_AllClient.Remove(client);
+			}
+		}
+
+		/// <summary>
 		/// 发送消息
 		/// </summary>
 		/// <typeparam name="T"></typeparam>

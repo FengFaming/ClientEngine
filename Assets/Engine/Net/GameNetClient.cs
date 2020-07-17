@@ -77,12 +77,12 @@ namespace Game.Engine
 		{
 			IPAddress address = IPAddress.Parse(m_ServerID.m_Host);
 			EndPoint point = new IPEndPoint(address, m_ServerID.m_Port);
-			m_ConnectArgs.RemoteEndPoint = point;
 			m_Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 			m_Socket.NoDelay = true;
 			m_Socket.ReceiveTimeout = Timeout.Infinite;
 			m_Socket.SendTimeout = Timeout.Infinite;
 			m_Socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
+			m_Socket.Connect(point);
 		}
 
 		public void CloseSocket()
@@ -199,14 +199,17 @@ namespace Game.Engine
 		/// </summary>
 		public void Close()
 		{
-			if (m_ClientInfo != null)
-			{
-				m_ClientInfo.CloseSocket();
-			}
+			m_IsSuccess = false;
 
+			//先停止线程
 			if (m_ThreadID > 0)
 			{
 				GameThreadManager.Instance.CloseOne(m_ThreadID);
+			}
+
+			if (m_ClientInfo != null)
+			{
+				m_ClientInfo.CloseSocket();
 			}
 
 			m_OneMessage = null;

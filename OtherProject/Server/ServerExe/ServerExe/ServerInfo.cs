@@ -33,9 +33,13 @@ namespace ServerExe
 				while (true)
 				{
 					m_Socket = s.Accept();
-					Thread thread = new Thread(Received);
-					thread.IsBackground = true;
-					thread.Start(m_Socket);
+					Console.WriteLine("连接进来了" + m_Socket.LocalEndPoint);
+					if (m_Socket != null)
+					{
+						Thread thread = new Thread(Received);
+						thread.IsBackground = true;
+						thread.Start(m_Socket);
+					}
 				}
 			}
 			catch
