@@ -28,6 +28,9 @@ public class UIPnlGameStart : IUIModelControl
 
 	private void OnClickGameStart()
 	{
+		//StartGameRequest pack = new StartGameRequest();
+		////pack.SetSendString("test");
+		//GameNetManager.Instance.SendMessage<StartGameRequest>(pack, 1);
 		GameSceneManager.Instance.ChangeScene(new GameMainScene());
 	}
 }
