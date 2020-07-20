@@ -110,6 +110,11 @@ namespace ServerExe
 	public class ClientSendMessageBase
 	{
 		/// <summary>
+		/// 消息对应客户端
+		/// </summary>
+		protected ClientInfo m_ClientInfo;
+
+		/// <summary>
 		/// 协议头
 		/// </summary>
 		protected MessageHead m_MessageHead;
@@ -131,8 +136,19 @@ namespace ServerExe
 			}
 		}
 
-		public ClientSendMessageBase()
+		/// <summary>
+		/// 设置客户端数据
+		/// </summary>
+		/// <param name="data"></param>
+		/// <param name="length"></param>
+		public virtual void SetRecvMessage(byte[] data, int length)
 		{
+
+		}
+
+		public ClientSendMessageBase(ClientInfo clientInfo)
+		{
+			m_ClientInfo = clientInfo;
 			m_SendData = new List<byte>();
 			m_SendData.Clear();
 
@@ -143,11 +159,26 @@ namespace ServerExe
 		/// <summary>
 		/// 数据填充完成的最后一步
 		/// </summary>
-		public virtual void SetOver()
+		protected virtual void SetOver()
 		{
 			List<byte> datas = new List<byte>();
 			m_MessageHead.m_MessageLength = m_SendData.Count + 9;
 			m_SendData.InsertRange(0, m_MessageHead.GetByteData());
+		}
+
+		/// <summary>
+		/// 发送消息
+		/// </summary>
+		public virtual void Send()
+		{
+			if (m_ClientInfo != null)
+			{
+				if (m_ClientInfo.m_IsSuccess)
+				{
+					SetOver();
+					m_ClientInfo.Send(SendData);
+				}
+			}
 		}
 	}
 }

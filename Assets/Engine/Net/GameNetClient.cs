@@ -265,7 +265,7 @@ namespace Game.Engine
 		private void FXCarsh()
 		{
 			int leng = m_EndPoint - m_StartPoint;
-			if (leng > 9)
+			if (leng >= 9)
 			{
 				if (m_CarshHead == null)
 				{
@@ -273,12 +273,12 @@ namespace Game.Engine
 				}
 
 				m_CarshHead.ClearData();
-				m_CarshHead.m_MessageType = m_CarshMessage[m_StartPoint];
-				m_CarshHead.m_MessageID = System.BitConverter.ToInt32(m_CarshMessage, m_StartPoint + 1);
+				m_CarshHead.m_MessageID = System.BitConverter.ToInt32(m_CarshMessage, m_StartPoint);
+				m_CarshHead.m_MessageType = m_CarshMessage[m_StartPoint + 4];
 				m_CarshHead.m_MessageLength = System.BitConverter.ToInt32(m_CarshMessage, m_StartPoint + 5);
 				if (leng >= m_CarshHead.m_MessageLength &&
 					m_CarshHead.m_MessageID > 0 &&
-					m_CarshHead.m_MessageLength > 9)
+					m_CarshHead.m_MessageLength >= 9)
 				{
 					int start = m_StartPoint + 9;
 					m_StartPoint = m_StartPoint + m_CarshHead.m_MessageLength;
@@ -315,7 +315,7 @@ namespace Game.Engine
 					{
 						for (int index = 0; index < leng; index++)
 						{
-							m_CarshMessage[++m_EndPoint] = m_OneMessage[index];
+							m_CarshMessage[m_EndPoint++] = m_OneMessage[index];
 						}
 					}
 
@@ -323,6 +323,7 @@ namespace Game.Engine
 				}
 				catch (Exception e)
 				{
+					m_IsSuccess = false;
 					Debug.LogWarning(e);
 				}
 			}
