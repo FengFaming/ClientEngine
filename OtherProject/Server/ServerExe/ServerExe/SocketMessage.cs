@@ -1,16 +1,8 @@
-/*需要屏蔽的警告*/
-//#pragma warning disable
-/*
- * Creator:ffm
- * Desc:消息内容
- * Time:2020/7/16 10:34:03
-* */
-
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
-namespace Game.Engine
+namespace ServerExe
 {
 	/// <summary>
 	/// 消息头
@@ -47,7 +39,7 @@ namespace Game.Engine
 		{
 			List<byte> datas = new List<byte>();
 			datas.AddRange(BitConverter.GetBytes(m_MessageID));
-			datas.Add(m_MessageType);
+			datas.AddRange(BitConverter.GetBytes(m_MessageType));
 			datas.AddRange(BitConverter.GetBytes(m_MessageLength));
 			return datas;
 		}
@@ -88,36 +80,27 @@ namespace Game.Engine
 		/// </summary>
 		protected MessageHead m_MessageHead;
 
-		/// <summary>
-		/// 解析开始位置
-		///		不包含协议头的位置
-		/// </summary>
-		protected int m_StartPosition;
-
-		/// <summary>
-		/// 解析一个协议数据
-		///		为什么要把客户端拿过来
-		///			因为这样可以少开辟空间进行数据存储
-		/// </summary>
-		/// <param name="start">开始位置</param>
-		/// <param name="head">消息头</param>
-		/// <param name="client">客户端</param>
-		public virtual void AnalyseMessage(int start, MessageHead head, GameNetClient client)
+		public ClientRecvMessageBase()
 		{
 			m_MessageHead = new MessageHead();
-			m_MessageHead.m_MessageID = head.m_MessageID;
-			m_MessageHead.m_MessageLength = head.m_MessageLength;
-			m_MessageHead.m_MessageType = head.m_MessageType;
-			m_StartPosition = start;
+			m_MessageHead.ClearData();
 		}
 
 		/// <summary>
-		/// 通过消息机制返回给主进程
+		/// 解析数据
 		/// </summary>
-		public virtual void SendToMainThread()
+		/// <param name="head">头</param>
+		/// <param name="data">剩余数据</param>
+		public virtual void AnalyseMessage(MessageHead head, byte[] data)
 		{
-			string key = string.Format(EngineMessageHead.NET_CLIENT_MESSAGE_HEAD, m_MessageHead.m_MessageID);
-			MessageManger.Instance.SendMessageThread(key, this);
+			m_MessageHead.m_MessageType = head.m_MessageType;
+			m_MessageHead.m_MessageID = head.m_MessageID;
+			m_MessageHead.m_MessageLength = head.m_MessageLength;
+		}
+
+		public override string ToString()
+		{
+			return m_MessageHead.ToString();
 		}
 	}
 

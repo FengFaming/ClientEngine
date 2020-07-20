@@ -25,6 +25,10 @@ namespace ServerExe
 			th.Start(socket);
 		}
 
+		/// <summary>
+		/// 线程接收连接
+		/// </summary>
+		/// <param name="o"></param>
 		private void Listen(object o)
 		{
 			try
@@ -48,6 +52,10 @@ namespace ServerExe
 			}
 		}
 
+		/// <summary>
+		/// 线程接收消息
+		/// </summary>
+		/// <param name="o"></param>
 		private void Received(object o)
 		{
 			try
@@ -62,8 +70,22 @@ namespace ServerExe
 						break;
 					}
 
-					string str = Encoding.UTF8.GetString(buffer, 0, leng);
-					Console.WriteLine(str);
+					MessageHead head = new MessageHead();
+					head.m_MessageID = System.BitConverter.ToInt32(buffer, 0);
+					head.m_MessageType = buffer[4];
+					head.m_MessageLength = System.BitConverter.ToInt32(buffer, 5);
+					if (head.m_MessageLength != leng)
+					{
+						Console.WriteLine("发送错误");
+					}
+					else
+					{
+						ClientRecvMessageBase clientRecvMessageBase = new ClientRecvMessageBase();
+						byte[] data = new byte[head.m_MessageLength - 9];
+						Array.Copy(buffer, 9, data, 0, data.Length);
+						clientRecvMessageBase.AnalyseMessage(head, data);
+						Console.WriteLine(clientRecvMessageBase);
+					}
 				}
 			}
 			catch

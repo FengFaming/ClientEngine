@@ -42,9 +42,15 @@ public class GameStart : ObjectBase
 		MessageManger.Instance.AddMessageListener(EngineMessageHead.CHANGE_SCENE_MESSAGE,
 						this.gameObject, OpenChangeScene);
 
-		StartCoroutine("StartGame");
+		GameNetManager.Instance.CreateClient(1, "127.0.0.1", 6000, 1024, SuccessConnect);
+	}
 
-		GameNetManager.Instance.CreateClient(1, "127.0.0.1", 6000, 1024);
+	private void SuccessConnect(bool success)
+	{
+		if (success)
+		{
+			StartCoroutine("StartGame");
+		}
 	}
 
 	/// <summary>
@@ -124,9 +130,9 @@ public class GameStart : ObjectBase
 		yield return new WaitForSeconds(0.5f);
 
 		UIManager.Instance.OpenUI("UIPnlGameStart", UILayer.Pnl);
-		ClientSendMessageBase pack = new ClientSendMessageBase();
-		pack.SetSendString("test");
-		GameNetManager.Instance.SendMessage<ClientSendMessageBase>(pack, 1);
+		StartGameRequest pack = new StartGameRequest();
+		//pack.SetSendString("test");
+		GameNetManager.Instance.SendMessage<StartGameRequest>(pack, 1);
 	}
 
 	private void OnDestroy()

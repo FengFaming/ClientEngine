@@ -68,16 +68,17 @@ namespace Game.Engine
 		/// <summary>
 		/// 创建客户端
 		/// </summary>
-		/// <param name="client"></param>
-		/// <param name="ip"></param>
-		/// <param name="port"></param>
-		/// <param name="maxLength"></param>
-		public void CreateClient(byte client, string ip, int port, int maxLength)
+		/// <param name="client">客户端标记</param>
+		/// <param name="ip">IP地址</param>
+		/// <param name="port">端口号</param>
+		/// <param name="maxLength">最大长度</param>
+		/// <param name="success">成功失败回调</param>
+		public void CreateClient(byte client, string ip, int port, int maxLength, Action<bool> success)
 		{
 			if (!m_AllClient.ContainsKey(client))
 			{
 				GameNetClient net = new GameNetClient(ip, port, maxLength);
-				net.ConnectSocket();
+				net.ConnectSocket(success);
 				m_AllClient.Add(client, net);
 			}
 		}

@@ -180,16 +180,25 @@ namespace Game.Engine
 		/// <summary>
 		/// 连接服务器
 		/// </summary>
-		public void ConnectSocket()
+		public void ConnectSocket(Action<bool> action)
 		{
 			try
 			{
 				m_ClientInfo.ConnectSocket();
 				m_IsSuccess = true;
 				m_ThreadID = GameThreadManager.Instance.CreateThread(RecvMessage, Close);
+				if (action != null)
+				{
+					action(true);
+				}
 			}
 			catch (Exception e)
 			{
+				if (action != null)
+				{
+					action(false);
+				}
+
 				Debug.LogError("connect socket:" + e);
 			}
 		}
@@ -226,11 +235,12 @@ namespace Game.Engine
 		{
 			if (m_ClientInfo.m_Socket != null && m_IsSuccess)
 			{
-				pack.SetSendData();
+				pack.SetOver();
 				m_ClientInfo.m_Socket.Send(pack.SendData);
 			}
 		}
 
+		#region 接收数据
 		/// <summary>
 		/// 检查缓冲数据
 		/// </summary>
@@ -278,7 +288,7 @@ namespace Game.Engine
 						ClientRecvMessageBase ms = ReflexManager.Instance.CreateClass(control) as ClientRecvMessageBase;
 						if (ms != null)
 						{
-							ms.AnalyseMessage(start, m_CarshHead);
+							ms.AnalyseMessage(start, m_CarshHead, this);
 							ms.SendToMainThread();
 						}
 					}
@@ -317,9 +327,9 @@ namespace Game.Engine
 				}
 			}
 		}
+		#endregion
 
 		#region 放开给外部解析的方法
-
 		/// <summary>
 		/// 获取一个字节
 		/// </summary>
