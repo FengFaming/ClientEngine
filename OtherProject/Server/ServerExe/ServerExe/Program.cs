@@ -47,6 +47,15 @@ class Program
 	/// <returns></returns>
 	public static SocketMessageBase GetSocket(MessageHead messageHead)
 	{
-		return new SocketMessageBase(messageHead);
+		SocketMessageBase socketMessageBase = null;
+
+		switch (messageHead.m_MessageID)
+		{
+			case 100010:
+				socketMessageBase = new SocketMessageBase(messageHead);
+				break;
+		}
+
+		return socketMessageBase;
 	}
 }

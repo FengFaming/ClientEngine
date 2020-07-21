@@ -46,28 +46,10 @@ namespace Game.Engine
 		/// </summary>
 		public Socket m_Socket;
 
-		/// <summary>
-		/// 连接函数
-		/// </summary>
-		public SocketAsyncEventArgs m_ConnectArgs;
-
-		/// <summary>
-		/// 上传数据函数
-		/// </summary>
-		public SocketAsyncEventArgs m_SendArgs;
-
-		/// <summary>
-		/// 接收数据函数
-		/// </summary>
-		public SocketAsyncEventArgs m_RecvArgs;
-
 		public ClientNetInfo(ServerID id)
 		{
 			m_ServerID = id;
 			m_Socket = null;
-			m_ConnectArgs = null;
-			m_SendArgs = null;
-			m_RecvArgs = null;
 		}
 
 		/// <summary>
@@ -87,9 +69,6 @@ namespace Game.Engine
 
 		public void CloseSocket()
 		{
-			m_ConnectArgs = null;
-			m_RecvArgs = null;
-			m_SendArgs = null;
 			if (m_Socket != null)
 			{
 				try

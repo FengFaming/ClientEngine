@@ -87,12 +87,16 @@ public class ClientInfo
 				if (m_GetMessageWithHead != null)
 				{
 					SocketMessageBase socketMessageBase = m_GetMessageWithHead(head);
-					byte[] data = new byte[head.m_MessageLength - 9];
-					Array.Copy(m_MessageData, m_StartPosition + 9, data, 0, data.Length);
-					socketMessageBase.AnaysizeMessage(data);
-					AddAnaysizeQueue(socketMessageBase);
+					if (socketMessageBase != null)
+					{
+						byte[] data = new byte[head.m_MessageLength - 9];
+						Array.Copy(m_MessageData, m_StartPosition + 9, data, 0, data.Length);
+						socketMessageBase.AnaysizeMessage(data);
+						AddAnaysizeQueue(socketMessageBase);
+					}
 				}
 
+				//不管解析是否成功，起点位置均移动
 				m_StartPosition += head.m_MessageLength;
 				if (m_EndPosition > m_MessageData.Length * 0.7)
 				{
