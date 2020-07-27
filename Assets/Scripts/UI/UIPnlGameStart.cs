@@ -24,21 +24,6 @@ public class UIPnlGameStart : IUIModelControl
 		base.OpenSelf(target);
 		Button bt = m_ControlTarget.transform.Find("Button").GetComponent<Button>();
 		bt.onClick.AddListener(OnClickGameStart);
-
-		string key = string.Format(EngineMessageHead.NET_CLIENT_MESSAGE_HEAD, 100001);
-		MessageManger.Instance.AddMessageListener(key, m_ControlTarget, ListenResponse);
-	}
-
-	private void ListenResponse(params object[] arms)
-	{
-		if (arms.Length > 0)
-		{
-			List<object> list = arms[0] as List<object>;
-			if (list[0] is GetServerTimeResponse)
-			{
-				Debug.Log((list[0] as GetServerTimeResponse).ToString());
-			}
-		}
 	}
 
 	private void OnClickGameStart()

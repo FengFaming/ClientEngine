@@ -54,6 +54,9 @@ class Program
 			case 100010:
 				socketMessageBase = new SocketMessageBase(messageHead);
 				break;
+			case 100002:
+				socketMessageBase = new TimeSendMessage();
+				break;
 		}
 
 		return socketMessageBase;

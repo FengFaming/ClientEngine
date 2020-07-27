@@ -77,9 +77,9 @@ public class ClientInfo
 		while (length >= 9)
 		{
 			MessageHead head = new MessageHead();
-			head.m_MessageID = System.BitConverter.ToInt32(m_MessageData, 0);
+			head.m_MessageID = System.BitConverter.ToInt32(m_MessageData, m_StartPosition);
 			head.m_MessageType = m_MessageData[4];
-			head.m_MessageLength = BitConverter.ToInt32(m_MessageData, 5);
+			head.m_MessageLength = BitConverter.ToInt32(m_MessageData, m_StartPosition + 5);
 			Console.WriteLine("收到消息:" + head.ToString());
 
 			if (length >= head.m_MessageLength)

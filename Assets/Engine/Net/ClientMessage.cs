@@ -134,7 +134,7 @@ namespace Game.Engine
 		/// <summary>
 		/// 发送的数据
 		/// </summary>
-		private List<byte> m_SendData;
+		protected List<byte> m_SendData;
 		public virtual byte[] SendData
 		{
 			get

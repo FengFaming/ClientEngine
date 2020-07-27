@@ -14,8 +14,8 @@ using Game.Engine;
 
 public class GetServerTimeResponse : ClientRecvMessageBase
 {
-	private bool m_IsSuccess;
-	private long m_ServetTime;
+	public bool m_IsSuccess;
+	public long m_ServetTime;
 
 	public GetServerTimeResponse() : base()
 	{

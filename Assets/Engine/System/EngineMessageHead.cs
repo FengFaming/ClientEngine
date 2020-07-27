@@ -41,5 +41,15 @@ namespace Game.Engine
 		/// 协议头重组
 		/// </summary>
 		public static readonly string NET_CLIENT_MESSAGE_HEAD = "NET_CLIENT_MESSAGE_HEAD:{0}";
+
+		/// <summary>
+		/// 服务器时间下发
+		/// </summary>
+		public static readonly int NET_CLIENT_TIME_RESPONSE = 100001;
+
+		/// <summary>
+		/// 客户端时间上传
+		/// </summary>
+		public static readonly int NET_CLIENT_TIME_REQUEST = 100002;
 	}
 }

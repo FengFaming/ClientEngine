@@ -42,7 +42,7 @@ public class GameStart : ObjectBase
 		MessageManger.Instance.AddMessageListener(EngineMessageHead.CHANGE_SCENE_MESSAGE,
 						this.gameObject, OpenChangeScene);
 
-		GameNetManager.Instance.AddAgreement(100001, "GetServerTimeResponse");
+		GameNetManager.Instance.AddAgreement(EngineMessageHead.NET_CLIENT_TIME_RESPONSE, "GetServerTimeResponse");
 		GameNetManager.Instance.CreateClient(1, "127.0.0.1", 6000, 1024, SuccessConnect);
 	}
 
