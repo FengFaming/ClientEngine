@@ -96,7 +96,7 @@ public class SocketMessageBase
 	/// </summary>
 	/// <param name="data">其中不包含数据协议头</param>
 	/// <returns></returns>
-	public virtual bool AnaysizeMessage(byte[] data)
+	public virtual bool AnaysizeMessage(byte[] data, ClientInfo client)
 	{
 		return true;
 	}

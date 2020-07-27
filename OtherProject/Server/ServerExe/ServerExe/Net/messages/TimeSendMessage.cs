@@ -26,9 +26,9 @@ public class TimeSendMessage : SocketMessageBase
 	/// </summary>
 	/// <param name="data"></param>
 	/// <returns></returns>
-	public override bool AnaysizeMessage(byte[] data)
+	public override bool AnaysizeMessage(byte[] data, ClientInfo client)
 	{
-		if (!base.AnaysizeMessage(data))
+		if (!base.AnaysizeMessage(data, client))
 			return false;
 
 		m_ClientTime = BitConverter.ToInt64(data, 0);

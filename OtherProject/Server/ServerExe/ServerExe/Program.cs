@@ -12,14 +12,13 @@ class Program
 		{
 			//ServerInfo info = new ServerInfo();
 			//info.CreateServer();
-
 			ServerSocket serverSocket = new ServerSocket("127.0.0.1", 6000, 1, 1024 * 1024, 100, GetSocket);
 			Console.WriteLine("服务器开启成功:" + serverSocket);
 
-			m_Server = serverSocket;
-			Thread time = new Thread(TimeSend);
-			time.IsBackground = true;
-			time.Start();
+			//m_Server = serverSocket;
+			//Thread time = new Thread(TimeSend);
+			//time.IsBackground = true;
+			//time.Start();
 		}
 		catch
 		{
@@ -51,9 +50,18 @@ class Program
 
 		switch (messageHead.m_MessageID)
 		{
+			///版本号申请
+			case 10:
+				socketMessageBase = new VersionDifferenceFile(messageHead);
+				break;
+			///下发一个文件
+			case 12:
+				break;
+			///测试协议
 			case 100010:
 				socketMessageBase = new SocketMessageBase(messageHead);
 				break;
+			///时间比对协议
 			case 100002:
 				socketMessageBase = new TimeSendMessage();
 				break;

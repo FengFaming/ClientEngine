@@ -15,11 +15,6 @@ public class ClientInfo
 	public Socket m_ClientSocket;
 
 	/// <summary>
-	/// 解析消息队列
-	/// </summary>
-	private Queue<SocketMessageBase> m_AnaysizeQueue;
-
-	/// <summary>
 	/// 发送消息队列
 	/// </summary>
 	private Queue<SocketMessageBase> m_SendQueue;
@@ -51,9 +46,7 @@ public class ClientInfo
 
 	public ClientInfo(Socket socket, int maxLength, GetMessageWithHead withHead)
 	{
-		m_AnaysizeQueue = new Queue<SocketMessageBase>();
 		m_SendQueue = new Queue<SocketMessageBase>();
-		m_AnaysizeQueue.Clear();
 		m_SendQueue.Clear();
 
 		m_ClientSocket = socket;
@@ -91,8 +84,7 @@ public class ClientInfo
 					{
 						byte[] data = new byte[head.m_MessageLength - 9];
 						Array.Copy(m_MessageData, m_StartPosition + 9, data, 0, data.Length);
-						socketMessageBase.AnaysizeMessage(data);
-						AddAnaysizeQueue(socketMessageBase);
+						socketMessageBase.AnaysizeMessage(data, this);
 					}
 				}
 
@@ -117,34 +109,6 @@ public class ClientInfo
 				break;
 			}
 		}
-	}
-
-	/// <summary>
-	/// 添加解析队列
-	/// </summary>
-	/// <param name="message"></param>
-	private void AddAnaysizeQueue(SocketMessageBase message)
-	{
-		Monitor.Enter("Add");
-		m_AnaysizeQueue.Enqueue(message);
-		Monitor.Exit("Add");
-	}
-
-	/// <summary>
-	/// 获取解析队列
-	/// </summary>
-	/// <returns></returns>
-	public SocketMessageBase GetAnaysizeQueue()
-	{
-		Monitor.Enter("Get");
-		SocketMessageBase message = null;
-		if (m_AnaysizeQueue.Count > 0)
-		{
-			message = m_AnaysizeQueue.Dequeue();
-		}
-		Monitor.Exit("Get");
-
-		return message;
 	}
 
 	/// <summary>

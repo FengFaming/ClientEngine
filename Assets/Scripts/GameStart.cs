@@ -46,12 +46,34 @@ public class GameStart : ObjectBase
 		GameNetManager.Instance.CreateClient(1, "127.0.0.1", 6000, 1024, SuccessConnect);
 	}
 
+	/// <summary>
+	/// 链接成功
+	/// </summary>
+	/// <param name="success"></param>
 	private void SuccessConnect(bool success)
 	{
 		if (success)
 		{
-			StartCoroutine("StartGame");
+			StartCoroutine("StartConnectEnd");
 		}
+	}
+
+	/// <summary>
+	/// 开始版本对比
+	/// </summary>
+	/// <returns></returns>
+	private IEnumerator StartConnectEnd()
+	{
+		yield return null;
+		VersionManager.Instance.StartVersion(VersionSuccess);
+	}
+
+	/// <summary>
+	/// 版本对比成功
+	/// </summary>
+	private void VersionSuccess()
+	{
+		StartCoroutine("StartGame");
 	}
 
 	/// <summary>

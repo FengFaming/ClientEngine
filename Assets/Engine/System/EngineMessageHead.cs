@@ -51,5 +51,21 @@ namespace Game.Engine
 		/// 客户端时间上传
 		/// </summary>
 		public static readonly int NET_CLIENT_TIME_REQUEST = 100002;
+
+		/// <summary>
+		/// 申请对比版本号
+		/// </summary>
+		public static readonly int NET_CLIENT_VERSION_REQUEST = 10;
+
+		/// <summary>
+		/// 服务器返回差异文件
+		/// </summary>
+		public static readonly int NET_CLIENT_VERSION_RESPONSE = 11;
+
+		/// <summary>
+		/// 存储版本号
+		/// </summary>
+		public static readonly string CLIENT_VERSION_BIG_VALUE = "CLIENT_VERSION_BIG_VALUE";
+		public static readonly string CLIENT_VERSION_SMALL_VALUE = "CLIENT_VERSION_SMALL_VALUE";
 	}
 }
