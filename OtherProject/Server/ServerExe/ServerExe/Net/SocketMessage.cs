@@ -112,4 +112,9 @@ public class SocketMessageBase
 		vs.AddRange(m_MessageHead.GetByteData());
 		return vs;
 	}
+
+	public override string ToString()
+	{
+		return m_MessageHead.ToString();
+	}
 }

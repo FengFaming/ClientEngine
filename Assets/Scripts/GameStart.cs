@@ -38,12 +38,10 @@ public class GameStart : ObjectBase
 		Debug.ShowDebug = false;
 #endif
 
-		ResObjectManager.Instance.InitResManager("AB");
-		MessageManger.Instance.AddMessageListener(EngineMessageHead.CHANGE_SCENE_MESSAGE,
-						this.gameObject, OpenChangeScene);
-
 		GameNetManager.Instance.AddAgreement(EngineMessageHead.NET_CLIENT_TIME_RESPONSE, "GetServerTimeResponse");
-		GameNetManager.Instance.CreateClient(1, "127.0.0.1", 6000, 1024, SuccessConnect);
+		GameNetManager.Instance.CreateClient(1, "127.0.0.1", 6000, 1024 * 1024, SuccessConnect);
+
+		Debug.Log(Application.persistentDataPath);
 	}
 
 	/// <summary>
@@ -73,6 +71,10 @@ public class GameStart : ObjectBase
 	/// </summary>
 	private void VersionSuccess()
 	{
+		ResObjectManager.Instance.InitResManager("AB");
+		MessageManger.Instance.AddMessageListener(EngineMessageHead.CHANGE_SCENE_MESSAGE,
+						this.gameObject, OpenChangeScene);
+
 		StartCoroutine("StartGame");
 	}
 

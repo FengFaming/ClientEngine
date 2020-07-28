@@ -63,6 +63,16 @@ namespace Game.Engine
 		public static readonly int NET_CLIENT_VERSION_RESPONSE = 11;
 
 		/// <summary>
+		/// 申请下载文件
+		/// </summary>
+		public static readonly int NET_CLIENT_DOWNLOAD_FILE_REQUEST = 12;
+
+		/// <summary>
+		/// 返回文件
+		/// </summary>
+		public static readonly int NET_CLIENT_DOWNLOAD_FILE_RESPONSE = 13;
+
+		/// <summary>
 		/// 存储版本号
 		/// </summary>
 		public static readonly string CLIENT_VERSION_BIG_VALUE = "CLIENT_VERSION_BIG_VALUE";

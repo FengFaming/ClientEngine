@@ -15,7 +15,7 @@ using UnityEngine.UI;
 
 public class CreateIconPrefab : MonoBehaviour
 {
-	[MenuItem("Tools/CreateIconPrefab")]
+	[MenuItem("Tools/Build/CreateIconPrefab")]
 	private static void CreatePrefab()
 	{
 		Object oj = Selection.activeObject;

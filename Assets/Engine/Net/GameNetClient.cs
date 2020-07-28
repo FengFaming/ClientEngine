@@ -429,6 +429,24 @@ namespace Game.Engine
 			data = System.Text.Encoding.UTF8.GetString(m_CarshMessage, start, leng);
 			return true;
 		}
+
+		/// <summary>
+		/// 获取所有的字节
+		/// </summary>
+		/// <param name="start"></param>
+		/// <param name="leng"></param>
+		/// <param name="data"></param>
+		/// <returns></returns>
+		public bool GetMessageWithBytes(int start, int leng, ref byte[] data)
+		{
+			if (start + leng > m_StartPoint)
+			{
+				return false;
+			}
+
+			Array.Copy(m_CarshMessage, start, data, 0, leng);
+			return true;
+		}
 		#endregion
 	}
 }

@@ -149,4 +149,36 @@ public class VersionManager
 
 		return true;
 	}
+
+	/// <summary>
+	/// 获取文件
+	/// </summary>
+	/// <param name="name"></param>
+	/// <param name="big"></param>
+	/// <param name="small"></param>
+	/// <returns></returns>
+	public byte[] GetFile(string name, int big, int small)
+	{
+		string path = Environment.CurrentDirectory;
+		path = Path.Combine(path, "V" + big + "." + small);
+		path = path + "/" + name;
+		if (!File.Exists(path))
+		{
+			Console.WriteLine("错误，没有该文件" + path);
+			return null;
+		}
+
+		FileInfo fileInfo = new FileInfo(path);
+		byte[] vs = new byte[fileInfo.Length];
+		FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+		BinaryReader br = new BinaryReader(fs);
+		for (int index = 0; index < vs.Length; index++)
+		{
+			vs[index] = br.ReadByte();
+		}
+
+		br.Close();
+		fs.Close();
+		return vs;
+	}
 }

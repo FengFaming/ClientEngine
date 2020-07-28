@@ -1,0 +1,11 @@
+ManifestFileVersion: 0
+CRC: 2077397506
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: gameobject.c1.prefab
+      Dependencies:
+        Dependency_0: art.texture.020avatarearthman.png
+    Info_1:
+      Name: art.texture.020avatarearthman.png
+      Dependencies: {}

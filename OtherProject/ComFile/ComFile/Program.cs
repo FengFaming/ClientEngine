@@ -18,18 +18,66 @@ namespace ComFile
 			string path = Environment.CurrentDirectory;
 			Console.WriteLine(path);
 
-			string f1 = "AB0";
-			string f2 = "AB1";
+			string f1 = "Now";
+			string f2 = "Last";
 
 			List<string> fs = GetAllFiles(path + "/" + f1);
+			List<string> combineFiles = new List<string>();
 			for (int index = 0; index < fs.Count; index++)
 			{
-				bool b = ComFileWithHash(path + "/" + f1 + "/" + fs[index],
-										 path + "/" + f2 + "/" + fs[index],
-										 hash);
-				Console.WriteLine(b);
-				Console.ReadLine();
+				if (fs[index].Equals("Hash"))
+				{
+					break;
+				}
+
+				string p = path + "/" + f2 + "/" + fs[index];
+				if (File.Exists(p))
+				{
+					bool b = ComFileWithHash(path + "/" + f1 + "/" + fs[index],
+											 path + "/" + f2 + "/" + fs[index],
+											 hash);
+
+					if (!b)
+					{
+						combineFiles.Add(fs[index]);
+					}
+				}
+				else
+				{
+					combineFiles.Add(fs[index]);
+				}
 			}
+
+			string dic = path + "/Combine/";
+			if (Directory.Exists(dic))
+			{
+				Directory.Delete(dic, true);
+			}
+
+			Directory.CreateDirectory(dic);
+			string save = path + "/Combine/" + "Hash";
+			if (File.Exists(save))
+			{
+				File.Delete(save);
+			}
+
+			FileStream fsl = new FileStream(save, FileMode.Create, FileAccess.Write);
+			BinaryWriter bw = new BinaryWriter(fsl);
+			bw.Write(combineFiles.Count);
+			for (int index = 0; index < combineFiles.Count; index++)
+			{
+				bw.Write(combineFiles[index]);
+				string filePath = path + "/" + f1 + "/" + combineFiles[index];
+				FileInfo fileInfo = new FileInfo(filePath);
+				int length = (int)fileInfo.Length;
+				bw.Write(length);
+				string newPath = dic + combineFiles[index];
+				File.Copy(filePath, newPath);
+				Console.WriteLine("Combine File:" + combineFiles[index] + " " + length);
+			}
+
+			bw.Close();
+			fsl.Close();
 
 			Console.ReadLine();
 		}
@@ -61,7 +109,6 @@ namespace ComFile
 		/// <returns></returns>
 		public static bool ComFileWithHash(string f1, string f2, HashAlgorithm hash)
 		{
-			Console.WriteLine(f1 + "\n" + f2);
 			FileStream fs1 = new FileStream(f1, FileMode.Open);
 			FileStream fs2 = new FileStream(f2, FileMode.Open);
 

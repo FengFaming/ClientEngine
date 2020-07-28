@@ -137,6 +137,7 @@ public class ClientInfo
 				List<byte> vs = socketMessageBase.GetSendMessage();
 				if (m_ClientSocket.Connected)
 				{
+					Console.WriteLine("发送一个消息:" + socketMessageBase.ToString());
 					m_ClientSocket.Send(vs.ToArray());
 				}
 			}

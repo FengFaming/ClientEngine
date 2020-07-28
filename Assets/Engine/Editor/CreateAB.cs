@@ -47,7 +47,7 @@ public class CreateAB : EditorWindow
 
 	private bool m_IsBuinded = false;
 
-	[MenuItem("Tools/CreateAB")]
+	[MenuItem("Tools/Build/CreateAB")]
 	private static void Create()
 	{
 		EditorWindow.GetWindow(typeof(CreateAB));

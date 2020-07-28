@@ -16,7 +16,7 @@ using System.IO;
 
 public class SaveLightmapDatas : EditorWindow
 {
-	[MenuItem("Scene/SaveLightmapData")]
+	[MenuItem("Tools/Build/SaveSceneLightmapData")]
 	private static void Create()
 	{
 		EditorWindow.GetWindow(typeof(SaveLightmapDatas));

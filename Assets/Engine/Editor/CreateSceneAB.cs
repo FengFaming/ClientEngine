@@ -31,7 +31,7 @@ public class CreateSceneAB : EditorWindow
 
 	private List<bool> m_NeedBuilds = new List<bool>();
 
-	[MenuItem("Tools/CreateSceneAB")]
+	[MenuItem("Tools/Build/CreateSceneAB")]
 	private static void Create()
 	{
 		EditorWindow.GetWindow(typeof(CreateSceneAB));

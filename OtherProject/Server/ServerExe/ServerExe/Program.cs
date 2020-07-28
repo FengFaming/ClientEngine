@@ -15,6 +15,7 @@ class Program
 			ServerSocket serverSocket = new ServerSocket("127.0.0.1", 6000, 1, 1024 * 1024, 100, GetSocket);
 			Console.WriteLine("服务器开启成功:" + serverSocket);
 
+			VersionManager.Instance.SetNowVersion(0, 1);
 			//m_Server = serverSocket;
 			//Thread time = new Thread(TimeSend);
 			//time.IsBackground = true;
@@ -56,6 +57,7 @@ class Program
 				break;
 			///下发一个文件
 			case 12:
+				socketMessageBase = new DownLoadFileMessage(messageHead);
 				break;
 			///测试协议
 			case 100010:
