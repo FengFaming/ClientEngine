@@ -75,7 +75,16 @@ namespace Game.Engine
 		/// <summary>
 		/// 存储版本号
 		/// </summary>
-		public static readonly string CLIENT_VERSION_BIG_VALUE = "CLIENT_VERSION_BIG_VALUE";
-		public static readonly string CLIENT_VERSION_SMALL_VALUE = "CLIENT_VERSION_SMALL_VALUE";
+		public static readonly string CLIENT_VERSION_NUMBER = "CLIENT_VERSION_NUMBER";
+
+		/// <summary>
+		/// 下载文件大小和数量
+		/// </summary>
+		public static readonly string DOWN_LOAD_FILE_LENGTH_AND_COUT = "DOWN_LOAD_FILE_LENGTH_AND_COUT";
+
+		/// <summary>
+		/// 下载完成的文件数量
+		/// </summary>
+		public static readonly string DOWN_LOAD_END_FILE_LENGTH = "DOWN_LOAD_END_FILE_LENGTH";
 	}
 }

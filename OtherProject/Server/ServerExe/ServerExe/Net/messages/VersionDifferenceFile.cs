@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
+/// <summary>
+/// 版本文件差异
+/// </summary>
 public class VersionDifferenceFile : SocketMessageBase
 {
 	private List<byte> m_SendClientDatas;
@@ -20,26 +23,23 @@ public class VersionDifferenceFile : SocketMessageBase
 		if (!base.AnaysizeMessage(data, client))
 			return false;
 
-		int big = BitConverter.ToInt32(data, 0);
-		int small = BitConverter.ToInt32(data, 4);
-		int ob = 0, os = 0;
-		VersionManager.Instance.CombineVersion(big, small, ref ob, ref os);
-		m_SendClientDatas.AddRange(BitConverter.GetBytes(ob));
-		m_SendClientDatas.AddRange(BitConverter.GetBytes(os));
+		int cv = BitConverter.ToInt32(data, 0);
+		int ccv = 0;
+		bool has = VersionManager.Instance.CombineVersion(cv, ref ccv);
+		m_SendClientDatas.AddRange(BitConverter.GetBytes(ccv));
 
-		if (ob == os && os == 0)
+		if (has)
 		{
 
 		}
 		else
 		{
 			List<byte> vs;
-			if (VersionManager.Instance.GetCombingVersionFiles(ob, os, out vs))
+			if (VersionManager.Instance.GetCombingVersionFiles(cv, out vs))
 			{
 				m_SendClientDatas.AddRange(vs);
 			}
 		}
-
 
 		client.AddSendQueue(this);
 		return true;

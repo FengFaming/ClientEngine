@@ -303,7 +303,7 @@ namespace Game.Engine
 				catch (Exception e)
 				{
 					m_IsSuccess = false;
-					Debug.LogWarning(e);
+					Debug.LogWarning(e.Message);
 				}
 			}
 		}

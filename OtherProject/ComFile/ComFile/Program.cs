@@ -8,6 +8,13 @@ using System.Threading.Tasks;
 
 namespace ComFile
 {
+	public class CombineFileInfo
+	{
+		public string m_WFileName;
+		public string m_FileName;
+		public int m_Length;
+	}
+
 	class Program
 	{
 		static void Main(string[] args)
@@ -18,34 +25,17 @@ namespace ComFile
 			string path = Environment.CurrentDirectory;
 			Console.WriteLine(path);
 
-			string f1 = "Now";
-			string f2 = "Last";
+			List<CombineFileInfo> combineFiles = new List<CombineFileInfo>();
+			combineFiles.Clear();
+			CombineDirectoryFile(path + "/Now", ref combineFiles, hash);
 
-			List<string> fs = GetAllFiles(path + "/" + f1);
-			List<string> combineFiles = new List<string>();
-			for (int index = 0; index < fs.Count; index++)
+			DirectoryInfo info = new DirectoryInfo(path + "/Now");
+			DirectoryInfo[] directoryInfos = info.GetDirectories();
+			foreach (DirectoryInfo wenjianjia in directoryInfos)
 			{
-				if (fs[index].Equals("Hash"))
-				{
-					break;
-				}
-
-				string p = path + "/" + f2 + "/" + fs[index];
-				if (File.Exists(p))
-				{
-					bool b = ComFileWithHash(path + "/" + f1 + "/" + fs[index],
-											 path + "/" + f2 + "/" + fs[index],
-											 hash);
-
-					if (!b)
-					{
-						combineFiles.Add(fs[index]);
-					}
-				}
-				else
-				{
-					combineFiles.Add(fs[index]);
-				}
+				string wpath = wenjianjia.FullName;
+				wpath = wpath.Replace("\\", "/");
+				CombineDirectoryFile(wpath, ref combineFiles, hash);
 			}
 
 			string dic = path + "/Combine/";
@@ -66,14 +56,12 @@ namespace ComFile
 			bw.Write(combineFiles.Count);
 			for (int index = 0; index < combineFiles.Count; index++)
 			{
-				bw.Write(combineFiles[index]);
-				string filePath = path + "/" + f1 + "/" + combineFiles[index];
-				FileInfo fileInfo = new FileInfo(filePath);
-				int length = (int)fileInfo.Length;
-				bw.Write(length);
-				string newPath = dic + combineFiles[index];
-				File.Copy(filePath, newPath);
-				Console.WriteLine("Combine File:" + combineFiles[index] + " " + length);
+				bw.Write(combineFiles[index].m_WFileName);
+				bw.Write(combineFiles[index].m_FileName);
+				bw.Write(combineFiles[index].m_Length);
+				Console.WriteLine("Combine File:" + combineFiles[index].m_WFileName + " " +
+													combineFiles[index].m_FileName + " " +
+													combineFiles[index].m_Length);
 			}
 
 			bw.Close();
@@ -98,6 +86,68 @@ namespace ComFile
 			}
 
 			return paths;
+		}
+
+		/// <summary>
+		/// 对比文件夹下面的内容
+		/// </summary>
+		/// <param name="path"></param>
+		/// <param name="files"></param>
+		private static void CombineDirectoryFile(string path, ref List<CombineFileInfo> files, HashAlgorithm hash)
+		{
+			string wenjianjia = path.Substring(path.LastIndexOf("/"));
+			string nw;
+			bool isN = true;
+			if (wenjianjia.Equals("/Now"))
+			{
+				nw = path.Substring(0, path.LastIndexOf("/") + 1) + "Last";
+			}
+			else
+			{
+				isN = false;
+				nw = path.Substring(0, path.LastIndexOf("/"));
+				nw = nw.Substring(0, nw.LastIndexOf("/")) + "/Last/" + wenjianjia;
+			}
+
+			List<string> vs = GetAllFiles(path);
+			for (int index = 0; index < vs.Count; index++)
+			{
+				if (vs[index].Equals("Hash"))
+				{
+					break;
+				}
+
+				string lastp = nw + "/" + vs[index];
+				if (File.Exists(lastp))
+				{
+					bool b = ComFileWithHash(path + "/" + vs[index],
+											   nw + "/" + vs[index],
+											   hash);
+
+					if (!b)
+					{
+						CombineFileInfo info = new CombineFileInfo();
+						info.m_WFileName = isN ? "N" : wenjianjia;
+						info.m_FileName = vs[index];
+						string filePath = path + "/" + vs[index];
+						FileInfo fileInfo = new FileInfo(filePath);
+						int length = (int)fileInfo.Length;
+						info.m_Length = length;
+						files.Add(info);
+					}
+				}
+				else
+				{
+					CombineFileInfo info = new CombineFileInfo();
+					info.m_WFileName = isN ? "N" : wenjianjia;
+					info.m_FileName = vs[index];
+					string filePath = path + "/" + vs[index];
+					FileInfo fileInfo = new FileInfo(filePath);
+					int length = (int)fileInfo.Length;
+					info.m_Length = length;
+					files.Add(info);
+				}
+			}
 		}
 
 		/// <summary>

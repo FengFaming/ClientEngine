@@ -1,0 +1,21 @@
+function needloads()
+	--return "GameObject:elephant";
+    return "";
+end
+
+function loadinfo(tn)
+	CS.UnityEngine.Debug.Log(tn);
+end
+
+function loadobject(value)
+	CS.UnityEngine.Debug.Log(value);
+end
+
+function endscene()
+	CS.UnityEngine.Debug.Log("scene end.");
+end
+
+function loadend()
+	CS.Game.Engine.LuaManager.Instance:OpenUI("UIPnlBackGameMain","Blk");
+    CS.Game.Engine.LuaManager.Instance:OpenUI("UIPnlNumberGame","Pnl");
+end

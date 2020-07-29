@@ -1,0 +1,17 @@
+function init()
+end
+
+function open()
+end
+
+function update()
+    
+end
+
+function destroy()
+end
+
+function getreloading()
+--	return "jiao:ch_pc_hou_004_jiao,ch_pc_hou_006_jiao,ch_pc_hou_008_jiao;shen:ch_pc_hou_004_shen,ch_pc_hou_006_shen,ch_pc_hou_008_shen;shou:ch_pc_hou_004_shou,ch_pc_hou_006_shou,ch_pc_hou_008_shou;tou:ch_pc_hou_004_tou,ch_pc_hou_006_tou,ch_pc_hou_008_tou";
+	return "jiao:ch_pc_hou_004_jiao,ch_pc_hou_006_jiao,ch_pc_hou_008_jiao","shen:ch_pc_hou_004_shen,ch_pc_hou_006_shen,ch_pc_hou_008_shen","shou:ch_pc_hou_004_shou,ch_pc_hou_006_shou,ch_pc_hou_008_shou","tou:ch_pc_hou_004_tou,ch_pc_hou_006_tou,ch_pc_hou_008_tou";
+end

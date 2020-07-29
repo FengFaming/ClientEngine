@@ -14,6 +14,11 @@ public class VersionManager
 	public class VersionFileCombine
 	{
 		/// <summary>
+		/// 文件夹名字
+		/// </summary>
+		public string m_WFileName;
+
+		/// <summary>
 		/// 文件名字
 		/// </summary>
 		public string m_FileName;
@@ -22,6 +27,23 @@ public class VersionManager
 		/// 文件长度
 		/// </summary>
 		public int m_FileLength;
+
+		public override bool Equals(object obj)
+		{
+			if (obj is VersionFileCombine)
+			{
+				VersionFileCombine other = obj as VersionFileCombine;
+				return other.m_WFileName == m_WFileName &&
+						other.m_FileName == m_FileName;
+			}
+
+			return false;
+		}
+
+		public override int GetHashCode()
+		{
+			return base.GetHashCode();
+		}
 	}
 
 	/*
@@ -37,131 +59,130 @@ public class VersionManager
 	public static VersionManager Instance { get { return m_Version; } }
 
 	/// <summary>
-	/// 大版本号
+	/// 服务器版本号
 	/// </summary>
-	private int m_NowVersionWithBig;
-
-	/// <summary>
-	/// 小版本号
-	/// </summary>
-	private int m_NowVersionWithSmall;
+	private int m_NowVersionNumber;
 
 	public VersionManager()
 	{
-		m_NowVersionWithBig = 0;
-		m_NowVersionWithSmall = 0;
+		m_NowVersionNumber = 0;
 	}
 
 	/// <summary>
 	/// 设置版本号
-	///		V0.0
+	///		V0
 	/// </summary>
 	/// <param name="v1"></param>
-	/// <param name="v2"></param> 
-	public void SetNowVersion(int v1, int v2)
+	public void SetNowVersion(int v1)
 	{
-		m_NowVersionWithBig = v1;
-		m_NowVersionWithSmall = v2;
+		m_NowVersionNumber = v1;
 	}
 
 	/// <summary>
-	/// 对比两个版本号
+	/// 对比客户端上传的版本号和当前的版本号
 	/// </summary>
-	/// <param name="big"></param>
-	/// <param name="small"></param>
-	/// <param name="combineBig"></param>
-	/// <param name="combingSmall"></param>
-	public void CombineVersion(int big, int small, ref int combineBig, ref int combingSmall)
+	/// <param name="version"></param>
+	/// <param name="combine"></param>
+	public bool CombineVersion(int version, ref int combine)
 	{
-		combineBig = m_NowVersionWithBig - big;
-		combingSmall = m_NowVersionWithSmall - small;
-		if (combineBig != 0)
+		combine = m_NowVersionNumber;
+
+		if (version == m_NowVersionNumber)
 		{
-			combineBig = big + 1;
-			combingSmall = 0;
-		}
-		else if (combingSmall != 0)
-		{
-			combineBig = big;
-			combingSmall = small + 1;
+			return true;
 		}
 		else
 		{
-			combineBig = 0;
-			combingSmall = 0;
+			return false;
 		}
 	}
 
 	/// <summary>
-	/// 获取所有差异文件的名字
+	/// 获取差异文件
 	/// </summary>
-	/// <param name="big"></param>
-	/// <param name="small"></param>
+	/// <param name="version">客户端上传的版本号</param>
+	/// <param name="vs"></param>
 	/// <returns></returns>
-	public bool GetCombingVersionFiles(int big, int small, out List<byte> vs)
+	public bool GetCombingVersionFiles(int version, out List<byte> vs)
 	{
 		vs = new List<byte>();
 		vs.Clear();
 
 		string path = Environment.CurrentDirectory;
-		path = Path.Combine(path, "V" + big + "." + small);
+		path = Path.Combine(path, "Data");
 		if (!Directory.Exists(path))
 		{
-			Console.WriteLine("the version:V" + big + "." + small + " is null.");
-			return false;
-		}
-
-		string file = Path.Combine(path, "Hash");
-		if (!File.Exists(file))
-		{
-			Console.WriteLine("the file:" + file + " is null.");
+			Console.WriteLine("the Data is null.");
 			return false;
 		}
 
 		List<VersionFileCombine> vfc = new List<VersionFileCombine>();
 		vfc.Clear();
-		int cout = 0;
-		FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read);
-		BinaryReader br = new BinaryReader(fs);
-		cout = br.ReadInt32();
-		for (int index = 0; index < cout; index++)
+		for (int index = m_NowVersionNumber; index > version; index--)
 		{
-			VersionFileCombine v = new VersionFileCombine();
-			v.m_FileName = br.ReadString();
-			v.m_FileLength = br.ReadInt32();
-			vfc.Add(v);
-		}
+			string file = Path.Combine(path, "Hash" + index);
+			if (!File.Exists(file))
+			{
+				Console.WriteLine("the file:" + file + " is null.");
+				return false;
+			}
 
-		br.Close();
-		fs.Close();
+			FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read);
+			BinaryReader br = new BinaryReader(fs);
+			int cout = 0;
+			cout = br.ReadInt32();
+
+			for (int i = 0; i < cout; i++)
+			{
+				VersionFileCombine v = new VersionFileCombine();
+				v.m_WFileName = br.ReadString();
+				v.m_FileName = br.ReadString();
+				v.m_FileLength = br.ReadInt32();
+
+				if (!vfc.Contains(v))
+				{
+					vfc.Add(v);
+				}
+			}
+		}
 
 		vs.AddRange(BitConverter.GetBytes(vfc.Count));
 		List<byte> fn = new List<byte>();
 		for (int index = 0; index < vfc.Count; index++)
 		{
 			fn.Clear();
-			fn.AddRange(System.Text.Encoding.Default.GetBytes(vfc[index].m_FileName));
+			fn.AddRange(System.Text.Encoding.Default.GetBytes(vfc[index].m_WFileName));
 			int length = fn.Count;
 			vs.AddRange(BitConverter.GetBytes(length));
 			vs.AddRange(fn);
+
+			fn.Clear();
+			fn.AddRange(System.Text.Encoding.Default.GetBytes(vfc[index].m_FileName));
+			length = fn.Count;
+			vs.AddRange(BitConverter.GetBytes(length));
+			vs.AddRange(fn);
+
 			vs.AddRange(BitConverter.GetBytes(vfc[index].m_FileLength));
 		}
 
 		return true;
 	}
 
+
 	/// <summary>
 	/// 获取文件
 	/// </summary>
-	/// <param name="name"></param>
-	/// <param name="big"></param>
-	/// <param name="small"></param>
+	/// <param name="file"></param>
 	/// <returns></returns>
-	public byte[] GetFile(string name, int big, int small)
+	public byte[] GetFile(VersionFileCombine file)
 	{
-		string path = Environment.CurrentDirectory;
-		path = Path.Combine(path, "V" + big + "." + small);
-		path = path + "/" + name;
+		string path = Environment.CurrentDirectory + "/Data";
+		if (!file.m_WFileName.Equals("N"))
+		{
+			path = path + file.m_WFileName;
+		}
+
+		path = path + "/" + file.m_FileName;
 		if (!File.Exists(path))
 		{
 			Console.WriteLine("错误，没有该文件" + path);

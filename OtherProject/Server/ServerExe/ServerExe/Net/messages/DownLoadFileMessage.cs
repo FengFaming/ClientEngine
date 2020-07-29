@@ -21,18 +21,24 @@ public class DownLoadFileMessage : SocketMessageBase
 			return false;
 
 		int start = 0;
-		int big = BitConverter.ToInt32(data, start);
+		int version = BitConverter.ToInt32(data, start);
 
-		start += 4;
-		int small = BitConverter.ToInt32(data, start);
+		VersionManager.VersionFileCombine file = new VersionManager.VersionFileCombine();
 
 		start += 4;
 		int cout = BitConverter.ToInt32(data, start);
-
 		start += 4;
-		string name = System.Text.Encoding.Default.GetString(data, start, cout);
+		file.m_WFileName = System.Text.Encoding.Default.GetString(data, start, cout);
+
+		start += cout;
+		cout = BitConverter.ToInt32(data, start);
+		start += 4;
+		file.m_FileName = System.Text.Encoding.Default.GetString(data, start, cout);
+
+		start += cout;
+		file.m_FileLength = BitConverter.ToInt32(data, start);
 		m_SendClientDatas.AddRange(data);
-		m_SendClientDatas.AddRange(VersionManager.Instance.GetFile(name, big, small));
+		m_SendClientDatas.AddRange(VersionManager.Instance.GetFile(file));
 
 		client.AddSendQueue(this);
 		return true;

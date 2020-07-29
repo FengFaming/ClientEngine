@@ -44,16 +44,6 @@ public class UIPnlBackGameMain : IUIModelControl
 		{
 			bt.gameObject.transform.localPosition = m_Position;
 		}
-
-		MessageManger.Instance.AddMessageListener(EngineMessageHead.LISTEN_KEY_EVENT_FOR_INPUT_MANAGER + "-" + (int)KeyCode.A, AddA);
-	}
-
-	private void AddA(params object[] arms)
-	{
-		UnityEngine.SceneManagement.Scene target =
-			  UnityEngine.SceneManagement.SceneManager.GetSceneByName(GameSceneManager.Instance.Current.SceneName);
-		Debug.Log(target.isLoaded);
-		UnityEngine.SceneManagement.SceneManager.SetActiveScene(target);
 	}
 
 	private void GoBackGameMain()

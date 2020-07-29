@@ -30,7 +30,7 @@ public class GameStart : ObjectBase
 #endif
 
 #if !UNITY_EDITOR || TEST_AB
-		CopyFile(Application.streamingAssetsPath, Application.persistentDataPath);
+		//CopyFile(Application.streamingAssetsPath, Application.persistentDataPath);
 		ResObjectManager.Instance.IsUseAB = true;
 #endif
 
@@ -39,7 +39,7 @@ public class GameStart : ObjectBase
 #endif
 
 		GameNetManager.Instance.AddAgreement(EngineMessageHead.NET_CLIENT_TIME_RESPONSE, "GetServerTimeResponse");
-		GameNetManager.Instance.CreateClient(1, "127.0.0.1", 6000, 1024 * 1024, SuccessConnect);
+		GameNetManager.Instance.CreateClient(1, "127.0.0.1", 6000, 1024 * 1024 * 10, SuccessConnect);
 
 		Debug.Log(Application.persistentDataPath);
 	}
