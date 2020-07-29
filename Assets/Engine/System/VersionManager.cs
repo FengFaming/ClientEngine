@@ -342,6 +342,9 @@ namespace Game.Engine
 					m_VersionNumber = vr.m_VersionNumber;
 					if (vr.m_AllLength == 0 && vr.m_AllFiles.Count == 0)
 					{
+						PlayerPrefs.SetInt(EngineMessageHead.CLIENT_VERSION_NUMBER, m_VersionNumber);
+						MessageManger.Instance.SendMessage(EngineMessageHead.DOWN_LOAD_FILE_LENGTH_AND_COUT, 0, 0);
+
 						if (m_DownLoadFileEnd != null)
 						{
 							m_DownLoadFileEnd();
@@ -376,6 +379,8 @@ namespace Game.Engine
 			}
 			else
 			{
+				PlayerPrefs.SetInt(EngineMessageHead.CLIENT_VERSION_NUMBER, m_VersionNumber);
+
 				if (m_DownLoadFileEnd != null)
 				{
 					m_DownLoadFileEnd();
