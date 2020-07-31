@@ -153,11 +153,24 @@ namespace Game.Engine
 			m_AllAnimation[name].Play(speed, loop);
 			m_Current = m_AllAnimation[name];
 			///动画播放模式
-			///循环模式
-			///一次模式使用动画播放完成之后停留在动画的最后一帧
-			m_AllClips[name].wrapMode = loop ? WrapMode.Loop : WrapMode.ClampForever;
+			m_AllClips[name].wrapMode = loop ? WrapMode.Loop : WrapMode.Once;
+			m_AllClips[name].speed = speed;
 			m_RoleAnimation.CrossFade(name, time);
 			return true;
+		}
+
+		/// <summary>
+		/// 修改动画播放速度，一般只有循环动画才执行
+		/// </summary>
+		/// <param name="sp"></param>
+		public virtual void ChangeAnimationSpeed(float sp)
+		{
+			if (m_Current == null)
+			{
+				return;
+			}
+
+			m_AllClips[m_Current.Name].speed = sp;
 		}
 
 		/// <summary>

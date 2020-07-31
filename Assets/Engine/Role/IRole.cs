@@ -26,7 +26,7 @@ namespace Game.Engine
 		/// </summary>
 		protected RoleAnimationManager m_RoleAnimationManager;
 
-		private void Awake()
+		protected virtual void Awake()
 		{
 			m_RoleAnimationManager = null;
 			m_RoleUID = -100000;
@@ -36,6 +36,14 @@ namespace Game.Engine
 		{
 			m_RoleUID = uid;
 			m_RoleAnimationManager = animation;
+		}
+
+		protected virtual void Update()
+		{
+			if (m_RoleAnimationManager != null)
+			{
+				m_RoleAnimationManager.Update();
+			}
 		}
 
 		#region 暂时测试使用
