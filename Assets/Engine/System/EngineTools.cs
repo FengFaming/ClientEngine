@@ -390,5 +390,26 @@ namespace Game.Engine
 				}
 			}
 		}
+
+		/// <summary>
+		/// 设置一个对象的层级
+		/// </summary>
+		/// <param name="target"></param>
+		/// <param name="layer"></param>
+		public void SetTargetLayer(GameObject target, int layer)
+		{
+			if (target != null)
+			{
+				target.layer = layer;
+				if (target.transform.childCount > 0)
+				{
+					for (int index = 0; index < target.transform.childCount; index++)
+					{
+						GameObject go = target.transform.GetChild(index).gameObject;
+						SetTargetLayer(go, layer);
+					}
+				}
+			}
+		}
 	}
 }

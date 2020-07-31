@@ -33,7 +33,6 @@ public class UIPnlGameMain : IUIModelControl
 		Button reloaing = m_ControlTarget.gameObject.transform.Find("reloading").gameObject.GetComponent<Button>();
 		Button puke = m_ControlTarget.gameObject.transform.Find("puke").gameObject.GetComponent<Button>();
 		Button ce = m_ControlTarget.gameObject.transform.Find("ces").gameObject.GetComponent<Button>();
-		Button back = m_ControlTarget.gameObject.transform.Find("back").gameObject.GetComponent<Button>();
 
 		animation.onClick.AddListener(new UnityEngine.Events.UnityAction(() => { OnClickAnimation(1); }));
 		shoot.onClick.AddListener(new UnityEngine.Events.UnityAction(() => { OnClickAnimation(2); }));
@@ -41,7 +40,6 @@ public class UIPnlGameMain : IUIModelControl
 		reloaing.onClick.AddListener(new UnityEngine.Events.UnityAction(() => { OnClickAnimation(4); }));
 		puke.onClick.AddListener(new UnityEngine.Events.UnityAction(() => { OnClickAnimation(5); }));
 		ce.onClick.AddListener(new UnityEngine.Events.UnityAction(() => { OnClickAnimation(6); }));
-		back.onClick.AddListener(new UnityEngine.Events.UnityAction(() => { OnClickAnimation(7); }));
 
 		m_InputCout = m_ControlTarget.gameObject.transform.Find("cout").gameObject.GetComponent<InputField>();
 	}
@@ -58,7 +56,7 @@ public class UIPnlGameMain : IUIModelControl
 				OtherGameControl.Instance.OpenOtherExe("SmallShoot", "450,800");
 				break;
 			case 3:
-				UIManager.Instance.OpenUI("UIPnlInputCout", UILayer.Blk);
+				//UIManager.Instance.OpenUI("UIPnlInputCout", UILayer.Blk);
 				break;
 			case 4:
 				GameSceneManager.Instance.ChangeScene(new ReloadingScene("animatortest"));
@@ -76,7 +74,8 @@ public class UIPnlGameMain : IUIModelControl
 				////Debug.Log(Time.realtimeSinceStartup);
 				////List<object[]> r = EngineTools.Instance.GetPermutation<object>(d, 0, cout);
 				////Debug.Log(Time.realtimeSinceStartup + " " + r.Count);
-				GameSceneManager.Instance.ChangeScene(new AdditiveSceneTest("testload"));
+				//GameSceneManager.Instance.ChangeScene(new AdditiveSceneTest("testload"));
+				GameSceneManager.Instance.ChangeScene(new SkillTestScene("SkillScene"));
 				break;
 			case 7:
 				GameSceneManager.Instance.ChangeScene(new TestLightmapScene("animatortest"));

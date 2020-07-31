@@ -15,7 +15,7 @@ class Program
 			ServerSocket serverSocket = new ServerSocket("127.0.0.1", 6000, 1, 1024 * 1024 * 10, 100, GetSocket);
 			Console.WriteLine("服务器开启成功:" + serverSocket);
 
-			VersionManager.Instance.SetNowVersion(1);
+			VersionManager.Instance.SetNowVersion(2);
 			//m_Server = serverSocket;
 			//Thread time = new Thread(TimeSend);
 			//time.IsBackground = true;
