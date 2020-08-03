@@ -55,14 +55,32 @@ public class TestRole : IRole
 
 		RoleAnimationManager animation = new RoleAnimationManager(this);
 		Animation a = m_Prant.GetComponent<Animation>();
-		foreach (AnimationState state in a)
+		List<AnimationState> state = new List<AnimationState>();
+		state.Clear();
+		foreach (AnimationState i in a)
 		{
-			IRoleAnimation ira = new IRoleAnimation(state.name);
-			animation.AddRoleAnimation(ira);
-			Debug.Log(state.clip.length);
+			state.Add(i);
+		}
+
+		for (int index = 0; index < state.Count; index++)
+		{
+			TestAnimation test = new TestAnimation(state[index].name);
+			int n = index == 0 ? state.Count - 1 : index - 1;
+			test.m_Last = state[n].name;
+			animation.AddRoleAnimation(test);
+			AnimationActionEvent aae = new AnimationActionEvent(DebugAnimation, new List<object>() { test.Name, test.Name });
+			AnimationFramActionEventInfo info = new AnimationFramActionEventInfo(state[index].length / 2);
+			info.AddActionEvent(aae);
+			animation.AddRoleAnimationAction(test.Name, info);
 		}
 
 		InitRole(1, animation);
-		m_RoleAnimationManager.Play("run", m_Sp, true);
+		m_RoleAnimationManager.Play("run", m_Sp, false);
+	}
+
+	private void DebugAnimation(params object[] arms)
+	{
+		Debug.Log(arms[0]);
+		Debug.Log(arms[1]);
 	}
 }

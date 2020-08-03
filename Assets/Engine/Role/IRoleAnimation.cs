@@ -48,12 +48,25 @@ namespace Game.Engine
 		protected float m_PlayTime;
 		public float PlayTime { get { return m_PlayTime; } }
 
+		/// <summary>
+		/// 是否已经退出
+		/// </summary>
+		protected bool m_IsExit;
+		public bool IsExit { get { return m_IsExit; } }
+
+		/// <summary>
+		/// 从属者
+		/// </summary>
+		protected IRole m_Owner;
+
 		public IRoleAnimation(string name)
 		{
 			m_AnimationName = name;
 			m_PlaySpeed = 1f;
 			m_IsUpdate = false;
 			m_IsLoop = false;
+
+			m_IsExit = false;
 		}
 
 		/// <summary>
@@ -61,11 +74,13 @@ namespace Game.Engine
 		/// </summary>
 		/// <param name="sp"></param>
 		/// <param name="loop"></param>
-		public virtual void Play(float sp, bool loop = false)
+		public virtual void Play(IRole owner, float sp, bool loop = false)
 		{
+			m_Owner = owner;
 			m_PlaySpeed = sp;
 			m_PlayTime = 0f;
 			m_IsLoop = loop;
+			m_IsExit = false;
 			m_IsUpdate = !m_IsLoop;
 		}
 
@@ -74,6 +89,7 @@ namespace Game.Engine
 		/// </summary>
 		public virtual void Exit()
 		{
+			m_IsExit = true;
 			m_IsUpdate = false;
 			m_PlaySpeed = 1f;
 			m_PlayTime = 0f;
@@ -96,7 +112,7 @@ namespace Game.Engine
 		{
 			if (m_IsUpdate)
 			{
-				m_PlayTime = Time.deltaTime * m_PlaySpeed;
+				m_PlayTime += Time.deltaTime * m_PlaySpeed;
 			}
 		}
 	}

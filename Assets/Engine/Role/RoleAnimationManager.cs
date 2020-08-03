@@ -110,6 +110,10 @@ namespace Game.Engine
 														});
 				}
 			}
+			else
+			{
+				m_AllAnimationActions.Add(name, new List<AnimationFramActionEventInfo>() { info });
+			}
 		}
 
 		/// <summary>
@@ -150,7 +154,7 @@ namespace Game.Engine
 				}
 			}
 
-			m_AllAnimation[name].Play(speed, loop);
+			m_AllAnimation[name].Play(m_Owner, speed, loop);
 			m_Current = m_AllAnimation[name];
 			///动画播放模式
 			m_AllClips[name].wrapMode = loop ? WrapMode.Loop : WrapMode.Once;
@@ -180,32 +184,40 @@ namespace Game.Engine
 		{
 			if (m_Current != null)
 			{
-				m_Current.Update();
-				if (!m_Current.IsLoop)
+				if (!m_Current.IsExit)
 				{
-					if (m_AllAnimationActions.ContainsKey(m_Current.Name))
+					m_Current.Update();
+					if (!m_Current.IsLoop)
 					{
-						for (int index = 0; index < m_AllAnimationActions[m_Current.Name].Count; index++)
+						if (m_AllAnimationActions.ContainsKey(m_Current.Name))
 						{
-							if (m_AllAnimationActions[m_Current.Name][index].m_FramTime <= m_Current.PlayTime)
+							for (int index = 0; index < m_AllAnimationActions[m_Current.Name].Count; index++)
 							{
-								if (!m_AllAnimationActions[m_Current.Name][index].m_IsAction)
+								if (m_AllAnimationActions[m_Current.Name][index].m_FramTime <= m_Current.PlayTime)
 								{
-									m_AllAnimationActions[m_Current.Name][index].HanldAction();
+									if (!m_AllAnimationActions[m_Current.Name][index].m_IsAction)
+									{
+										m_AllAnimationActions[m_Current.Name][index].HanldAction();
+									}
+								}
+								else
+								{
+									break;
 								}
 							}
-							else
-							{
-								break;
-							}
+						}
+
+						if (m_Current.PlayTime >= m_AllClips[m_Current.Name].length)
+						{
+							m_Current.Exit();
 						}
 					}
-				}
-				else
-				{
-					if (!m_RoleAnimation.IsPlaying(m_Current.Name))
+					else
 					{
-						Play(m_Current.Name, m_Current.PlaySpeed, true);
+						if (!m_RoleAnimation.IsPlaying(m_Current.Name))
+						{
+							Play(m_Current.Name, m_Current.PlaySpeed, true);
+						}
 					}
 				}
 			}
