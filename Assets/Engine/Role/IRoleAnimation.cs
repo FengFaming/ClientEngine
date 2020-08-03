@@ -59,6 +59,12 @@ namespace Game.Engine
 		/// </summary>
 		protected IRole m_Owner;
 
+		/// <summary>
+		/// 退出的函数监听
+		/// </summary>
+		protected Action<IRoleAnimation> m_ExitAction;
+		public Action<IRoleAnimation> ExitAction { set { m_ExitAction = value; } }
+
 		public IRoleAnimation(string name)
 		{
 			m_AnimationName = name;
@@ -72,9 +78,11 @@ namespace Game.Engine
 		/// <summary>
 		/// 播放动画
 		/// </summary>
+		/// <param name="owner"></param>
 		/// <param name="sp"></param>
 		/// <param name="loop"></param>
-		public virtual void Play(IRole owner, float sp, bool loop = false)
+		/// <param name="exit"></param>
+		public virtual void Play(IRole owner, float sp, bool loop = false, Action<IRoleAnimation> exit = null)
 		{
 			m_Owner = owner;
 			m_PlaySpeed = sp;
@@ -82,6 +90,7 @@ namespace Game.Engine
 			m_IsLoop = loop;
 			m_IsExit = false;
 			m_IsUpdate = !m_IsLoop;
+			m_ExitAction = exit;
 		}
 
 		/// <summary>
@@ -93,6 +102,11 @@ namespace Game.Engine
 			m_IsUpdate = false;
 			m_PlaySpeed = 1f;
 			m_PlayTime = 0f;
+
+			if (m_ExitAction != null)
+			{
+				m_ExitAction(this);
+			}
 		}
 
 		/// <summary>
