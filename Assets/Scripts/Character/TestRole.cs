@@ -65,9 +65,12 @@ public class TestRole : IRole
 		for (int index = 0; index < state.Count; index++)
 		{
 			TestAnimation test = new TestAnimation(state[index].name);
+			test.ExitAction = PlayerLast;
 			int n = index == 0 ? state.Count - 1 : index - 1;
 			test.m_Last = state[n].name;
 			animation.AddRoleAnimation(test);
+
+			///生成帧事件
 			AnimationActionEvent aae = new AnimationActionEvent(DebugAnimation, new List<object>() { test.Name, test.Name });
 			AnimationFramActionEventInfo info = new AnimationFramActionEventInfo(state[index].length / 2);
 			info.AddActionEvent(aae);
@@ -76,6 +79,11 @@ public class TestRole : IRole
 
 		InitRole(1, animation);
 		m_RoleAnimationManager.Play("run", m_Sp, false);
+	}
+
+	private void PlayerLast(IRoleAnimation t)
+	{
+		m_RoleAnimationManager.Play((t as TestAnimation).m_Last);
 	}
 
 	private void DebugAnimation(params object[] arms)

@@ -73,6 +73,7 @@ namespace Game.Engine
 			m_IsLoop = false;
 
 			m_IsExit = false;
+			m_ExitAction = null;
 		}
 
 		/// <summary>
@@ -81,8 +82,7 @@ namespace Game.Engine
 		/// <param name="owner"></param>
 		/// <param name="sp"></param>
 		/// <param name="loop"></param>
-		/// <param name="exit"></param>
-		public virtual void Play(IRole owner, float sp, bool loop = false, Action<IRoleAnimation> exit = null)
+		public virtual void Play(IRole owner, float sp, bool loop = false)
 		{
 			m_Owner = owner;
 			m_PlaySpeed = sp;
@@ -90,7 +90,6 @@ namespace Game.Engine
 			m_IsLoop = loop;
 			m_IsExit = false;
 			m_IsUpdate = !m_IsLoop;
-			m_ExitAction = exit;
 		}
 
 		/// <summary>

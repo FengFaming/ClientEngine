@@ -53,7 +53,7 @@ namespace Game.Engine
 		/// <summary>
 		/// 启动回调
 		/// </summary>
-		public void EventAction()
+		public virtual void EventAction()
 		{
 			if (m_ActionEvent != null)
 			{
@@ -64,7 +64,7 @@ namespace Game.Engine
 		/// <summary>
 		/// 清除数据
 		/// </summary>
-		public void ClearData()
+		public virtual void ClearData()
 		{
 			m_ActionArms.Clear();
 			m_ActionArms = null;
@@ -104,7 +104,7 @@ namespace Game.Engine
 		/// 添加回调
 		/// </summary>
 		/// <param name="action"></param>
-		public void AddActionEvent(AnimationActionEvent action)
+		public virtual void AddActionEvent(AnimationActionEvent action)
 		{
 			m_AllActions.Add(action);
 		}
@@ -113,7 +113,7 @@ namespace Game.Engine
 		/// 添加回调
 		/// </summary>
 		/// <param name="action"></param>
-		public void AddActionEvent(Action<object[]> action)
+		public virtual void AddActionEvent(Action<object[]> action)
 		{
 			AddActionEvent(new AnimationActionEvent(action));
 		}
@@ -123,7 +123,7 @@ namespace Game.Engine
 		/// </summary>
 		/// <param name="action"></param>
 		/// <param name="list"></param>
-		public void AddActionEvent(Action<object[]> action, List<object> list)
+		public virtual void AddActionEvent(Action<object[]> action, List<object> list)
 		{
 			AddActionEvent(new AnimationActionEvent(action, list));
 		}
@@ -131,7 +131,7 @@ namespace Game.Engine
 		/// <summary>
 		/// 启动回调
 		/// </summary>
-		public void HanldAction()
+		public virtual void HanldAction()
 		{
 			if (m_IsAction)
 			{
@@ -148,7 +148,7 @@ namespace Game.Engine
 		/// <summary>
 		/// 恢复回调
 		/// </summary>
-		public void ReaseAction()
+		public virtual void ReaseAction()
 		{
 			m_IsAction = false;
 		}
@@ -156,7 +156,7 @@ namespace Game.Engine
 		/// <summary>
 		/// 清除数据
 		/// </summary>
-		public void ClearData()
+		public virtual void ClearData()
 		{
 			m_IsAction = true;
 			m_FramTime = 999f;

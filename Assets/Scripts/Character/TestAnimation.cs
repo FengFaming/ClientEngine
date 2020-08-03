@@ -20,10 +20,4 @@ public class TestAnimation : IRoleAnimation
 	{
 
 	}
-
-	public override void Exit()
-	{
-		base.Exit();
-		m_Owner.PlayAnimation(m_Last);
-	}
 }
