@@ -79,6 +79,7 @@ public class TestRole : IRole
 
 		IRoleState rs = new IRoleState(1);
 		IRoleState rs1 = new IRoleState(2);
+		IRoleState rs2 = new IRoleState(3);
 		for (int index = 0; index < state.Count; index++)
 		{
 			if (index < 3)
@@ -97,10 +98,14 @@ public class TestRole : IRole
 		rs1.AnimationManager = animation;
 		rs1.Loop = false;
 		rs1.ExitAction = ExitState;
+		rs2.Loop = true;
+		rs2.AnimationManager = animation;
+		rs2.AddAnimation("run");
 
 		IRoleStateManager rsm = new IRoleStateManager();
 		rsm.AddState(rs);
 		rsm.AddState(rs1);
+		rsm.AddState(rs2);
 		InitRole(1, animation, rsm);
 		m_StateManager.StartState(1);
 		//m_RoleAnimationManager.Play("run", m_Sp, false);
@@ -115,8 +120,8 @@ public class TestRole : IRole
 		}
 		else
 		{
-			Debug.Log("state 2 -> 1");
-			m_StateManager.StartState(1);
+			Debug.Log("state 2 -> 3");
+			m_StateManager.StartState(3);
 		}
 	}
 

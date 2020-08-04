@@ -52,6 +52,11 @@ namespace Game.Engine
 			{
 				m_RoleAnimationManager.Update();
 			}
+
+			if (m_StateManager != null)
+			{
+				m_StateManager.Update();
+			}
 		}
 
 		#region 暂时测试使用
