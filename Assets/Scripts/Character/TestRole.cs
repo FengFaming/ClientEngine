@@ -65,20 +65,59 @@ public class TestRole : IRole
 		for (int index = 0; index < state.Count; index++)
 		{
 			TestAnimation test = new TestAnimation(state[index].name);
-			test.ExitAction = PlayerLast;
+			//test.ExitAction = PlayerLast;
 			int n = index == 0 ? state.Count - 1 : index - 1;
-			test.m_Last = state[n].name;
+			//test.m_Last = state[n].name;
 			animation.AddRoleAnimation(test);
 
 			///生成帧事件
-			AnimationActionEvent aae = new AnimationActionEvent(DebugAnimation, new List<object>() { test.Name, test.Name });
-			AnimationFramActionEventInfo info = new AnimationFramActionEventInfo(state[index].length / 2);
-			info.AddActionEvent(aae);
-			animation.AddRoleAnimationAction(test.Name, info);
+			//AnimationActionEvent aae = new AnimationActionEvent(DebugAnimation, new List<object>() { test.Name, test.Name });
+			//AnimationFramActionEventInfo info = new AnimationFramActionEventInfo(state[index].length / 2);
+			//info.AddActionEvent(aae);
+			//animation.AddRoleAnimationAction(test.Name, info);
 		}
 
-		InitRole(1, animation);
-		m_RoleAnimationManager.Play("run", m_Sp, false);
+		IRoleState rs = new IRoleState(1);
+		IRoleState rs1 = new IRoleState(2);
+		for (int index = 0; index < state.Count; index++)
+		{
+			if (index < 3)
+			{
+				rs.AddAnimation(state[index].name);
+			}
+			else
+			{
+				rs1.AddAnimation(state[index].name);
+			}
+		}
+
+		rs.AnimationManager = animation;
+		rs.Loop = false;
+		rs.ExitAction = ExitState;
+		rs1.AnimationManager = animation;
+		rs1.Loop = false;
+		rs1.ExitAction = ExitState;
+
+		IRoleStateManager rsm = new IRoleStateManager();
+		rsm.AddState(rs);
+		rsm.AddState(rs1);
+		InitRole(1, animation, rsm);
+		m_StateManager.StartState(1);
+		//m_RoleAnimationManager.Play("run", m_Sp, false);
+	}
+
+	private void ExitState(IObjectState state)
+	{
+		if (state.StateID == 1)
+		{
+			Debug.Log("state 1 -> 2");
+			m_StateManager.StartState(2);
+		}
+		else
+		{
+			Debug.Log("state 2 -> 1");
+			m_StateManager.StartState(1);
+		}
 	}
 
 	private void PlayerLast(IRoleAnimation t)

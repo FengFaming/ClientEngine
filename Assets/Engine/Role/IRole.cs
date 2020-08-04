@@ -26,16 +26,24 @@ namespace Game.Engine
 		/// </summary>
 		protected RoleAnimationManager m_RoleAnimationManager;
 
+		/// <summary>
+		/// 角色状态管理器
+		/// </summary>
+		protected IRoleStateManager m_StateManager;
+
 		protected virtual void Awake()
 		{
 			m_RoleAnimationManager = null;
 			m_RoleUID = -100000;
 		}
 
-		public virtual void InitRole(int uid, RoleAnimationManager animation)
+		public virtual void InitRole(int uid,
+									RoleAnimationManager animation,
+									IRoleStateManager state)
 		{
 			m_RoleUID = uid;
 			m_RoleAnimationManager = animation;
+			m_StateManager = state;
 		}
 
 		protected virtual void Update()

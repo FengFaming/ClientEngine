@@ -178,6 +178,21 @@ namespace Game.Engine
 		}
 
 		/// <summary>
+		/// 查找对应的动画
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		public virtual IRoleAnimation GetRoleAnimation(string name)
+		{
+			if (m_AllAnimation.ContainsKey(name))
+			{
+				return m_AllAnimation[name];
+			}
+
+			return null;
+		}
+
+		/// <summary>
 		/// 更新
 		/// </summary>
 		public virtual void Update()
