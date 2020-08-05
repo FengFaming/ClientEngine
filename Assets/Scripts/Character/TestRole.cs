@@ -106,23 +106,36 @@ public class TestRole : IRole
 		rsm.AddState(rs);
 		rsm.AddState(rs1);
 		rsm.AddState(rs2);
-		InitRole(1, animation, rsm);
-		m_StateManager.StartState(1);
+		SetUID(100001);
+		IRoleSkill skill = new IRoleSkill(1);
+		skill.StateID = 1;
+
+		IRoleSkillManager skillm = new IRoleSkillManager(this);
+		skillm.AddSkill(skill);
+		skillm.ExitAction = ExitSkillManager;
+		InitRole(animation, rsm, skillm);
+		m_SkillManager.TrySkill(1);
+		//		m_StateManager.StartState(1);
 		//m_RoleAnimationManager.Play("run", m_Sp, false);
+	}
+
+	private void ExitSkillManager()
+	{
+		m_StateManager.StartState(3);
 	}
 
 	private void ExitState(IObjectState state)
 	{
-		if (state.StateID == 1)
-		{
-			Debug.Log("state 1 -> 2");
-			m_StateManager.StartState(2);
-		}
-		else
-		{
-			Debug.Log("state 2 -> 3");
-			m_StateManager.StartState(3);
-		}
+		//if (state.StateID == 1)
+		//{
+		//	Debug.Log("state 1 -> 2");
+		//	m_StateManager.StartState(2);
+		//}
+		//else
+		//{
+		//	Debug.Log("state 2 -> 3");
+		//	m_StateManager.StartState(3);
+		//}
 	}
 
 	private void PlayerLast(IRoleAnimation t)

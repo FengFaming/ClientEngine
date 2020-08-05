@@ -30,6 +30,10 @@ namespace Game.Engine
 		/// 角色状态管理器
 		/// </summary>
 		protected IRoleStateManager m_StateManager;
+		public IRoleStateManager StateManager { get { return m_StateManager; } }
+
+		protected IRoleSkillManager m_SkillManager;
+		public IRoleSkillManager SkillManager { get { return m_SkillManager; } }
 
 		protected virtual void Awake()
 		{
@@ -37,13 +41,23 @@ namespace Game.Engine
 			m_RoleUID = -100000;
 		}
 
-		public virtual void InitRole(int uid,
-									RoleAnimationManager animation,
-									IRoleStateManager state)
+		/// <summary>
+		/// 设置UID
+		///		读取配置数据等
+		/// </summary>
+		/// <param name="uid"></param>
+		public void SetUID(int uid)
 		{
 			m_RoleUID = uid;
+		}
+
+		public virtual void InitRole(RoleAnimationManager animation,
+									IRoleStateManager state,
+									IRoleSkillManager skillManager)
+		{
 			m_RoleAnimationManager = animation;
 			m_StateManager = state;
+			m_SkillManager = skillManager;
 		}
 
 		protected virtual void Update()
@@ -56,6 +70,11 @@ namespace Game.Engine
 			if (m_StateManager != null)
 			{
 				m_StateManager.Update();
+			}
+
+			if (m_SkillManager != null)
+			{
+				m_SkillManager.Update();
 			}
 		}
 
