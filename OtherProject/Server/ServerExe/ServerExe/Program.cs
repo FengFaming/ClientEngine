@@ -21,7 +21,13 @@ class Program
 			object o = sq.ConnectMysql();
 			if (o == null)
 			{
-				sq.AddLoadQueue("SELECT * FROM main WHERE ID=1000001;", LoadEnd);
+				MainTable mainTable = new MainTable();
+				while (!mainTable.LoadData())
+				{
+
+				}
+
+				Console.WriteLine(mainTable.GetData(1000001));
 			}
 			//m_Server = serverSocket;
 			//Thread time = new Thread(TimeSend);

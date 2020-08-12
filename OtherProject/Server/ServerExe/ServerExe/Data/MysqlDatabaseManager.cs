@@ -26,6 +26,15 @@ public class LoadDataInfo
 public class MysqlDatabaseManager
 {
 	/// <summary>
+	/// 自身数据
+	/// </summary>
+	private static MysqlDatabaseManager m_Mysql;
+	public static MysqlDatabaseManager Instance
+	{
+		get { return m_Mysql; }
+	}
+
+	/// <summary>
 	/// 连接内容
 	/// </summary>
 	private MySqlConnection m_MySqlCon;
@@ -60,6 +69,8 @@ public class MysqlDatabaseManager
 
 		m_NeedLoadQue = new Queue<LoadDataInfo>();
 		m_NeedLoadQue.Clear();
+
+		m_Mysql = this;
 	}
 
 	/// <summary>
