@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Threading;
 
 class Program
@@ -16,17 +17,30 @@ class Program
 			Console.WriteLine("服务器开启成功:" + serverSocket);
 
 			VersionManager.Instance.SetNowVersion(2);
+			MysqlDatabaseManager sq = new MysqlDatabaseManager("test", "123456", "SV");
+			object o = sq.ConnectMysql();
+			if (o == null)
+			{
+				sq.AddLoadQueue("SELECT * FROM main WHERE ID=1000001;", LoadEnd);
+			}
 			//m_Server = serverSocket;
 			//Thread time = new Thread(TimeSend);
 			//time.IsBackground = true;
 			//time.Start();
 		}
-		catch
+		catch (MySqlException ex)
 		{
-
+			Console.WriteLine(ex);
 		}
 
 		Console.Read();
+	}
+
+	private static void LoadEnd(object target)
+	{
+		MySqlDataReader read = target as MySqlDataReader;
+		read.Read();
+		Console.WriteLine(read[0]);
 	}
 
 	private static void TimeSend()

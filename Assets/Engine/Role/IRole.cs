@@ -51,7 +51,7 @@ namespace Game.Engine
 			m_RoleUID = uid;
 		}
 
-		public virtual void InitRole(RoleAnimationManager animation,
+		protected virtual void InitRole(RoleAnimationManager animation,
 									IRoleStateManager state,
 									IRoleSkillManager skillManager)
 		{
