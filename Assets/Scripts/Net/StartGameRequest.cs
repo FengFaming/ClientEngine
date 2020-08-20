@@ -17,7 +17,7 @@ public class StartGameRequest : ClientSendMessageBase
 	public StartGameRequest() : base()
 	{
 		m_MessageHead.m_MessageID = 10010;
-		m_MessageHead.m_MessageType = 1;
+		m_MessageHead.m_MessageType = 3;
 		m_MessageHead.m_MessageLength = 9;
 	}
 }

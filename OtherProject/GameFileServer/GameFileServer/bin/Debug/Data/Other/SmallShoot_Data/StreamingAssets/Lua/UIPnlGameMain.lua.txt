@@ -1,0 +1,20 @@
+local target
+
+function init(ui)
+	target = ui;
+	diren = CS.Game.Engine.LuaManager.Instance:GetGameObject(target,"diren");
+	zidan = CS.Game.Engine.LuaManager.Instance:GetGameObject(target,"diren");
+	ziji = CS.Game.Engine.LuaManager.Instance:GetGameObject(target,"zj");
+	b1 = CS.Game.Engine.LuaManager.Instance:GetGameObject(target,"bg/b1");
+	b2 = CS.Game.Engine.LuaManager.Instance:GetGameObject(target,"bg/b2");
+	b3 = CS.Game.Engine.LuaManager.Instance:GetGameObject(target,"bg/b3");
+	fenzhi = CS.Game.Engine.LuaManager.Instance:GetGameObject(target,"fenzhi");
+	
+	CS.Game.Engine.LuaManager.Instance:SendMessageToThread("SET_DIREN_PARENT",diren,zidan,ziji, "3",b1,b2,b3,"-850","1500","1",fenzhi);
+end
+
+function update()
+end
+
+function destroy()
+end

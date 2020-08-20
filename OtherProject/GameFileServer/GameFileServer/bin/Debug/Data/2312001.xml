@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root>
+  <States Idle="0">
+    <State ID="0" Control="CharacterStateBase">
+      <Parameter Key="IsWalk" Value="false"/>
+      <Parameter Key="IsRun" Value="false"/>
+    </State>
+    <State ID="1" Control="CharacterStateBase">
+      <Parameter Key="IsWalk" Value="true"/>
+      <Parameter Key="IsRun" Value="false"/>
+    </State>
+    <State ID="2" Control="CharacterStateBase">
+      <Parameter Key="IsWalk" Value="true"/>
+      <Parameter Key="IsRun" Value="true"/>
+    </State>
+  </States>
+</Root>

@@ -39,7 +39,7 @@ public class GameStart : ObjectBase
 #endif
 
 		GameNetManager.Instance.AddAgreement(EngineMessageHead.NET_CLIENT_TIME_RESPONSE, "GetServerTimeResponse");
-		GameNetManager.Instance.CreateClient(1, "127.0.0.1", 6000, 1024 * 1024 * 10, SuccessConnect);
+		GameNetManager.Instance.CreateClient(1, "127.0.0.1", 6001, 1024 * 1024 * 10, SuccessConnect);
 
 		Debug.Log(Application.persistentDataPath);
 	}
@@ -150,13 +150,28 @@ public class GameStart : ObjectBase
 	/// <returns></returns>
 	private IEnumerator StartGame()
 	{
+		GameNetManager.Instance.CloseClient(1);
 		yield return null;
 		UIManager.Instance.OpenUI("UIPnlFirstPanle", UILayer.Pnl);
 		yield return new WaitForSeconds(0.5f);
 
+		GameNetManager.Instance.CreateClient(1, "127.0.0.1", 6003, 1024 * 1024 * 10, DataServer);
+	}
+
+	private void DataServer(bool isSuccess)
+	{
+		if (isSuccess)
+		{
+			StartCoroutine("DataServerStart");
+		}
+	}
+
+	private IEnumerator DataServerStart()
+	{
+		Debug.Log("逻辑服务器启动成功");
+		yield return null;
 		UIManager.Instance.OpenUI("UIPnlGameStart", UILayer.Pnl);
 		StartGameRequest pack = new StartGameRequest();
-		//pack.SetSendString("test");
 		GameNetManager.Instance.SendMessage<StartGameRequest>(pack, 1);
 	}
 

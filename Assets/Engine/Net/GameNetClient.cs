@@ -288,6 +288,8 @@ namespace Game.Engine
 					int leng = m_ClientInfo.m_Socket.Receive(m_OneMessage);
 					if (leng <= 0)
 					{
+						Debug.LogError("服务器连接断开了。");
+						m_IsSuccess = false;
 						continue;
 					}
 					else

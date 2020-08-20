@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root>
+  <Loads>
+    <Load Key="jiao" Name="ch_pc_hou_004_jiao" Position="0,0,0" Rotation="0,0,0" Scale="1,1,1"/>
+    <Load Key="shen" Name="ch_pc_hou_004_shen" Position="0,0,0" Rotation="0,0,0" Scale="1,1,1"/>
+    <Load Key="shou" Name="ch_pc_hou_004_shou" Position="0,0,0" Rotation="0,0,0" Scale="1,1,1"/>
+    <Load Key="tou" Name="ch_pc_hou_004_tou" Position="0,0,0" Rotation="0,0,0" Scale="1,1,1"/>
+  </Loads>
+  <States Idle="0">
+    <State ID="0" Control="CharacterStateBase">
+      <Parameter Key="breath" Value="false"/>
+    </State>
+    <State ID="1" Control="CharacterStateBase">
+      <Parameter Key="attack2" Value="false"/>
+    </State>
+    <State ID="2" Control="CharacterStateBase">
+      <Parameter Key="attack1" Value="false"/>
+    </State>
+    <State ID="3" Control="CharacterStateBase">
+      <Parameter Key="run" Value="false"/>
+    </State>
+  </States>
+  <Mount>
+    <Mount ID="1" Name="child" Position="0,0,0" Rotation="0,0,0" Scale="1,1,1"/>
+  </Mount>
+</Root>

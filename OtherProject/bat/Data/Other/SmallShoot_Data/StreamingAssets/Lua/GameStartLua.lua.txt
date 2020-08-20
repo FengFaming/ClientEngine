@@ -1,0 +1,39 @@
+local level = 1;
+
+function zijishuliang()
+	return "s1";
+end
+
+function st()
+	return "100","0.5";
+end
+
+function diren()
+	if level == 1 then
+		return "4","200","400","20","1","10";
+	elseif level == 2 then
+		return "3","100","300","25","10","50";
+	elseif level == 3 then
+		return "2","0","200","30","50","80";
+	end
+	
+	return "1","-100","0","50","1","99";
+end
+
+function guoguan(f)
+	if level == 1 then
+		if f > 100 then
+			return "true";
+		end
+	elseif level == 2 then
+		if f > 200 then
+			return "true";
+		end
+	elseif level == 3 then
+		if f > 300 then
+			return "true";
+		end
+	end
+	
+	return "false";
+end

@@ -4,7 +4,7 @@ using System.Threading;
 
 class Program
 {
-	private static ServerSocket m_Server;
+	private static ServerSocket m_Server = null;
 
 	public static void Main(string[] args)
 	{
