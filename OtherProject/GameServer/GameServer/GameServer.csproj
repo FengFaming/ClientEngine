@@ -93,6 +93,7 @@
   <ItemGroup>
     <Compile Include="Database\MysqlDatabaseManager.cs" />
     <Compile Include="Net\ClientInfo.cs" />
+    <Compile Include="Net\message\CheckUserPassword.cs" />
     <Compile Include="Net\message\TimeSendMessage.cs" />
     <Compile Include="Net\ServerSocket.cs" />
     <Compile Include="Net\SocketMessage.cs" />

@@ -166,5 +166,45 @@ namespace Game.Engine
 			m_MessageHead.m_MessageLength = m_SendData.Count + 9;
 			m_SendData.InsertRange(0, m_MessageHead.GetByteData());
 		}
+
+		/// <summary>
+		/// 设置字符串
+		/// </summary>
+		/// <param name="data"></param>
+		protected virtual void SetSendString(string data)
+		{
+			int cout = m_SendData.Count;
+			m_SendData.AddRange(System.Text.Encoding.Default.GetBytes(data));
+
+			int dt = m_SendData.Count - cout;
+			m_SendData.InsertRange(cout, BitConverter.GetBytes(dt));
+		}
+
+		/// <summary>
+		/// 设置整形数值
+		/// </summary>
+		/// <param name="data"></param>
+		protected virtual void SetSendInt(int data)
+		{
+			m_SendData.AddRange(BitConverter.GetBytes(data));
+		}
+
+		/// <summary>
+		/// 这是一个浮点值
+		/// </summary>
+		/// <param name="data"></param>
+		protected virtual void SetSendFloat(float data)
+		{
+			m_SendData.AddRange(BitConverter.GetBytes(data));
+		}
+
+		/// <summary>
+		/// 设置一个双精度值
+		/// </summary>
+		/// <param name="data"></param>
+		protected virtual void SetSendDouble(double data)
+		{
+			m_SendData.AddRange(BitConverter.GetBytes(data));
+		}
 	}
 }

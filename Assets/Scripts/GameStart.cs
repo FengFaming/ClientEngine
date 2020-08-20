@@ -39,6 +39,7 @@ public class GameStart : ObjectBase
 #endif
 
 		GameNetManager.Instance.AddAgreement(EngineMessageHead.NET_CLIENT_TIME_RESPONSE, "GetServerTimeResponse");
+		GameNetManager.Instance.AddAgreement(10011, "CheckUserPasswordResponse");
 		GameNetManager.Instance.CreateClient(1, "127.0.0.1", 6001, 1024 * 1024 * 10, SuccessConnect);
 
 		Debug.Log(Application.persistentDataPath);
@@ -171,8 +172,8 @@ public class GameStart : ObjectBase
 		Debug.Log("逻辑服务器启动成功");
 		yield return null;
 		UIManager.Instance.OpenUI("UIPnlGameStart", UILayer.Pnl);
-		StartGameRequest pack = new StartGameRequest();
-		GameNetManager.Instance.SendMessage<StartGameRequest>(pack, 1);
+		//StartGameRequest pack = new StartGameRequest();
+		//GameNetManager.Instance.SendMessage<StartGameRequest>(pack, 1);
 	}
 
 	private void OnDestroy()

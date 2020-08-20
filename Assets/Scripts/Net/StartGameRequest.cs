@@ -20,4 +20,15 @@ public class StartGameRequest : ClientSendMessageBase
 		m_MessageHead.m_MessageType = 3;
 		m_MessageHead.m_MessageLength = 9;
 	}
+
+	/// <summary>
+	/// 设置数据
+	/// </summary>
+	/// <param name="user"></param>
+	/// <param name="password"></param>
+	public void SetSendData(string user, string password)
+	{
+		SetSendString(user);
+		SetSendString(password);
+	}
 }

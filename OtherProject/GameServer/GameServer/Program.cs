@@ -56,9 +56,9 @@ namespace GameServer
 				ServerSocket server = new ServerSocket(ip, port, (byte)type, max * 1024, length, GetSocket);
 				Console.WriteLine("打开系统服务器成功");
 
-				Thread time = new Thread(TimeSend);
-				time.IsBackground = true;
-				time.Start(server);
+				//Thread time = new Thread(TimeSend);
+				//time.IsBackground = true;
+				//time.Start(server);
 			}
 
 			Console.ReadLine();
@@ -76,14 +76,18 @@ namespace GameServer
 			switch (messageHead.m_MessageID)
 			{
 				///测试协议
-				case 100010:
-					socketMessageBase = new SocketMessageBase(messageHead);
+				case 10010:
+					socketMessageBase = new CheckUserPassword();
 					break;
 			}
 
 			return socketMessageBase;
 		}
 
+		/// <summary>
+		/// 逻辑时间计算
+		/// </summary>
+		/// <param name="server"></param>
 		private static void TimeSend(object server)
 		{
 			ServerSocket m_Server = server as ServerSocket;
