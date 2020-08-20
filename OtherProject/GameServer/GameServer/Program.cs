@@ -25,6 +25,8 @@ namespace GameServer
 			int type = 0;
 			int max = 0;
 			int length = 0;
+
+			string db = string.Empty;
 			try
 			{
 				string file = Environment.CurrentDirectory + "/gameserver.txt";
@@ -35,6 +37,7 @@ namespace GameServer
 				type = int.Parse(sr.ReadLine());
 				max = int.Parse(sr.ReadLine());
 				length = int.Parse(sr.ReadLine());
+				db = sr.ReadLine();
 				sr.Close();
 				fs.Close();
 			}
@@ -43,12 +46,21 @@ namespace GameServer
 
 			}
 
-			ServerSocket server = new ServerSocket(ip, port, (byte)type, max * 1024, length, GetSocket);
-			Console.WriteLine("打开系统服务器成功");
+			Console.WriteLine("开启数据库……");
+			MysqlDatabaseManager sq = new MysqlDatabaseManager(db);
+			object o = sq.ConnectMysql();
+			if (o == null)
+			{
+				Console.WriteLine("数据库开启成功");
 
-			Thread time = new Thread(TimeSend);
-			time.IsBackground = true;
-			time.Start(server);
+				ServerSocket server = new ServerSocket(ip, port, (byte)type, max * 1024, length, GetSocket);
+				Console.WriteLine("打开系统服务器成功");
+
+				Thread time = new Thread(TimeSend);
+				time.IsBackground = true;
+				time.Start(server);
+			}
+
 			Console.ReadLine();
 		}
 

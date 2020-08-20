@@ -3,3 +3,4 @@
 4
 10240
 1000
+server=127.0.0.1;port=3306;user id=test;password=123456;database=SV
