@@ -38,8 +38,30 @@ public class UIPnlGameStart : IUIModelControl
 	{
 		m_Check.interactable = false;
 
+		Transform user = m_ControlTarget.transform.Find("user");
+		Text u = user.Find("Text").gameObject.GetComponent<Text>();
+		string su = u.text;
+
+		Transform password = m_ControlTarget.transform.Find("password");
+		Text p = password.Find("Text").gameObject.GetComponent<Text>();
+		string sp = p.text;
+
+		if (string.IsNullOrEmpty(su))
+		{
+			Debug.LogWarning("user is null.");
+			m_Check.interactable = true;
+			return;
+		}
+
+		if (string.IsNullOrEmpty(sp))
+		{
+			Debug.LogWarning("password is null.");
+			m_Check.interactable = true;
+			return;
+		}
+
 		StartGameRequest pack = new StartGameRequest();
-		pack.SetSendData("1000001", "123456");
+		pack.SetSendData(su, sp);
 		GameNetManager.Instance.SendMessage<StartGameRequest>(pack, 1);
 
 	}
