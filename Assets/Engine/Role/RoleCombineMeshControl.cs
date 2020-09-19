@@ -120,10 +120,14 @@ namespace Game.Engine
 
 			SkinnedMeshRenderer r = skeleton.AddComponent<SkinnedMeshRenderer>();
 			r.sharedMesh = new Mesh();
+			///重新拷贝生成mesh
 			r.sharedMesh.CombineMeshes(combineInstances.ToArray(), combine, false);
+
+			///重新赋予骨骼
 			r.bones = bones.ToArray();
 			if (combine)
 			{
+				///如果材质修改了，需要重新计算一个uv
 				r.material = newMaterial;
 				for (int i = 0; i < combineInstances.Count; i++)
 				{

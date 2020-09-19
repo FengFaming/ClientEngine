@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root Idle="1">
+  <Loads>
+    <Load Key="jiao" Name="ch_pc_hou_004_jiao" Position="0,0,0" Rotation="0,0,0" Scale="1,1,1"/>
+    <Load Key="shen" Name="ch_pc_hou_004_shen" Position="0,0,0" Rotation="0,0,0" Scale="1,1,1"/>
+    <Load Key="shou" Name="ch_pc_hou_004_shou" Position="0,0,0" Rotation="0,0,0" Scale="1,1,1"/>
+    <Load Key="tou" Name="ch_pc_hou_004_tou" Position="0,0,0" Rotation="0,0,0" Scale="1,1,1"/>
+  </Loads>
+  <Animations >
+    <Animation Name="attack1" Control="IRoleAnimation"/>
+    <Animation Name="attack2" Control="IRoleAnimation"/>
+    <Animation Name="attack3" Control="IRoleAnimation"/>
+    <Animation Name="run" Control="IRoleAnimation"/>
+  </Animations>
+  <States>
+    <State ID="1" Ans="run" Loop="true" Speed="1" Exit="" Control="IRoleState"/>
+    <State ID="2" Ans="attack1" Loop="false" Speed="1" Exit="" Control="IRoleState"/>
+    <State ID="3" Ans="attack2" Loop="false" Speed="1" Exit="" Control="IRoleState"/>
+    <State ID="4" Ans="attack3" Loop="false" Speed="1" Exit="" Control="IRoleState"/>
+  </States>
+  <Skills>
+    <Skill ID="1" State="2" Exit="XmlExitSkill" Control="XmlRoleSkillControl"/>
+    <Skill ID="2" State="3" Exit="XmlExitSkill" Control="XmlRoleSkillControl"/>
+    <Skill ID="3" State="4" Exit="XmlExitSkill" Control="XmlRoleSkillControl"/>
+  </Skills>
+</Root>

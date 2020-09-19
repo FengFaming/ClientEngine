@@ -75,7 +75,8 @@ public class UIPnlGameMain : IUIModelControl
 				////List<object[]> r = EngineTools.Instance.GetPermutation<object>(d, 0, cout);
 				////Debug.Log(Time.realtimeSinceStartup + " " + r.Count);
 				//GameSceneManager.Instance.ChangeScene(new AdditiveSceneTest("testload"));
-				GameSceneManager.Instance.ChangeScene(new SkillTestScene("SkillScene"));
+				//GameSceneManager.Instance.ChangeScene(new SkillTestScene("SkillScene"));
+				GameSceneManager.Instance.ChangeScene(new XmlRoleScene("SkillScene"));
 				break;
 			case 7:
 				GameSceneManager.Instance.ChangeScene(new TestLightmapScene("animatortest"));

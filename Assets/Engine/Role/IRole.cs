@@ -42,15 +42,22 @@ namespace Game.Engine
 		}
 
 		/// <summary>
-		/// 设置UID
+		/// 设置UID,xml数据
 		///		读取配置数据等
 		/// </summary>
 		/// <param name="uid"></param>
-		public void SetUID(int uid)
+		/// <param name="xmlID"></param>
+		public virtual void SetUID(int uid, int xmlID = 0)
 		{
 			m_RoleUID = uid;
 		}
 
+		/// <summary>
+		/// 初始化角色控制
+		/// </summary>
+		/// <param name="animation"></param>
+		/// <param name="state"></param>
+		/// <param name="skillManager"></param>
 		protected virtual void InitRole(RoleAnimationManager animation,
 									IRoleStateManager state,
 									IRoleSkillManager skillManager)
@@ -60,6 +67,9 @@ namespace Game.Engine
 			m_SkillManager = skillManager;
 		}
 
+		/// <summary>
+		/// 控制更新
+		/// </summary>
 		protected virtual void Update()
 		{
 			if (m_RoleAnimationManager != null)
@@ -77,12 +87,5 @@ namespace Game.Engine
 				m_SkillManager.Update();
 			}
 		}
-
-		#region 暂时测试使用
-		public void PlayAnimation(string name)
-		{
-			m_RoleAnimationManager.Play(name);
-		}
-		#endregion
 	}
 }

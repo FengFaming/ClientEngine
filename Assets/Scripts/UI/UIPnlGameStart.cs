@@ -63,7 +63,6 @@ public class UIPnlGameStart : IUIModelControl
 		StartGameRequest pack = new StartGameRequest();
 		pack.SetSendData(su, sp);
 		GameNetManager.Instance.SendMessage<StartGameRequest>(pack, 1);
-
 	}
 
 	/// <summary>
